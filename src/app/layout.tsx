@@ -11,7 +11,7 @@ const geistSans = Geist({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0f0d",
+  themeColor: "#0a0a0a",
 };
 
 export const metadata: Metadata = {
@@ -47,9 +47,9 @@ export default function RootLayout({
         className={`${geistSans.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
         {/* Ambient gradient orbs */}
-        <div className="ambient-orb animate-orb-1 w-[400px] h-[400px] top-[-100px] left-[-100px] bg-green-600/15 opacity-50" />
-        <div className="ambient-orb animate-orb-2 w-[500px] h-[500px] top-[40%] right-[-150px] bg-emerald-500/10 opacity-40" />
-        <div className="ambient-orb animate-orb-3 w-[350px] h-[350px] bottom-[-50px] left-[30%] bg-lime-500/8 opacity-30" />
+        <div className="ambient-orb animate-orb-1 w-[400px] h-[400px] top-[-100px] left-[-100px] bg-amber-600/15 opacity-50" />
+        <div className="ambient-orb animate-orb-2 w-[500px] h-[500px] top-[40%] right-[-150px] bg-yellow-500/10 opacity-40" />
+        <div className="ambient-orb animate-orb-3 w-[350px] h-[350px] bottom-[-50px] left-[30%] bg-orange-500/8 opacity-30" />
 
         {/* Grid background */}
         <div className="fixed inset-0 grid-bg pointer-events-none z-0" />

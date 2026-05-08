@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #0a0f0d;
-  --foreground: #e8f0ec;
+  --background: #0a0a0a;
+  --foreground: #e8e5df;
 }
 
 @layer base {
@@ -20,12 +20,12 @@
     overflow-x: hidden;
   }
   ::selection {
-    background: rgba(34, 197, 94, 0.3);
-    color: #e8f0ec;
+    background: rgba(249, 189, 24, 0.3);
+    color: #e8e5df;
   }
 }
 
-/* ─── Animated gradient orbs (GPU optimized) ───── */
+/* ─── Animated gradient orbs (gold/amber) ────────── */
 @keyframes orb-float-1 {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
   25% { transform: translate3d(100px, -50px, 0) scale(1.1); }
@@ -78,7 +78,7 @@
 .animate-terminal-blink { animation: terminal-blink 1s step-end infinite; }
 
 .shimmer-text {
-  background: linear-gradient(90deg, #22c55e, #10b981, #84cc16, #22c55e);
+  background: linear-gradient(90deg, #f9bd18, #f5b010, #cb8c0a, #f9bd18);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -86,7 +86,7 @@
   animation: shimmer 4s linear infinite;
 }
 
-/* ─── Glassmorphism (lighter for mobile) ─────────── */
+/* ─── Glassmorphism (gold tint) ──────────────────── */
 .glass-card {
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(16px);
@@ -97,12 +97,12 @@
 
 @supports not (backdrop-filter: blur(16px)) {
   .glass-card {
-    background: rgba(13, 20, 18, 0.92);
+    background: rgba(13, 13, 13, 0.92);
   }
 }
 
 .glass-nav {
-  background: rgba(10, 15, 13, 0.85);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(20px) saturate(1.5);
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -110,7 +110,7 @@
 
 @supports not (backdrop-filter: blur(20px)) {
   .glass-nav {
-    background: rgba(10, 15, 13, 0.95);
+    background: rgba(10, 10, 10, 0.95);
   }
 }
 
@@ -126,7 +126,7 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ─── Ambient orbs (GPU composited) ───────────────── */
+/* ─── Ambient orbs (amber/gold tones) ────────────── */
 .ambient-orb {
   position: fixed;
   border-radius: 50%;
@@ -151,9 +151,9 @@
   background: linear-gradient(
     to bottom right,
     transparent 40%,
-    rgba(255, 255, 255, 0.02) 45%,
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.02) 55%,
+    rgba(249, 189, 24, 0.02) 45%,
+    rgba(249, 189, 24, 0.04) 50%,
+    rgba(249, 189, 24, 0.02) 55%,
     transparent 60%
   );
   transform: rotate(-30deg);
@@ -164,11 +164,11 @@
   transform: rotate(-30deg) translateY(-30%);
 }
 
-/* ─── Grid background (static, no animation) ────── */
+/* ─── Grid background ─────────────────────────────── */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(249, 189, 24, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 189, 24, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   contain: strict;
 }
@@ -176,14 +176,14 @@
 /* ─── Terminal code block ─────────────────────────── */
 .terminal-block {
   background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(249, 189, 24, 0.15);
   border-radius: 0.75rem;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
 .terminal-block .terminal-header {
-  background: rgba(34, 197, 94, 0.05);
-  border-bottom: 1px solid rgba(34, 197, 94, 0.1);
+  background: rgba(249, 189, 24, 0.05);
+  border-bottom: 1px solid rgba(249, 189, 24, 0.1);
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
@@ -198,72 +198,72 @@
 
 .terminal-block .terminal-body {
   padding: 1rem 1.25rem;
-  color: #a8d8b8;
+  color: #d4c8b8;
   font-size: 0.875rem;
   line-height: 1.6;
 }
 
 .terminal-block .terminal-prompt {
-  color: #22c55e;
+  color: #f9bd18;
 }
 
 .terminal-block .terminal-command {
-  color: #e8f0ec;
+  color: #e8e5df;
 }
 
 .terminal-block .terminal-comment {
-  color: #5a7a68;
+  color: #5a5648;
 }
 
-/* ─── Custom scrollbar (green themed) ─────────────── */
+/* ─── Custom scrollbar (gold themed) ─────────────── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(10, 15, 13, 0.5);
+  background: rgba(10, 10, 10, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #22c55e, #10b981);
+  background: linear-gradient(180deg, #f9bd18, #cb8c0a);
   border-radius: 10px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #4ade80, #34d399);
+  background: linear-gradient(180deg, #fbbf24, #e5a710);
   background-clip: padding-box;
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #22c55e rgba(10, 15, 13, 0.5);
+  scrollbar-color: #f9bd18 rgba(10, 10, 10, 0.5);
 }
 
-/* ─── Search glow ─────────────────────────────────── */
+/* ─── Search glow (gold) ──────────────────────────── */
 .search-glow:focus-within {
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
-  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 0 2px rgba(249, 189, 24, 0.3);
+  border-color: rgba(249, 189, 24, 0.5);
 }
 
-/* ─── Green card hover glow ───────────────────────── */
+/* ─── Card hover glow (gold) ──────────────────────── */
 .card-glow-hover {
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .card-glow-hover:hover {
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
-  border-color: rgba(34, 197, 94, 0.2);
+  box-shadow: 0 0 15px rgba(249, 189, 24, 0.1);
+  border-color: rgba(249, 189, 24, 0.2);
 }
 
 /* ─── Rating stars ────────────────────────────────── */
 .star-filled {
-  color: #fbbf24;
-  fill: #fbbf24;
+  color: #f9bd18;
+  fill: #f9bd18;
 }
 
 .star-empty {
-  color: #3a4a40;
+  color: #3a3830;
 }

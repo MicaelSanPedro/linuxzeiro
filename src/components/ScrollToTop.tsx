@@ -36,7 +36,7 @@ export function ScrollToTop() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-600 text-white flex items-center justify-center shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-shadow duration-300"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-600 text-white flex items-center justify-center shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-shadow duration-300"
         >
           <ArrowUp className="w-5 h-5" />
         </motion.button>

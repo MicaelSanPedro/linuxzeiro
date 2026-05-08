@@ -70,7 +70,7 @@ function HeroTerminal() {
         <div className="flex gap-1.5">
           <span className="terminal-dot bg-red-500" />
           <span className="terminal-dot bg-yellow-500" />
-          <span className="terminal-dot bg-green-500" />
+          <span className="terminal-dot bg-amber-500" />
         </div>
         <span className="text-xs text-white/40 ml-2 font-mono">~terminal</span>
       </div>
@@ -82,13 +82,13 @@ function HeroTerminal() {
                 <span className="terminal-prompt">{line.slice(0, 2)}</span>
                 <span className="terminal-command">{line.slice(2)}</span>
                 {i === 0 && line.length < fullLines[0].length && (
-                  <span className="animate-terminal-blink text-green-400">▋</span>
+                  <span className="animate-terminal-blink text-amber-400">▋</span>
                 )}
               </span>
             ) : line.includes("█") ? (
-              <span className="text-green-300">{line}</span>
+              <span className="text-amber-300">{line}</span>
             ) : line.includes("✓") ? (
-              <span className="text-green-400">{line}</span>
+              <span className="text-amber-400">{line}</span>
             ) : (
               <span className="text-white/50">{line}</span>
             )}
@@ -112,9 +112,9 @@ function HeroSection({
     <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
       {/* Decorative rotating ring */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full border border-green-500 rounded-full animate-rotate-slow" />
-        <div className="absolute inset-8 border border-emerald-500 rounded-full animate-rotate-slow" style={{ animationDirection: "reverse", animationDuration: "25s" }} />
-        <div className="absolute inset-16 border border-lime-500 rounded-full animate-rotate-slow" style={{ animationDuration: "35s" }} />
+        <div className="w-full h-full border border-amber-500 rounded-full animate-rotate-slow" />
+        <div className="absolute inset-8 border border-yellow-500 rounded-full animate-rotate-slow" style={{ animationDirection: "reverse", animationDuration: "25s" }} />
+        <div className="absolute inset-16 border border-orange-500 rounded-full animate-rotate-slow" style={{ animationDuration: "35s" }} />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
@@ -125,11 +125,11 @@ function HeroSection({
           transition={{ delay: 0.2, duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-6 sm:mb-8"
         >
-          <Terminal className="w-4 h-4 text-green-400" />
+          <Terminal className="w-4 h-4 text-amber-400" />
           <span className="text-xs sm:text-sm font-medium text-white/70">
             Comandos prontos para copiar
           </span>
-          <Zap className="w-4 h-4 text-emerald-400" />
+          <Zap className="w-4 h-4 text-yellow-400" />
         </motion.div>
 
         {/* Title */}
@@ -152,9 +152,9 @@ function HeroSection({
           className="text-base sm:text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed"
         >
           Encontre os melhores aplicativos para sua distribuição.{" "}
-          <span className="text-green-400/70">Comandos prontos para copiar</span>,{" "}
-          <span className="text-emerald-400/70">observações</span> e{" "}
-          <span className="text-lime-400/70">dicas úteis</span>.
+          <span className="text-amber-400/70">Comandos prontos para copiar</span>,{" "}
+          <span className="text-yellow-400/70">observações</span> e{" "}
+          <span className="text-orange-400/70">dicas úteis</span>.
         </motion.p>
 
         {/* Terminal animation */}
@@ -177,7 +177,7 @@ function HeroSection({
           <Button
             onClick={onExplore}
             size="lg"
-            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold rounded-xl shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-all duration-300 text-sm sm:text-base"
+            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-300 text-sm sm:text-base"
           >
             Explorar Apps
             <ArrowRight className="w-4 h-4 ml-2" />
@@ -197,7 +197,7 @@ function HeroSection({
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0f0d] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
     </section>
   );
 }
@@ -264,7 +264,7 @@ function CategoriesSection({ onCategoryClick }: { onCategoryClick: (cat: string)
           className="text-center mb-10 sm:mb-14"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-4">
-            <Package className="w-4 h-4 text-green-400" />
+            <Package className="w-4 h-4 text-amber-400" />
             <span className="text-xs sm:text-sm font-medium text-white/60">
               Organize por categoria
             </span>
@@ -301,10 +301,10 @@ function CategoriesSection({ onCategoryClick }: { onCategoryClick: (cat: string)
 
 function StatsSection() {
   const stats = [
-    { value: `${apps.length}+`, label: "Apps catalogados", icon: Package, color: "text-green-400" },
-    { value: `${categories.length - 1}`, label: "Categorias", icon: Monitor, color: "text-emerald-400" },
-    { value: "10+", label: "Distros Suportadas", icon: Cpu, color: "text-lime-400" },
-    { value: "50+", label: "Comandos prontos", icon: Terminal, color: "text-teal-400" },
+    { value: `${apps.length}+`, label: "Apps catalogados", icon: Package, color: "text-amber-400" },
+    { value: `${categories.length - 1}`, label: "Categorias", icon: Monitor, color: "text-yellow-400" },
+    { value: "10+", label: "Distros Suportadas", icon: Cpu, color: "text-orange-400" },
+    { value: "50+", label: "Comandos prontos", icon: Terminal, color: "text-amber-300" },
   ];
 
   return (
@@ -346,21 +346,21 @@ function HowItWorksSection() {
       title: "Busque o app",
       description: "Use a barra de busca ou navegue pelas categorias para encontrar o aplicativo desejado.",
       icon: Search,
-      color: "from-green-500 to-emerald-500",
+      color: "from-amber-500 to-yellow-500",
     },
     {
       step: "02",
       title: "Copie o comando",
       description: "Encontre o comando de instalação para sua distribuição e clique para copiar.",
       icon: Copy,
-      color: "from-emerald-500 to-teal-500",
+      color: "from-yellow-500 to-amber-400",
     },
     {
       step: "03",
       title: "Cole no terminal",
       description: "Abra o terminal e cole o comando. Pronto! O app será instalado automaticamente.",
       icon: Terminal,
-      color: "from-teal-500 to-lime-500",
+      color: "from-amber-400 to-orange-500",
     },
   ];
 
@@ -374,7 +374,7 @@ function HowItWorksSection() {
           className="text-center mb-10 sm:mb-14"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-4">
-            <Zap className="w-4 h-4 text-lime-400" />
+            <Zap className="w-4 h-4 text-orange-400" />
             <span className="text-xs sm:text-sm font-medium text-white/60">
               Simples e rápido
             </span>
@@ -401,7 +401,7 @@ function HowItWorksSection() {
                 <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                   <item.icon className="w-7 h-7 text-white" />
                 </div>
-                <span className="text-xs font-bold text-green-400/60 tracking-widest mb-2 block">
+                <span className="text-xs font-bold text-amber-400/60 tracking-widest mb-2 block">
                   PASSO {item.step}
                 </span>
                 <h3 className="text-lg font-bold text-white mb-2">
@@ -415,7 +415,7 @@ function HowItWorksSection() {
               {/* Arrow connector (desktop only) */}
               {i < steps.length - 1 && (
                 <div className="hidden sm:flex absolute top-1/2 -right-4 -translate-y-1/2 z-10">
-                  <ChevronRight className="w-6 h-6 text-green-500/30" />
+                  <ChevronRight className="w-6 h-6 text-amber-500/30" />
                 </div>
               )}
             </motion.div>
@@ -495,7 +495,7 @@ function AppsView({
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
                   activeCategory === cat.id
-                    ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                    ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
                     : "bg-white/[0.03] text-white/40 border border-white/[0.06] hover:bg-white/[0.06] hover:text-white/60"
                 }`}
               >
@@ -583,7 +583,7 @@ function AboutView() {
             className="glass-card p-6 sm:p-8 rounded-2xl"
           >
             <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shrink-0">
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -602,7 +602,7 @@ function AboutView() {
             className="glass-card p-6 sm:p-8 rounded-2xl"
           >
             <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-400 flex items-center justify-center shrink-0">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -621,7 +621,7 @@ function AboutView() {
             className="glass-card p-6 sm:p-8 rounded-2xl"
           >
             <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-lime-500 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shrink-0">
                 <Users className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -656,7 +656,7 @@ function AboutView() {
                   key={distro}
                   className="flex items-center gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]"
                 >
-                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <div className="w-2 h-2 rounded-full bg-amber-500" />
                   <span className="text-sm text-white/60">{distro}</span>
                 </div>
               ))}

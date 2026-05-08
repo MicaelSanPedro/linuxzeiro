@@ -37,7 +37,7 @@ export function CodeBlock({ command, label }: CodeBlockProps) {
           <div className="flex gap-1.5">
             <span className="terminal-dot bg-red-500" />
             <span className="terminal-dot bg-yellow-500" />
-            <span className="terminal-dot bg-green-500" />
+            <span className="terminal-dot bg-amber-500" />
           </div>
           <span className="text-xs text-white/40 ml-2 font-mono">{label}</span>
         </div>
@@ -61,7 +61,7 @@ export function CodeBlock({ command, label }: CodeBlockProps) {
                 exit={{ scale: 0.5, opacity: 0 }}
                 transition={{ duration: 0.15 }}
               >
-                <Check className="w-4 h-4 text-green-400" />
+                <Check className="w-4 h-4 text-amber-400" />
               </motion.div>
             ) : (
               <motion.div

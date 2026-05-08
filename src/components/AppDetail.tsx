@@ -96,7 +96,7 @@ export function AppDetail({ app, isOpen, onClose }: AppDetailProps) {
             style={{ maxHeight: "92vh" }}
           >
             <div
-              className="flex flex-col rounded-t-3xl sm:rounded-2xl border border-white/10 border-b-0 sm:border-b border-green-500/10 shadow-2xl shadow-green-500/10 bg-[#0d1412] sm:bg-[#0d1412]/95"
+              className="flex flex-col rounded-t-3xl sm:rounded-2xl border border-white/10 border-b-0 sm:border-b border-amber-500/10 shadow-2xl shadow-amber-500/10 bg-[#0d0d0d] sm:bg-[#0d0d0d]/95"
               style={{ height: "92vh", maxHeight: "92vh" }}
             >
               {/* Mobile drag handle */}
@@ -118,7 +118,7 @@ export function AppDetail({ app, isOpen, onClose }: AppDetailProps) {
                       <div className="flex flex-wrap items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="text-xs bg-green-500/10 text-green-400 border-green-500/20 rounded-md"
+                          className="text-xs bg-amber-500/10 text-amber-400 border-amber-500/20 rounded-md"
                         >
                           {app.category}
                         </Badge>
@@ -148,7 +148,7 @@ export function AppDetail({ app, isOpen, onClose }: AppDetailProps) {
                     href={app.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-green-400 hover:text-green-300 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 transition-colors"
                   >
                     <Globe className="w-3.5 h-3.5" />
                     Site oficial
@@ -169,7 +169,7 @@ export function AppDetail({ app, isOpen, onClose }: AppDetailProps) {
                 {/* Install Commands */}
                 <div>
                   <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                    <span className="text-green-400">$</span> Comandos de Instalação
+                    <span className="text-amber-400">$</span> Comandos de Instalação
                   </h3>
                   <div className="space-y-3">
                     {Object.entries(app.commands).map(([key, cmd]) => (

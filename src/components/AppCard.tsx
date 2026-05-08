@@ -25,7 +25,7 @@ export function AppCard({ app, index, onClick }: AppCardProps) {
         className="w-full text-left group glass-card card-shine card-glow-hover rounded-2xl overflow-hidden hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       >
         {/* Left glow accent */}
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-emerald-500 to-lime-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-500 via-yellow-500 to-orange-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
 
         <div className="flex items-center gap-4 sm:gap-5 p-4 sm:p-5">
           {/* App Icon */}
@@ -36,12 +36,12 @@ export function AppCard({ app, index, onClick }: AppCardProps) {
           {/* Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-bold text-sm sm:text-base text-white group-hover:text-green-300 transition-colors truncate">
+              <h3 className="font-bold text-sm sm:text-base text-white group-hover:text-amber-300 transition-colors truncate">
                 {app.name}
               </h3>
               <Badge
                 variant="outline"
-                className="hidden sm:inline-flex text-[10px] bg-green-500/10 text-green-400 border-green-500/20 rounded-md font-normal shrink-0"
+                className="hidden sm:inline-flex text-[10px] bg-amber-500/10 text-amber-400 border-amber-500/20 rounded-md font-normal shrink-0"
               >
                 {app.category}
               </Badge>
@@ -72,8 +72,8 @@ export function AppCard({ app, index, onClick }: AppCardProps) {
           </div>
 
           {/* Arrow */}
-          <div className="shrink-0 p-2 rounded-xl bg-white/[0.03] group-hover:bg-green-500/10 transition-colors duration-300">
-            <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-green-400 transition-colors" />
+          <div className="shrink-0 p-2 rounded-xl bg-white/[0.03] group-hover:bg-amber-500/10 transition-colors duration-300">
+            <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-amber-400 transition-colors" />
           </div>
         </div>
       </button>

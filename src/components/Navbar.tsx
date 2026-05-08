@@ -62,7 +62,7 @@ export function Navbar({ activeTab, setActiveTab, searchQuery, setSearchQuery }:
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 glass-nav transition-shadow duration-300 ${
-          scrolled ? "shadow-lg shadow-green-500/10" : ""
+          scrolled ? "shadow-lg shadow-amber-500/10" : ""
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,7 +72,7 @@ export function Navbar({ activeTab, setActiveTab, searchQuery, setSearchQuery }:
               onClick={() => handleNavClick("home")}
               className="flex items-center gap-2.5 group"
             >
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg shadow-green-500/25 group-hover:shadow-green-500/40 transition-shadow duration-300">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg shadow-amber-500/25 group-hover:shadow-amber-500/40 transition-shadow duration-300">
                 <Image
                   src="/logo.webp"
                   alt="LinuxZeiro"
@@ -97,7 +97,7 @@ export function Navbar({ activeTab, setActiveTab, searchQuery, setSearchQuery }:
                   onClick={() => handleNavClick(link.tab)}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                     activeTab === link.tab
-                      ? "text-green-400 bg-green-500/10"
+                      ? "text-amber-400 bg-amber-500/10"
                       : "text-white/60 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -187,7 +187,7 @@ export function Navbar({ activeTab, setActiveTab, searchQuery, setSearchQuery }:
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 top-16 z-40 glass-nav border-b border-green-500/10 md:hidden"
+            className="fixed inset-x-0 top-16 z-40 glass-nav border-b border-amber-500/10 md:hidden"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => (
@@ -196,7 +196,7 @@ export function Navbar({ activeTab, setActiveTab, searchQuery, setSearchQuery }:
                   onClick={() => handleNavClick(link.tab)}
                   className={`block w-full text-left px-4 py-3 text-sm font-medium rounded-xl transition-all ${
                     activeTab === link.tab
-                      ? "text-green-400 bg-green-500/10"
+                      ? "text-amber-400 bg-amber-500/10"
                       : "text-white/70 hover:text-white hover:bg-white/5"
                   }`}
                 >

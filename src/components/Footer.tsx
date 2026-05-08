@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="relative mt-auto">
       {/* Top gradient line */}
-      <div className="h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
@@ -42,7 +42,7 @@ export function Footer() {
               {["Navegadores", "Produtividade", "Desenvolvimento", "Mídia", "Jogos", "Utilitários"].map(
                 (item) => (
                   <li key={item}>
-                    <span className="text-xs sm:text-sm text-white/30 hover:text-green-400 transition-colors cursor-pointer">
+                    <span className="text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors cursor-pointer">
                       {item}
                     </span>
                   </li>
@@ -58,7 +58,7 @@ export function Footer() {
               {["Todos os Apps", "Categorias", "Como Instalar", "Dicas Linux", "Distribuições"].map(
                 (item) => (
                   <li key={item}>
-                    <span className="text-xs sm:text-sm text-white/30 hover:text-green-400 transition-colors cursor-pointer">
+                    <span className="text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors cursor-pointer">
                       {item}
                     </span>
                   </li>
@@ -74,7 +74,7 @@ export function Footer() {
               {["Sobre o Projeto", "Contribuir", "GitHub", "Contato"].map(
                 (item) => (
                   <li key={item}>
-                    <span className="text-xs sm:text-sm text-white/30 hover:text-green-400 transition-colors cursor-pointer">
+                    <span className="text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors cursor-pointer">
                       {item}
                     </span>
                   </li>
@@ -90,7 +90,7 @@ export function Footer() {
             © {currentYear} LinuxZeiro. Feito com 💚 para a comunidade Linux.
           </p>
           <p className="text-xs text-white/20 flex items-center gap-1">
-            Feito com <Heart className="w-3 h-3 text-green-500 fill-green-500" /> e 🐧 para o Open Source
+            Feito com <Heart className="w-3 h-3 text-amber-500 fill-amber-500" /> e 🐧 para o Open Source
           </p>
         </div>
       </div>
