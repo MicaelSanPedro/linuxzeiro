@@ -4,7 +4,7 @@ date: "2025-05-10"
 excerpt: "Transforme seu Minecraft em uma máquina de FPS. Conheça os mods essenciais de otimização com links de download, versões compatíveis e configurações recomendadas."
 category: "Jogos"
 tags: ["minecraft", "mods", "otimização", "fps", "fabric", "forge", "gaming"]
-coverImage: "https://images.unsplash.com/photo-1592483648220-9bee0cb1a263?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/minecraft-mods.jpg"
 readTime: "10 min"
 featured: true
 ---

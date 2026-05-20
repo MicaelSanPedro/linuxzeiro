@@ -71,7 +71,10 @@ export default async function PostPage({ params }: PostPageProps) {
   if (!post) notFound();
 
   const { frontmatter, contentHtml } = post;
-  const hasCover = frontmatter.coverImage?.startsWith("http");
+  const hasCover = Boolean(
+    frontmatter.coverImage &&
+      (frontmatter.coverImage.startsWith("http") || frontmatter.coverImage.startsWith("/"))
+  );
 
   // Related posts (same category, excluding current)
   const allPosts = getAllPosts();
@@ -84,20 +87,20 @@ export default async function PostPage({ params }: PostPageProps) {
     .slice(0, 3);
 
   return (
-    <div className="pt-28 pb-24 px-4">
+    <div className="pt-24 sm:pt-28 pb-20 sm:pb-24 px-4">
       <article className="max-w-3xl mx-auto">
         {/* Back link */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-amber-300 transition-colors mb-10 group"
+          className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-amber-300 transition-colors mb-6 sm:mb-10 group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
           Voltar ao Blog
         </Link>
 
         {/* Post header */}
-        <header className="mb-12 animate-fade-up">
-          <div className="flex items-center gap-3 mb-6 flex-wrap">
+        <header className="mb-10 sm:mb-12 animate-fade-up">
+          <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6 flex-wrap">
             <CategoryBadge category={frontmatter.category} />
             <span className="text-xs text-white/20">·</span>
             <span className="text-xs text-white/45 font-mono">
@@ -105,22 +108,22 @@ export default async function PostPage({ params }: PostPageProps) {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-[1.05] mb-7 tracking-tight text-balance">
+          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-extrabold text-white leading-[1.1] mb-5 sm:mb-7 tracking-tight text-balance">
             {frontmatter.title}
           </h1>
 
-          <p className="text-lg sm:text-xl text-white/55 leading-relaxed mb-9 text-pretty">
+          <p className="text-base sm:text-lg lg:text-xl text-white/55 leading-relaxed mb-7 sm:mb-9 text-pretty">
             {frontmatter.excerpt}
           </p>
 
           {/* Meta bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 py-4 px-5 rounded-2xl bg-white/[0.025] border border-white/[0.06] backdrop-blur-sm">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2.5">
-              <div className="flex items-center gap-2.5 text-sm">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400/40 to-amber-600/30 ring-1 ring-amber-400/30 flex items-center justify-center">
+          <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 py-3 sm:py-4 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/[0.025] border border-white/[0.06] backdrop-blur-sm">
+            <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2.5">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-sm">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-amber-400/40 to-amber-600/30 ring-1 ring-amber-400/30 flex items-center justify-center">
                   <User className="w-3.5 h-3.5 text-amber-200" />
                 </div>
-                <span className="font-medium text-white/75">LinuxZeiro</span>
+                <span className="font-medium text-white/75 text-sm">LinuxZeiro</span>
               </div>
               <div className="w-px h-4 bg-white/10" />
               <div className="flex items-center gap-1.5 text-xs text-white/40 font-mono">
@@ -142,7 +145,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Tags */}
           {frontmatter.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-6">
+            <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
               {frontmatter.tags.map((tag) => (
                 <span
                   key={tag}
@@ -157,7 +160,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
         {/* Cover image */}
         {hasCover && (
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-12 border border-white/[0.06] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] animate-fade-up delay-1">
+          <div className="relative aspect-[16/9] rounded-xl sm:rounded-2xl overflow-hidden mb-10 sm:mb-12 border border-white/[0.06] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] animate-fade-up delay-1">
             <Image
               src={frontmatter.coverImage}
               alt={frontmatter.title}
@@ -171,7 +174,7 @@ export default async function PostPage({ params }: PostPageProps) {
         )}
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-amber-500/30 via-amber-500/10 to-transparent mb-12" />
+        <div className="h-px bg-gradient-to-r from-amber-500/30 via-amber-500/10 to-transparent mb-10 sm:mb-12" />
 
         {/* Post content */}
         <div
@@ -180,32 +183,32 @@ export default async function PostPage({ params }: PostPageProps) {
         />
 
         {/* End-of-article callout */}
-        <div className="mt-16 p-6 sm:p-8 rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-500/[0.06] to-transparent">
-          <p className="text-sm text-amber-200/80 font-semibold mb-1 tracking-wide uppercase">
+        <div className="mt-12 sm:mt-16 p-5 sm:p-8 rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-500/[0.06] to-transparent">
+          <p className="text-xs sm:text-sm text-amber-200/80 font-semibold mb-1 tracking-wide uppercase">
             Curtiu?
           </p>
-          <p className="text-white/65 text-sm mb-5">
+          <p className="text-white/65 text-sm mb-4 sm:mb-5">
             Compartilhe com outros devs ou explore mais artigos sobre {frontmatter.category}.
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href={`/blog?category=${encodeURIComponent(frontmatter.category)}`}
-              className="btn-primary"
+              className="btn-primary justify-center"
             >
               Mais sobre {frontmatter.category}
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/blog" className="btn-secondary">
+            <Link href="/blog" className="btn-secondary justify-center">
               Todos os artigos
             </Link>
           </div>
         </div>
 
         {/* Bottom nav */}
-        <div className="mt-14 pt-6 border-t border-white/[0.06] flex items-center justify-between">
+        <div className="mt-12 sm:mt-14 pt-6 border-t border-white/[0.06] flex items-center justify-between">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-amber-300 hover:text-amber-200 transition-colors group"
+            className="inline-flex items-center gap-2 text-amber-300 hover:text-amber-200 transition-colors group text-sm sm:text-base"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Ver todos os artigos
@@ -215,11 +218,11 @@ export default async function PostPage({ params }: PostPageProps) {
 
       {/* Related posts */}
       {related.length > 0 && (
-        <section className="max-w-7xl mx-auto mt-24">
-          <div className="mb-10 sm:mb-12 max-w-3xl">
+        <section className="max-w-7xl mx-auto mt-20 sm:mt-24">
+          <div className="mb-8 sm:mb-12 max-w-3xl">
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-px bg-gradient-to-r from-amber-400 to-transparent" />
-              <span className="text-[11px] uppercase tracking-[0.2em] text-amber-300/80 font-medium">
+              <span className="w-5 sm:w-6 h-px bg-gradient-to-r from-amber-400 to-transparent" />
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-amber-300/80 font-medium">
                 Relacionados
               </span>
             </div>
@@ -227,7 +230,7 @@ export default async function PostPage({ params }: PostPageProps) {
               Continue lendo
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {related.map((p) => (
               <PostCard key={p.slug} post={p} />
             ))}

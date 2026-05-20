@@ -4,12 +4,6 @@ const nextConfig: NextConfig = {
   compress: true,
   images: {
     formats: ["image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
   },
   async headers() {
     return [
@@ -22,6 +16,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/logo.(png|webp)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/posts/(.*).(jpg|jpeg|png|webp)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],

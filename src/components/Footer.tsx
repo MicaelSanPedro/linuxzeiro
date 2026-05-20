@@ -45,19 +45,19 @@ export function Footer() {
       </div>
 
       {/* Giant brand watermark */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3 pointer-events-none select-none whitespace-nowrap">
-        <span className="text-[18vw] sm:text-[14vw] lg:text-[10rem] font-extrabold leading-none tracking-tighter
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3 pointer-events-none select-none whitespace-nowrap overflow-hidden max-w-[100vw]">
+        <span className="text-[22vw] sm:text-[16vw] lg:text-[10rem] font-extrabold leading-none tracking-tighter
                          bg-gradient-to-b from-white/[0.04] to-transparent bg-clip-text text-transparent">
           LINUXZEIRO
         </span>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
           {/* Brand */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit group">
-              <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-amber-400/30
+          <div className="col-span-2 lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2.5 mb-4 sm:mb-5 w-fit group">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden ring-1 ring-amber-400/30
                               shadow-[0_0_24px_-6px_rgba(249,189,24,0.5)]
                               group-hover:shadow-[0_0_32px_-4px_rgba(249,189,24,0.7)]
                               transition-shadow">
@@ -69,18 +69,18 @@ export function Footer() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-lg font-bold tracking-tight">
+              <span className="text-base sm:text-lg font-bold tracking-tight">
                 <span className="text-white">Linux</span>
                 <span className="shimmer-text">Zeiro</span>
               </span>
             </Link>
-            <p className="text-sm text-white/40 leading-relaxed max-w-xs text-pretty">
+            <p className="text-xs sm:text-sm text-white/40 leading-relaxed max-w-xs text-pretty">
               Blog sobre Linux, open source, desenvolvimento e tecnologia. Tutoriais, dicas e guias
               práticos para a comunidade brasileira.
             </p>
 
             {/* Social icons */}
-            <div className="flex items-center gap-2 mt-6">
+            <div className="flex items-center gap-2 mt-5 sm:mt-6">
               {socialLinks.map((item) => (
                 <a
                   key={item.label}
@@ -88,10 +88,11 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="w-9 h-9 inline-flex items-center justify-center rounded-xl
+                  className="w-10 h-10 inline-flex items-center justify-center rounded-xl
                              bg-white/[0.03] border border-white/[0.08]
                              text-white/50 hover:text-amber-300
                              hover:bg-amber-500/10 hover:border-amber-400/30
+                             active:scale-95
                              transition-all duration-200"
                 >
                   <item.icon className="w-4 h-4" />
@@ -102,10 +103,10 @@ export function Footer() {
 
           {/* Categorias */}
           <div>
-            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-4 sm:mb-5 uppercase tracking-[0.18em]">
               Categorias
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 sm:space-y-3">
               {categoryLinks.map((item) => (
                 <li key={item.label}>
                   <Link
@@ -122,10 +123,10 @@ export function Footer() {
 
           {/* Links Rápidos */}
           <div>
-            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-4 sm:mb-5 uppercase tracking-[0.18em]">
               Navegação
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 sm:space-y-3">
               {quickLinks.map((item) => {
                 const isExternal = item.href.startsWith("http");
                 return (
@@ -150,11 +151,11 @@ export function Footer() {
           </div>
 
           {/* Status / colofon */}
-          <div>
-            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+          <div className="col-span-2 lg:col-span-1">
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-4 sm:mb-5 uppercase tracking-[0.18em]">
               Status
             </h4>
-            <div className="space-y-3 text-sm">
+            <div className="space-y-2.5 sm:space-y-3 text-sm">
               <div className="inline-flex items-center gap-2 text-white/50">
                 <span className="live-dot" />
                 Tudo operacional
@@ -170,11 +171,11 @@ export function Footer() {
         </div>
 
         {/* Bottom copyright */}
-        <div className="mt-14 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-10 sm:mt-14 pt-5 sm:pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
           <p className="text-xs text-white/30">
             © {currentYear} <span className="text-white/50">LinuxZeiro</span>. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-white/30 flex items-center gap-1.5">
+          <p className="text-xs text-white/30 flex items-center gap-1.5 flex-wrap justify-center">
             Feito com <Heart className="w-3 h-3 text-amber-400 fill-amber-400 animate-pulse" /> e Linux para o
             <span className="text-amber-300/70">Open Source</span>
           </p>

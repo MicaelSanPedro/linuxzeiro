@@ -4,7 +4,7 @@ date: "2025-04-22"
 excerpt: "Linux é seguro por padrão, mas seguro não é sinônimo de inviolável. Confira as práticas essenciais para blindar seu Ubuntu contra ameaças reais."
 category: "Segurança"
 tags: ["segurança", "ubuntu", "linux", "firewall", "criptografia", "hardening"]
-coverImage: "https://images.unsplash.com/photo-1587174486093-ae6f583e9e71?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/ubuntu-seguranca.jpg"
 readTime: "6 min"
 featured: false
 ---

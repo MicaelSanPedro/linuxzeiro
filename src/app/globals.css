@@ -554,3 +554,123 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ─────────────────────────────────────────────
+   Mobile / responsive refinements
+   ───────────────────────────────────────────── */
+
+/* Prevent iOS zoom on input focus (min 16px) */
+input, textarea, select {
+  font-size: 16px;
+}
+@media (min-width: 640px) {
+  input, textarea, select {
+    font-size: inherit;
+  }
+}
+
+/* Remove tap highlight, use our own active states */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better touch behavior */
+html {
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Safe area for notched devices (iOS) */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Hide scrollbar utility (used in filter pills) */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(249, 189, 24, 0.2);
+  border-radius: 10px;
+}
+@media (max-width: 640px) {
+  .scrollbar-thin::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-thin {
+    scrollbar-width: none;
+  }
+}
+
+/* Mobile prose adjustments */
+@media (max-width: 640px) {
+  .prose-custom {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .prose-custom h1 { font-size: 1.625rem; }
+  .prose-custom h2 { font-size: 1.375rem; }
+  .prose-custom h3 { font-size: 1.15rem; }
+  .prose-custom h4 { font-size: 1rem; }
+  .prose-custom pre {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    border-radius: 0.65rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .prose-custom blockquote {
+    padding: 0.6em 1em;
+    margin: 1.25em -0.25em;
+  }
+  .prose-custom :not(pre) > code {
+    font-size: 0.85em;
+    word-break: break-word;
+  }
+}
+
+/* Buttons - mobile-friendly sizes (44px tap target) */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+}
+
+/* Disable hover-only effects on touch devices */
+@media (hover: none) {
+  .card-shine::after {
+    display: none;
+  }
+  .spotlight::before {
+    display: none;
+  }
+  .card-glow-hover:hover {
+    box-shadow: none;
+  }
+}
+
+/* Smooth momentum scroll on iOS */
+.overflow-x-auto, .overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Disable double-tap zoom on interactive elements */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Slightly reduce ambient orb blur on mobile to save GPU */
+@media (max-width: 640px) {
+  .ambient-orb {
+    filter: blur(80px);
+  }
+  .noise-overlay {
+    opacity: 0.025;
+  }
+}

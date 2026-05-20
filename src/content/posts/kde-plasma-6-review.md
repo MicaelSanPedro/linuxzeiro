@@ -4,7 +4,7 @@ date: "2025-05-18"
 excerpt: "Depois de anos de evolução incremental, o KDE Plasma 6 chegou com mudanças significativas em performance, visual e tecnologia. Veja o que mudou e se vale a pena."
 category: "Linux"
 tags: ["kde", "plasma", "desktop", "wayland", "linux", "review", "qt6"]
-coverImage: "https://images.unsplash.com/photo-1585790053325-8f11da7e5dfe?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/kde-plasma-6.jpg"
 readTime: "7 min"
 featured: false
 ---

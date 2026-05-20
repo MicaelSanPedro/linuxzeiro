@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Search as SearchIcon } from "lucide-react";
 import { SearchBar } from "@/components/SearchBar";
 import type { PostSummary } from "@/lib/posts";
 
@@ -20,6 +20,7 @@ interface NavbarProps {
 
 export function Navbar({ allPosts }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -41,7 +42,10 @@ export function Navbar({ allPosts }: NavbarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setMobileOpen(false);
+      if (window.innerWidth >= 768) {
+        setMobileOpen(false);
+        setMobileSearchOpen(false);
+      }
     };
     window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
@@ -49,7 +53,18 @@ export function Navbar({ allPosts }: NavbarProps) {
 
   useEffect(() => {
     setMobileOpen(false);
+    setMobileSearchOpen(false);
   }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -63,10 +78,10 @@ export function Navbar({ allPosts }: NavbarProps) {
         className={`fixed top-0 left-0 right-0 z-50 glass-nav ${scrolled ? "scrolled" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-[72px]">
+          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px] gap-2">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden
+            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+              <div className="relative w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-xl overflow-hidden
                               ring-1 ring-amber-400/30
                               shadow-[0_0_24px_-4px_rgba(249,189,24,0.45)]
                               group-hover:shadow-[0_0_32px_-2px_rgba(249,189,24,0.65)]
@@ -81,13 +96,13 @@ export function Navbar({ allPosts }: NavbarProps) {
                   priority
                 />
               </div>
-              <span className="text-lg sm:text-xl font-bold tracking-tight flex items-center">
+              <span className="text-base sm:text-lg lg:text-xl font-bold tracking-tight flex items-center">
                 <span className="text-white">Linux</span>
                 <span className="shimmer-text">Zeiro</span>
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation (center) */}
             <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.06]">
                 {navLinks.map((link) => {
@@ -113,7 +128,7 @@ export function Navbar({ allPosts }: NavbarProps) {
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <div className="hidden md:block">
                 <SearchBar allPosts={allPosts} />
               </div>
@@ -132,10 +147,22 @@ export function Navbar({ allPosts }: NavbarProps) {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
 
+              {/* Mobile search icon */}
+              <button
+                onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/5 active:bg-white/10 transition-colors duration-200"
+                aria-label="Buscar"
+                type="button"
+              >
+                <SearchIcon className="w-5 h-5 text-white/80" />
+              </button>
+
+              {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden p-2 rounded-xl hover:bg-white/5 transition-colors duration-200"
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/5 active:bg-white/10 transition-colors duration-200"
                 aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={mobileOpen}
                 type="button"
               >
                 {mobileOpen ? (
@@ -146,18 +173,33 @@ export function Navbar({ allPosts }: NavbarProps) {
               </button>
             </div>
           </div>
+
+          {/* Mobile inline search */}
+          {mobileSearchOpen && (
+            <div className="md:hidden pb-3 px-1 animate-fade-in">
+              <SearchBar allPosts={allPosts} alwaysOpen />
+            </div>
+          )}
         </div>
       </nav>
 
+      {/* Mobile fullscreen menu backdrop */}
+      <div
+        onClick={() => setMobileOpen(false)}
+        className={`md:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
       {/* Mobile Dropdown Menu */}
       <div
-        className={`fixed inset-x-0 top-16 z-40 glass-nav border-b border-amber-500/10 md:hidden transition-all duration-300 ease-out ${
+        className={`fixed inset-x-0 top-14 z-40 glass-nav border-b border-amber-500/10 md:hidden transition-all duration-300 ease-out ${
           mobileOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-3 pointer-events-none"
         }`}
       >
-        <div className="px-4 py-4 space-y-1">
+        <div className="px-4 py-4 space-y-1.5 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -165,23 +207,27 @@ export function Navbar({ allPosts }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className={`block w-full text-left px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
+                className={`flex items-center justify-between w-full px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-200 ${
                   active
                     ? "text-amber-200 bg-amber-500/10 border border-amber-500/20"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    : "text-white/80 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
                 {link.label}
+                <ArrowRight className="w-4 h-4 opacity-50" />
               </Link>
             );
           })}
-          <div className="pt-2 border-t border-white/[0.06]">
+
+          {/* CTA */}
+          <div className="pt-3 mt-2 border-t border-white/[0.06]">
             <Link
-              href="/search"
+              href="/blog"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-4 py-3 text-sm font-medium rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all duration-200"
+              className="btn-primary w-full justify-center"
             >
-              Buscar
+              Ler todos os artigos
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

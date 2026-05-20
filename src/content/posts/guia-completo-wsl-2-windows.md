@@ -4,7 +4,7 @@ date: "2025-02-03"
 excerpt: "Aprenda a configurar e dominar o WSL 2 no Windows 11. Do básico ao avançado: integração com VS Code, Docker, CUDA e muito mais."
 category: "Windows"
 tags: ["wsl", "windows", "linux", "desenvolvimento", "terminal", "docker"]
-coverImage: "https://images.unsplash.com/photo-1624571409412-1f253a3ecb5b?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/wsl-2-windows.jpg"
 readTime: "9 min"
 featured: true
 ---

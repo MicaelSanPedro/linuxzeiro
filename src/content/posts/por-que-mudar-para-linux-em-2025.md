@@ -4,7 +4,7 @@ date: "2025-01-15"
 excerpt: "O ecossistema Linux nunca esteve tão maduro e acessível. Descubra por que 2025 é o ano ideal para fazer a transição e abandonar o Windows de vez."
 category: "Linux"
 tags: ["linux", "open-source", "distribuições", "migração", "tutorial"]
-coverImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/linux-2025.jpg"
 readTime: "7 min"
 featured: true
 ---

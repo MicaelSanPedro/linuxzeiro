@@ -20,17 +20,17 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     : allPosts;
 
   return (
-    <div className="pt-32 sm:pt-36 pb-24 px-4">
+    <div className="pt-24 sm:pt-32 lg:pt-36 pb-20 sm:pb-24 px-4">
       <div className="max-w-7xl mx-auto">
         {/* ── Header ── */}
-        <div className="mb-12 sm:mb-16 max-w-3xl animate-fade-up">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-5 backdrop-blur-md">
+        <div className="mb-10 sm:mb-14 lg:mb-16 max-w-3xl animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-4 sm:mb-5 backdrop-blur-md">
             <Layers className="w-3.5 h-3.5 text-amber-300" />
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/70 font-medium">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-white/70 font-medium">
               Biblioteca
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-5 tracking-tight leading-[1.05] text-balance">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4 sm:mb-5 tracking-tight leading-[1.05] text-balance">
             {selectedCategory ? (
               <>
                 Categoria:{" "}
@@ -42,7 +42,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               </>
             )}
           </h1>
-          <p className="text-base sm:text-lg text-white/45 text-pretty">
+          <p className="text-sm sm:text-base lg:text-lg text-white/45 text-pretty">
             {selectedCategory
               ? `Mostrando ${filteredPosts.length} artigo${
                   filteredPosts.length === 1 ? "" : "s"
@@ -51,11 +51,11 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           </p>
         </div>
 
-        {/* ── Filter pills ── */}
-        <div className="flex flex-wrap gap-2 mb-12 animate-fade-up delay-1">
+        {/* ── Filter pills (scroll horizontal no mobile) ── */}
+        <div className="flex gap-2 mb-10 sm:mb-12 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap animate-fade-up delay-1 scrollbar-thin">
           <Link
             href="/blog"
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`shrink-0 px-3.5 sm:px-4 py-2 rounded-full text-sm font-medium transition-all ${
               !selectedCategory
                 ? "bg-gradient-to-b from-amber-500/25 to-amber-500/10 text-amber-100 border border-amber-400/40 shadow-[0_4px_20px_-8px_rgba(249,189,24,0.5)]"
                 : "bg-white/[0.03] text-white/55 border border-white/[0.06] hover:text-white hover:border-white/15 hover:bg-white/[0.05]"
@@ -70,7 +70,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               <Link
                 key={cat.name}
                 href={`/blog?category=${encodeURIComponent(cat.name)}`}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`shrink-0 px-3.5 sm:px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   active
                     ? "bg-gradient-to-b from-amber-500/25 to-amber-500/10 text-amber-100 border border-amber-400/40 shadow-[0_4px_20px_-8px_rgba(249,189,24,0.5)]"
                     : "bg-white/[0.03] text-white/55 border border-white/[0.06] hover:text-white hover:border-white/15 hover:bg-white/[0.05]"
@@ -85,7 +85,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
         {/* ── Posts Grid ── */}
         {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {filteredPosts.map((post, i) => (
               <div
                 key={post.slug}
@@ -96,9 +96,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 px-6 rounded-3xl border border-white/[0.06] bg-white/[0.02]">
+          <div className="text-center py-16 sm:py-24 px-6 rounded-2xl sm:rounded-3xl border border-white/[0.06] bg-white/[0.02]">
             <Search className="w-10 h-10 mx-auto text-white/20 mb-4" />
-            <p className="text-white/45 text-lg mb-4">Nenhum artigo encontrado.</p>
+            <p className="text-white/45 text-base sm:text-lg mb-4">Nenhum artigo encontrado.</p>
             <Link
               href="/blog"
               className="btn-secondary inline-flex"

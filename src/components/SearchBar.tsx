@@ -5,9 +5,15 @@ import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import type { PostSummary } from "@/lib/posts";
 
-export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
+interface SearchBarProps {
+  allPosts: PostSummary[];
+  /** If true, the search input is always shown (no collapsed button) */
+  alwaysOpen?: boolean;
+}
+
+export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
   const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(alwaysOpen);
   const [results, setResults] = useState<PostSummary[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,32 +46,44 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
         setIsOpen(true);
       }
       if (e.key === "Escape") {
-        setIsOpen(false);
-        setQuery("");
+        if (alwaysOpen) {
+          setQuery("");
+        } else {
+          setIsOpen(false);
+          setQuery("");
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [alwaysOpen]);
 
   useEffect(() => {
-    if (isOpen && inputRef.current) {
+    if (isOpen && inputRef.current && !alwaysOpen) {
       inputRef.current.focus();
     }
-  }, [isOpen]);
+  }, [isOpen, alwaysOpen]);
+
+  // Auto-focus when alwaysOpen mode (mobile inline)
+  useEffect(() => {
+    if (alwaysOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [alwaysOpen]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
+      if (alwaysOpen) return;
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [alwaysOpen]);
 
   function handleSelect(slug: string) {
-    setIsOpen(false);
+    if (!alwaysOpen) setIsOpen(false);
     setQuery("");
     router.push(`/blog/${slug}`);
   }
@@ -85,7 +103,7 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
     }
   }
 
-  if (!isOpen) {
+  if (!isOpen && !alwaysOpen) {
     return (
       <button
         onClick={() => setIsOpen(true)}
@@ -105,7 +123,7 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
   return (
     <div ref={containerRef} className="relative w-full max-w-xl">
       {/* Input */}
-      <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] border border-amber-500/30 shadow-lg shadow-amber-500/10 search-glow">
+      <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/[0.05] border border-amber-500/30 shadow-lg shadow-amber-500/10 search-glow">
         <Search className="w-4 h-4 text-amber-400 shrink-0" />
         <input
           ref={inputRef}
@@ -113,19 +131,20 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Buscar artigos, tags, categorias..."
-          className="flex-1 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
+          placeholder="Buscar artigos, tags..."
+          className="flex-1 min-w-0 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
         />
         {query && (
           <button
             onClick={() => { setQuery(""); inputRef.current?.focus(); }}
-            className="p-0.5 rounded hover:bg-white/10 transition-colors"
+            className="p-1 rounded hover:bg-white/10 transition-colors shrink-0"
             type="button"
+            aria-label="Limpar"
           >
             <X className="w-3.5 h-3.5 text-white/40" />
           </button>
         )}
-        <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.05] text-[10px] text-white/25 font-mono">
+        <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.05] text-[10px] text-white/25 font-mono shrink-0">
           ESC
         </kbd>
       </div>
@@ -133,7 +152,7 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
       {/* Results dropdown */}
       {results.length > 0 && query.trim().length >= 2 && (
         <div className="absolute top-full mt-2 left-0 right-0 bg-[#111]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl overflow-hidden shadow-2xl shadow-black/50 z-50">
-          <div className="p-1">
+          <div className="p-1 max-h-[60vh] overflow-y-auto">
             {results.map((post, i) => (
               <button
                 key={post.slug}
@@ -141,7 +160,7 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
                 className={`w-full text-left px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors duration-100 ${
                   i === selectedIndex
                     ? "bg-amber-500/10"
-                    : "hover:bg-white/[0.04]"
+                    : "hover:bg-white/[0.04] active:bg-white/[0.06]"
                 }`}
                 type="button"
               >
@@ -161,7 +180,7 @@ export function SearchBar({ allPosts }: { allPosts: PostSummary[] }) {
           </div>
           <div className="px-3 py-2 border-t border-white/[0.04]">
             <p className="text-[11px] text-white/20">
-              {results.length} resultado{results.length !== 1 ? "s" : ""} &middot; Use setas para navegar &middot; Enter para abrir
+              {results.length} resultado{results.length !== 1 ? "s" : ""} &middot; <span className="hidden sm:inline">Use setas para navegar &middot; </span>Enter para abrir
             </p>
           </div>
         </div>

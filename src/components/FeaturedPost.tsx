@@ -14,7 +14,10 @@ interface FeaturedPostProps {
 
 export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
   const { slug, frontmatter } = post;
-  const hasImage = frontmatter.coverImage?.startsWith("http");
+  const hasImage = Boolean(
+    frontmatter.coverImage &&
+      (frontmatter.coverImage.startsWith("http") || frontmatter.coverImage.startsWith("/"))
+  );
   const cardRef = useRef<HTMLElement>(null);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
@@ -35,11 +38,12 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
           className="spotlight card-shine relative rounded-2xl overflow-hidden border border-white/[0.06]
                      bg-gradient-to-br from-white/[0.04] to-white/[0.01]
                      transition-all duration-500 ease-out h-full flex flex-col
+                     active:scale-[0.99]
                      hover:border-amber-400/30 hover:-translate-y-1
                      hover:shadow-[0_24px_60px_-20px_rgba(249,189,24,0.3)]"
         >
           {/* Background image */}
-          <div className="relative h-44 sm:h-48 overflow-hidden">
+          <div className="relative h-40 sm:h-48 overflow-hidden">
             {hasImage ? (
               <Image
                 src={frontmatter.coverImage}
@@ -57,8 +61,8 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col p-5 gap-3">
-            <h3 className="text-lg font-semibold text-white leading-tight tracking-tight line-clamp-2
+          <div className="flex-1 flex flex-col p-4 sm:p-5 gap-2.5 sm:gap-3">
+            <h3 className="text-base sm:text-lg font-semibold text-white leading-tight tracking-tight line-clamp-2
                            group-hover:text-amber-100 transition-colors">
               {frontmatter.title}
             </h3>
@@ -89,8 +93,9 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
       <article
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        className="spotlight card-shine relative rounded-3xl overflow-hidden border border-white/[0.08]
-                   transition-all duration-500 ease-out h-full min-h-[420px] sm:min-h-[480px]
+        className="spotlight card-shine relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/[0.08]
+                   transition-all duration-500 ease-out h-full min-h-[360px] sm:min-h-[440px] lg:min-h-[480px]
+                   active:scale-[0.99]
                    hover:border-amber-400/35
                    hover:shadow-[0_40px_100px_-20px_rgba(249,189,24,0.35)]"
       >
@@ -107,11 +112,11 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
         )}
 
         {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/85 to-[#06060a]/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/85 to-[#06060a]/30 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/30 via-transparent to-rose-900/10 pointer-events-none" />
 
         {/* Featured tag */}
-        <div className="absolute top-5 right-5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full
+        <div className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full
                         bg-amber-500/15 border border-amber-500/30 backdrop-blur-md">
           <Sparkles className="w-3 h-3 text-amber-300" />
           <span className="text-[10px] uppercase tracking-wider font-semibold text-amber-200">
@@ -119,22 +124,22 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
           </span>
         </div>
 
-        <div className="relative p-6 sm:p-10 flex flex-col justify-end h-full">
-          <div className="mb-4">
+        <div className="relative p-5 sm:p-8 lg:p-10 flex flex-col justify-end h-full">
+          <div className="mb-3 sm:mb-4">
             <CategoryBadge category={frontmatter.category} />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-[2.25rem] font-extrabold text-white leading-[1.1] mb-4 max-w-2xl tracking-tight
+          <h2 className="text-xl sm:text-2xl lg:text-[2.25rem] font-extrabold text-white leading-[1.1] mb-3 sm:mb-4 max-w-2xl tracking-tight
                          group-hover:text-amber-50 transition-colors duration-300 text-balance">
             {frontmatter.title}
           </h2>
 
-          <p className="text-sm sm:text-base text-white/55 leading-relaxed mb-6 max-w-2xl line-clamp-2 text-pretty">
+          <p className="text-sm sm:text-base text-white/55 leading-relaxed mb-5 sm:mb-6 max-w-2xl line-clamp-2 sm:line-clamp-3 text-pretty">
             {frontmatter.excerpt}
           </p>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-4 text-xs text-white/45 font-mono">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 text-xs text-white/45 font-mono">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />
                 <time dateTime={frontmatter.date}>
@@ -152,9 +157,9 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
               </div>
             </div>
 
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
+            <span className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full
                              bg-white/[0.05] border border-white/[0.1] backdrop-blur-md
-                             text-sm font-medium text-amber-200
+                             text-sm font-medium text-amber-200 w-full sm:w-auto
                              group-hover:bg-amber-500/15 group-hover:border-amber-400/40 group-hover:text-amber-100
                              transition-all duration-300">
               Ler artigo

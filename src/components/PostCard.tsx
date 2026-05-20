@@ -13,7 +13,10 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   const { slug, frontmatter } = post;
-  const hasImage = frontmatter.coverImage?.startsWith("http");
+  const hasImage = Boolean(
+    frontmatter.coverImage &&
+      (frontmatter.coverImage.startsWith("http") || frontmatter.coverImage.startsWith("/"))
+  );
   const cardRef = useRef<HTMLElement>(null);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
@@ -33,11 +36,12 @@ export function PostCard({ post }: PostCardProps) {
         className="spotlight card-shine relative rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01]
                    overflow-hidden h-full flex flex-col
                    transition-all duration-500 ease-out
+                   active:scale-[0.99] active:border-amber-400/30
                    hover:border-amber-400/30 hover:-translate-y-1
                    hover:shadow-[0_24px_60px_-20px_rgba(249,189,24,0.25)]"
       >
         {/* Cover image */}
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-44 sm:h-48 overflow-hidden">
           {hasImage ? (
             <Image
               src={frontmatter.coverImage}
@@ -62,16 +66,16 @@ export function PostCard({ post }: PostCardProps) {
             <CategoryBadge category={frontmatter.category} />
           </div>
 
-          {/* Arrow icon on hover */}
-          <div className="absolute top-3 right-3 w-9 h-9 rounded-xl bg-black/50 backdrop-blur-md border border-white/[0.12] flex items-center justify-center
-                          opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0
+          {/* Arrow icon on hover (desktop) / always-visible muted (mobile) */}
+          <div className="absolute top-3 right-3 w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-black/50 backdrop-blur-md border border-white/[0.12] flex items-center justify-center
+                          opacity-70 sm:opacity-0 sm:-translate-y-1 sm:group-hover:opacity-100 sm:group-hover:translate-y-0
                           transition-all duration-300">
             <ArrowUpRight className="w-4 h-4 text-amber-300" />
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1 p-5 gap-3">
+        <div className="flex flex-col flex-1 p-4 sm:p-5 gap-2.5 sm:gap-3">
           {/* Title */}
           <h3 className="text-base sm:text-lg font-semibold text-white leading-snug tracking-tight
                          group-hover:text-amber-100 transition-colors duration-200 line-clamp-2">
@@ -84,7 +88,7 @@ export function PostCard({ post }: PostCardProps) {
           </p>
 
           {/* Date and read time */}
-          <div className="flex items-center gap-4 pt-3 mt-1 border-t border-white/[0.05]">
+          <div className="flex items-center gap-3 sm:gap-4 pt-3 mt-1 border-t border-white/[0.05]">
             <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-mono">
               <Calendar className="w-3 h-3" />
               <time dateTime={frontmatter.date}>

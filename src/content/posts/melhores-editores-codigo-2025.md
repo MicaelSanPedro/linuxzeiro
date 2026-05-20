@@ -4,7 +4,7 @@ date: "2025-03-10"
 excerpt: "VS Code, Neovim, Zed, JetBrains, Helix — qual editor vale a pena? Analisamos performance, extensões, ecossistema e experiência de uso de cada um."
 category: "Desenvolvimento"
 tags: ["editores", "vscode", "neovim", "zed", "jetbrains", "desenvolvimento", "ferramentas"]
-coverImage: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=500&fit=crop&q=80"
+coverImage: "/posts/editores-codigo.jpg"
 readTime: "8 min"
 featured: false
 ---
