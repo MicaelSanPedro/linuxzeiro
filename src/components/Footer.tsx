@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, Github, Twitter } from "lucide-react";
+import { Heart, Github, Twitter, ArrowUpRight } from "lucide-react";
 
 const categoryLinks = [
   { label: "Linux", href: "/blog?category=Linux" },
@@ -35,45 +35,84 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto">
-      {/* Gold gradient line at top */}
-      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+    <footer className="relative mt-auto overflow-hidden">
+      {/* Top gradient divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.04] blur-3xl rounded-full" />
+      </div>
+
+      {/* Giant brand watermark */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3 pointer-events-none select-none whitespace-nowrap">
+        <span className="text-[18vw] sm:text-[14vw] lg:text-[10rem] font-extrabold leading-none tracking-tighter
+                         bg-gradient-to-b from-white/[0.04] to-transparent bg-clip-text text-transparent">
+          LINUXZEIRO
+        </span>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-4 w-fit">
-              <div className="w-9 h-9 rounded-xl overflow-hidden">
+            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit group">
+              <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-amber-400/30
+                              shadow-[0_0_24px_-6px_rgba(249,189,24,0.5)]
+                              group-hover:shadow-[0_0_32px_-4px_rgba(249,189,24,0.7)]
+                              transition-shadow">
                 <Image
                   src="/logo.webp"
                   alt="LinuxZeiro"
-                  width={36}
-                  height={36}
+                  width={40}
+                  height={40}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-lg font-bold">
+              <span className="text-lg font-bold tracking-tight">
                 <span className="text-white">Linux</span>
                 <span className="shimmer-text">Zeiro</span>
               </span>
             </Link>
-            <p className="text-xs sm:text-sm text-white/30 leading-relaxed max-w-xs">
+            <p className="text-sm text-white/40 leading-relaxed max-w-xs text-pretty">
               Blog sobre Linux, open source, desenvolvimento e tecnologia. Tutoriais, dicas e guias
               práticos para a comunidade brasileira.
             </p>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-2 mt-6">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.label}
+                  className="w-9 h-9 inline-flex items-center justify-center rounded-xl
+                             bg-white/[0.03] border border-white/[0.08]
+                             text-white/50 hover:text-amber-300
+                             hover:bg-amber-500/10 hover:border-amber-400/30
+                             transition-all duration-200"
+                >
+                  <item.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Categorias */}
           <div>
-            <h4 className="text-sm font-semibold text-white/60 mb-4">Categorias</h4>
-            <ul className="space-y-2.5">
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+              Categorias
+            </h4>
+            <ul className="space-y-3">
               {categoryLinks.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors duration-200"
+                    className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200"
                   >
+                    <span className="w-0 group-hover:w-3 h-px bg-amber-400 transition-all duration-300" />
                     {item.label}
                   </Link>
                 </li>
@@ -83,53 +122,61 @@ export function Footer() {
 
           {/* Links Rápidos */}
           <div>
-            <h4 className="text-sm font-semibold text-white/60 mb-4">Links Rápidos</h4>
-            <ul className="space-y-2.5">
-              {quickLinks.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    {...(item.href.startsWith("http")
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors duration-200"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+              Navegação
+            </h4>
+            <ul className="space-y-3">
+              {quickLinks.map((item) => {
+                const isExternal = item.href.startsWith("http");
+                return (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      {...(isExternal
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                      className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200"
+                    >
+                      <span className="w-0 group-hover:w-3 h-px bg-amber-400 transition-all duration-300" />
+                      {item.label}
+                      {isExternal && (
+                        <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Status / colofon */}
           <div>
-            <h4 className="text-sm font-semibold text-white/60 mb-4">Social</h4>
-            <ul className="space-y-2.5">
-              {socialLinks.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs sm:text-sm text-white/30 hover:text-amber-400 transition-colors duration-200"
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <h4 className="text-[11px] font-semibold text-amber-300/80 mb-5 uppercase tracking-[0.18em]">
+              Status
+            </h4>
+            <div className="space-y-3 text-sm">
+              <div className="inline-flex items-center gap-2 text-white/50">
+                <span className="live-dot" />
+                Tudo operacional
+              </div>
+              <div className="text-white/35 text-xs font-mono">
+                v1.0.0 · build {currentYear}
+              </div>
+              <div className="text-white/35 text-xs">
+                Hospedado com ❤
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom copyright */}
-        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/20">
-            © {currentYear} LinuxZeiro. Todos os direitos reservados.
+        <div className="mt-14 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/30">
+            © {currentYear} <span className="text-white/50">LinuxZeiro</span>. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-white/20 flex items-center gap-1">
-            Feito com <Heart className="w-3 h-3 text-amber-500 fill-amber-500" /> e Linux para o{" "}
-            Open Source
+          <p className="text-xs text-white/30 flex items-center gap-1.5">
+            Feito com <Heart className="w-3 h-3 text-amber-400 fill-amber-400 animate-pulse" /> e Linux para o
+            <span className="text-amber-300/70">Open Source</span>
           </p>
         </div>
       </div>

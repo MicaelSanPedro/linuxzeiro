@@ -1,7 +1,6 @@
 import { getAllPosts, getAllCategories } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
-import { CategoryBadge } from "@/components/CategoryBadge";
-import { Search } from "lucide-react";
+import { Search, Layers } from "lucide-react";
 import Link from "next/link";
 
 interface BlogPageProps {
@@ -21,67 +20,88 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     : allPosts;
 
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="pt-32 sm:pt-36 pb-24 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 mb-4">
-            <Search className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-xs text-amber-400 font-medium">Blog</span>
+        {/* ── Header ── */}
+        <div className="mb-12 sm:mb-16 max-w-3xl animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-5 backdrop-blur-md">
+            <Layers className="w-3.5 h-3.5 text-amber-300" />
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/70 font-medium">
+              Biblioteca
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            {selectedCategory || "Todos os Artigos"}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-5 tracking-tight leading-[1.05] text-balance">
+            {selectedCategory ? (
+              <>
+                Categoria:{" "}
+                <span className="shimmer-text">{selectedCategory}</span>
+              </>
+            ) : (
+              <>
+                Todos os <span className="shimmer-text">artigos</span>
+              </>
+            )}
           </h1>
-          <p className="text-white/40 max-w-lg">
+          <p className="text-base sm:text-lg text-white/45 text-pretty">
             {selectedCategory
               ? `Mostrando ${filteredPosts.length} artigo${
                   filteredPosts.length === 1 ? "" : "s"
-                } em ${selectedCategory}`
-              : `Explore todos os ${allPosts.length} artigos do blog`}
+                } na categoria ${selectedCategory}.`
+              : `Explore os ${allPosts.length} artigos do blog — filtrados por categoria ou explore a biblioteca completa.`}
           </p>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        {/* ── Filter pills ── */}
+        <div className="flex flex-wrap gap-2 mb-12 animate-fade-up delay-1">
           <Link
             href="/blog"
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               !selectedCategory
-                ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                : "bg-white/[0.03] text-white/50 border border-white/[0.06] hover:text-white/70 hover:border-white/10"
+                ? "bg-gradient-to-b from-amber-500/25 to-amber-500/10 text-amber-100 border border-amber-400/40 shadow-[0_4px_20px_-8px_rgba(249,189,24,0.5)]"
+                : "bg-white/[0.03] text-white/55 border border-white/[0.06] hover:text-white hover:border-white/15 hover:bg-white/[0.05]"
             }`}
           >
             Todos
+            <span className="ml-1.5 text-xs opacity-60 font-mono">({allPosts.length})</span>
           </Link>
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/blog?category=${encodeURIComponent(cat.name)}`}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                selectedCategory === cat.name
-                  ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                  : "bg-white/[0.03] text-white/50 border border-white/[0.06] hover:text-white/70 hover:border-white/10"
-              }`}
-            >
-              {cat.name}
-              <span className="ml-1.5 text-xs opacity-50">({cat.count})</span>
-            </Link>
-          ))}
+          {categories.map((cat) => {
+            const active = selectedCategory === cat.name;
+            return (
+              <Link
+                key={cat.name}
+                href={`/blog?category=${encodeURIComponent(cat.name)}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  active
+                    ? "bg-gradient-to-b from-amber-500/25 to-amber-500/10 text-amber-100 border border-amber-400/40 shadow-[0_4px_20px_-8px_rgba(249,189,24,0.5)]"
+                    : "bg-white/[0.03] text-white/55 border border-white/[0.06] hover:text-white hover:border-white/15 hover:bg-white/[0.05]"
+                }`}
+              >
+                {cat.name}
+                <span className="ml-1.5 text-xs opacity-60 font-mono">({cat.count})</span>
+              </Link>
+            );
+          })}
         </div>
 
-        {/* Posts Grid */}
+        {/* ── Posts Grid ── */}
         {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <PostCard key={post.slug} post={post} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {filteredPosts.map((post, i) => (
+              <div
+                key={post.slug}
+                className={`animate-fade-up delay-${Math.min(i, 6)}`}
+              >
+                <PostCard post={post} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <p className="text-white/30 text-lg">Nenhum artigo encontrado.</p>
+          <div className="text-center py-24 px-6 rounded-3xl border border-white/[0.06] bg-white/[0.02]">
+            <Search className="w-10 h-10 mx-auto text-white/20 mb-4" />
+            <p className="text-white/45 text-lg mb-4">Nenhum artigo encontrado.</p>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 mt-4 text-amber-400 hover:text-amber-300 transition-colors"
+              className="btn-secondary inline-flex"
             >
               Ver todos os artigos
             </Link>
