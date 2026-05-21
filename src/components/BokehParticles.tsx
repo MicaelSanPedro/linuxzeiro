@@ -10,6 +10,9 @@ export function BokehParticles() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    // Non-null aliases for use in nested closures
+    const c = canvas as NonNullable<typeof canvas>;
+    const g = ctx as NonNullable<typeof ctx>;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let w = window.innerWidth;
@@ -18,11 +21,11 @@ export function BokehParticles() {
     function resize() {
       w = window.innerWidth;
       h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-      ctx.scale(dpr, dpr);
+      c.width = w * dpr;
+      c.height = h * dpr;
+      c.style.width = w + "px";
+      c.style.height = h + "px";
+      g.scale(dpr, dpr);
     }
     resize();
     window.addEventListener("resize", resize);
@@ -68,7 +71,7 @@ export function BokehParticles() {
     let animId: number;
 
     function animate() {
-      ctx.clearRect(0, 0, w, h);
+      g.clearRect(0, 0, w, h);
       for (const p of particles) {
         p.x += p.dx;
         p.y += p.dy;
@@ -82,21 +85,21 @@ export function BokehParticles() {
 
         // Outer glow
         const glowR = Math.max(0.1, p.r * 10);
-        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
+        const grad = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
         grad.addColorStop(0, p.color + (a * 0.7).toFixed(3) + ")");
         grad.addColorStop(0.35, p.color + (a * 0.2).toFixed(3) + ")");
         grad.addColorStop(1, p.color + "0)");
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
+        g.beginPath();
+        g.arc(p.x, p.y, glowR, 0, Math.PI * 2);
+        g.fillStyle = grad;
+        g.fill();
 
         // Core
         const coreR = Math.max(0.1, p.r);
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, coreR, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + (a * 1.4).toFixed(3) + ")";
-        ctx.fill();
+        g.beginPath();
+        g.arc(p.x, p.y, coreR, 0, Math.PI * 2);
+        g.fillStyle = p.color + (a * 1.4).toFixed(3) + ")";
+        g.fill();
       }
       animId = requestAnimationFrame(animate);
     }

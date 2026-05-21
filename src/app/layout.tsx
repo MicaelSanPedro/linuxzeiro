@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollRevealInit } from "@/components/ScrollRevealInit";
 import { BokehParticles } from "@/components/BokehParticles";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { getAllPosts } from "@/lib/posts";
 
 const geistSans = Geist({
@@ -86,6 +87,9 @@ export default function RootLayout({
         </div>
 
         {/* Cinematic overlays */}
+        {/* Welcome screen for first-time visitors */}
+        <WelcomeScreen />
+
         <div className="cinema-vignette" aria-hidden />
         <div className="cinema-grain" aria-hidden />
         <div className="light-leak light-leak--amber" aria-hidden />
