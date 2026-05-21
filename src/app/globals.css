@@ -508,9 +508,9 @@
   border-radius: 0.75rem;
   background: rgba(255,255,255,0.015);
 }
-.prose-custom table thead { display: table-header-group; width: 100%; }
-.prose-custom table tbody { display: table-row-group; width: 100%; }
-.prose-custom table tr { display: table-row; width: 100%; transition: background 0.15s ease; }
+.prose-custom table thead { display: table-header-group; }
+.prose-custom table tbody { display: table-row-group; }
+.prose-custom table tr { display: table-row; transition: background 0.15s ease; }
 .prose-custom table th, .prose-custom table td { display: table-cell; }
 .prose-custom th {
   text-align: left;
