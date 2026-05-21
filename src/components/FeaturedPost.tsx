@@ -112,12 +112,12 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
         )}
 
         {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/70 to-[#06060a]/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/20 via-transparent to-rose-900/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/60 to-[#06060a]/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/15 via-transparent to-rose-900/10 pointer-events-none" />
 
         {/* Featured tag */}
         <div className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full
-                        bg-amber-500/20 border border-amber-500/40 backdrop-blur-sm">
+                        bg-black/50 border border-amber-500/40 backdrop-blur-md">
           <Sparkles className="w-3 h-3 text-amber-200" />
           <span className="text-[10px] uppercase tracking-wider font-bold text-amber-100">
             Destaque
@@ -158,10 +158,10 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
             </div>
 
             <span className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full
-                             bg-amber-500/25 border border-amber-400/40
-                             text-sm font-semibold text-white w-full sm:w-auto
-                             backdrop-blur-sm shadow-[0_4px_20px_-6px_rgba(249,189,24,0.4)]
-                             group-hover:bg-amber-500/35 group-hover:border-amber-400/60
+                             bg-amber-500 border border-amber-400/60
+                             text-sm font-bold text-amber-950 w-full sm:w-auto
+                             shadow-[0_4px_20px_-4px_rgba(249,189,24,0.5)]
+                             group-hover:bg-amber-400 group-hover:border-amber-300
                              transition-all duration-300">
               Ler artigo
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

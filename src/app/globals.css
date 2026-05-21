@@ -163,20 +163,34 @@
 }
 
 .glass-nav {
-  background: rgba(8, 7, 10, 0.55);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(8, 7, 10, 0.65);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-bottom: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-nav::after {
+  content: '';
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(to bottom, rgba(8, 7, 10, 0.65), transparent);
+  pointer-events: none;
+  z-index: -1;
 }
 .glass-nav.scrolled {
-  background: rgba(8, 7, 10, 0.82);
-  border-bottom-color: rgba(249, 189, 24, 0.12);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.6),
-              0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  background: rgba(8, 7, 10, 0.88);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5),
+              0 1px 0 rgba(249, 189, 24, 0.08) inset;
+}
+.glass-nav.scrolled::after {
+  background: linear-gradient(to bottom, rgba(8, 7, 10, 0.88), transparent);
 }
 @supports not (backdrop-filter: blur(20px)) {
   .glass-nav { background: rgba(8, 7, 10, 0.95); }
+  .glass-nav::after { display: none; }
 }
 
 .glass-input {
