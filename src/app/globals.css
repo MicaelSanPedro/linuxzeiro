@@ -495,7 +495,8 @@
   margin: 2em 0;
 }
 .prose-custom table {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin: 1.5em 0;

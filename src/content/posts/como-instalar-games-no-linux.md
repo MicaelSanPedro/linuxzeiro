@@ -70,7 +70,7 @@ Abra o ProtonUp-Qt, selecione "Steam" como launcher, e clique em "Add Version" p
 Antes de comprar ou instalar um jogo, verifique a compatibilidade no **[ProtonDB](https://www.protondb.com/)**. O site classifica os jogos em:
 
 | Rating | Significado |
-|--------|-------------|
+|:-------|:-----------|
 | **Platinum** | Funciona perfeitamente sem ajustes |
 | **Gold** | Funciona com ajustes menores |
 | **Silver** | Funciona com ajustes técnicos |
