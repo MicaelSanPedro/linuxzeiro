@@ -30,14 +30,21 @@ export default function HomePage() {
       {/* ─────────── Hero ─────────── */}
       <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-44 lg:pb-32 px-4 overflow-hidden">
         <div className="relative max-w-5xl mx-auto text-center">
-          {/* Live badge */}
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6 sm:mb-8 animate-fade-up delay-0">
+          {/* Live badge — liquid glass pill */}
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full relative overflow-hidden
+                      backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                      bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                      border border-white/[0.14]
+                      shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_16px_-4px_rgba(0,0,0,0.3)]
+                      mb-6 sm:mb-8 animate-fade-up delay-0">
+            {/* Specular highlight */}
+            <span className="absolute top-0 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-white/45 to-transparent pointer-events-none z-[2]" />
             <span className="live-dot" />
-            <span className="text-[10px] sm:text-[11px] text-white/70 font-medium tracking-wider uppercase">
+            <span className="text-[10px] sm:text-[11px] text-white/70 font-medium tracking-wider uppercase relative z-[3]">
               Tech blog · ao vivo
             </span>
-            <span className="text-white/20">·</span>
-            <span className="text-[10px] sm:text-[11px] text-amber-300/80 font-medium">v2026</span>
+            <span className="text-white/20 relative z-[3]">·</span>
+            <span className="text-[10px] sm:text-[11px] text-amber-300/80 font-medium relative z-[3]">v2026</span>
           </div>
 
           {/* Main title */}
@@ -231,12 +238,23 @@ export default function HomePage() {
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5">
-            {/* Card principal — Sobre o autor */}
-            <div className="lg:col-span-3 relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/[0.08] p-6 sm:p-8 lg:p-10
-                            bg-gradient-to-br from-amber-500/[0.08] via-white/[0.02] to-transparent">
+            {/* Card principal — Sobre o autor — liquid glass with amber tint */}
+            <div className="lg:col-span-3 relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10
+                            backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                            bg-gradient-to-br from-amber-500/[0.08] via-white/[0.03] to-white/[0.01]
+                            border border-white/[0.14]
+                            shadow-[0_8px_32px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]">
+              {/* Specular top highlight */}
+              <div className="absolute top-0 left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-[2]" />
+              {/* Inner refraction glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_12%,rgba(255,255,255,0.05)_0%,transparent_45%)] pointer-events-none z-[1]" />
               <div className="flex items-start gap-4 mb-6">
-                <div className="shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-400/30 to-amber-600/20 border border-amber-400/30 flex items-center justify-center
-                                shadow-[0_8px_24px_-8px_rgba(249,189,24,0.5)]">
+                <div className="shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl
+                                backdrop-blur-[40px] saturate-[180%]
+                                bg-gradient-to-br from-amber-400/30 to-amber-600/20
+                                border border-amber-400/30
+                                flex items-center justify-center
+                                shadow-[0_8px_24px_-8px_rgba(249,189,24,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]">
                   <Terminal className="w-7 h-7 sm:w-8 sm:h-8 text-amber-200" />
                 </div>
                 <div>
@@ -287,11 +305,15 @@ export default function HomePage() {
 
             {/* Coluna lateral — 3 cards empilhados */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-5" data-scroll-reveal data-scroll-delay="150">
-              {/* Stack do site */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/[0.07] p-5 sm:p-6
-                              bg-gradient-to-br from-emerald-500/[0.08] via-white/[0.015] to-transparent">
+              {/* Stack do site — liquid glass with emerald tint */}
+              <div className="relative overflow-hidden rounded-2xl p-5 sm:p-6
+                              backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                              bg-gradient-to-br from-emerald-500/[0.08] via-white/[0.03] to-white/[0.01]
+                              border border-white/[0.14]
+                              shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none z-[2]" />
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-400/25 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl backdrop-blur-[40px] saturate-[180%] bg-emerald-500/15 border border-emerald-400/25 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                     <Code2 className="w-4 h-4 text-emerald-300" />
                   </div>
                   <span className="text-[10px] font-mono text-emerald-300/80 uppercase tracking-wider">
@@ -307,11 +329,15 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Contribuir */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/[0.07] p-5 sm:p-6
-                              bg-gradient-to-br from-sky-500/[0.08] via-white/[0.015] to-transparent">
+              {/* Contribuir — liquid glass with sky tint */}
+              <div className="relative overflow-hidden rounded-2xl p-5 sm:p-6
+                              backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                              bg-gradient-to-br from-sky-500/[0.08] via-white/[0.03] to-white/[0.01]
+                              border border-white/[0.14]
+                              shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none z-[2]" />
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-sky-500/15 border border-sky-400/25 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl backdrop-blur-[40px] saturate-[180%] bg-sky-500/15 border border-sky-400/25 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                     <Heart className="w-4 h-4 text-sky-300" />
                   </div>
                   <span className="text-[10px] font-mono text-sky-300/80 uppercase tracking-wider">
@@ -326,11 +352,15 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Café */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/[0.07] p-5 sm:p-6 sm:col-span-2 lg:col-span-1
-                              bg-gradient-to-br from-rose-500/[0.08] via-white/[0.015] to-transparent">
+              {/* Café — liquid glass with rose tint */}
+              <div className="relative overflow-hidden rounded-2xl p-5 sm:p-6 sm:col-span-2 lg:col-span-1
+                              backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                              bg-gradient-to-br from-rose-500/[0.08] via-white/[0.03] to-white/[0.01]
+                              border border-white/[0.14]
+                              shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none z-[2]" />
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-400/25 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl backdrop-blur-[40px] saturate-[180%] bg-rose-500/15 border border-rose-400/25 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                     <Coffee className="w-4 h-4 text-rose-300" />
                   </div>
                   <span className="text-[10px] font-mono text-rose-300/80 uppercase tracking-wider">

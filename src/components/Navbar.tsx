@@ -153,13 +153,22 @@ export function Navbar({ allPosts }: NavbarProps) {
             <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               <div
                 ref={navRef}
-                className="relative flex items-center gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.06]"
+                className="relative flex items-center gap-1 p-1 rounded-full
+                           backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                           bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                           border border-white/[0.14]
+                           shadow-[0_4px_16px_-4px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]"
               >
-                {/* ── Sliding active indicator ── */}
+                {/* ── Sliding active indicator (liquid glass capsule) ── */}
                 <span
                   ref={indicatorRef}
                   aria-hidden="true"
-                  className="absolute top-1 left-0 h-[calc(100%-8px)] rounded-full bg-gradient-to-b from-amber-500/25 to-amber-500/5 border border-amber-400/30 shadow-[0_4px_20px_-8px_rgba(249,189,24,0.5)] transition-all duration-300 ease-out pointer-events-none opacity-0"
+                  className="absolute top-1 left-0 h-[calc(100%-8px)] rounded-full
+                             bg-gradient-to-b from-amber-500/20 to-amber-500/5
+                             backdrop-blur-[40px] saturate-[180%]
+                             border border-amber-400/25
+                             shadow-[0_4px_20px_-8px_rgba(249,189,24,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]
+                             transition-all duration-300 ease-out pointer-events-none opacity-0"
                   style={{ willChange: "transform, width" }}
                 />
 
@@ -192,34 +201,48 @@ export function Navbar({ allPosts }: NavbarProps) {
                 <SearchBar allPosts={allPosts} />
               </div>
 
+              {/* CTA — liquid glass sheen */}
               <Link
                 href="/blog"
                 className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full
                            bg-gradient-to-b from-amber-400/90 to-amber-500
                            text-amber-950 text-xs font-semibold
-                           shadow-[0_4px_16px_-4px_rgba(249,189,24,0.5)]
-                           hover:shadow-[0_8px_24px_-4px_rgba(249,189,24,0.7)]
+                           shadow-[0_4px_16px_-4px_rgba(249,189,24,0.5),inset_0_1px_0_rgba(255,255,255,0.4)]
+                           hover:shadow-[0_8px_24px_-4px_rgba(249,189,24,0.7),inset_0_1px_0_rgba(255,255,255,0.5)]
                            hover:from-amber-300 hover:to-amber-400
+                           border border-amber-400/30
                            transition-all"
               >
                 Ler artigos
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
 
-              {/* Mobile search icon */}
+              {/* Mobile search icon — liquid glass pill */}
               <button
                 onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/5 active:bg-white/10 transition-colors duration-200"
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl
+                           backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                           bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                           border border-white/[0.12]
+                           shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]
+                           hover:border-white/[0.22] active:scale-95
+                           transition-all duration-200"
                 aria-label="Buscar"
                 type="button"
               >
                 <SearchIcon className="w-5 h-5 text-white/80" />
               </button>
 
-              {/* Mobile hamburger */}
+              {/* Mobile hamburger — liquid glass pill */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/5 active:bg-white/10 transition-colors duration-200"
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl
+                           backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                           bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                           border border-white/[0.12]
+                           shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]
+                           hover:border-white/[0.22] active:scale-95
+                           transition-all duration-200"
                 aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
                 aria-expanded={mobileOpen}
                 type="button"
@@ -250,9 +273,9 @@ export function Navbar({ allPosts }: NavbarProps) {
         }`}
       />
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown Menu — liquid glass mobile-menu */}
       <div
-        className={`fixed inset-x-0 top-14 z-40 glass-nav border-b border-amber-500/10 md:hidden transition-all duration-300 ease-out ${
+        className={`fixed inset-x-0 top-14 z-40 liquid-glass-mobile-menu border-b border-white/[0.08] md:hidden transition-all duration-300 ease-out ${
           mobileOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-3 pointer-events-none"
@@ -268,8 +291,8 @@ export function Navbar({ allPosts }: NavbarProps) {
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center justify-between w-full px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-200 ${
                   active
-                    ? "text-amber-200 bg-amber-500/10 border border-amber-500/20"
-                    : "text-white/80 hover:text-white hover:bg-white/5 border border-transparent"
+                    ? "text-amber-200 backdrop-blur-[40px] bg-amber-500/10 border border-amber-500/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                    : "text-white/80 hover:text-white hover:bg-white/[0.05] border border-transparent hover:border-white/[0.08]"
                 }`}
               >
                 {link.label}

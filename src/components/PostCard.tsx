@@ -33,13 +33,21 @@ export function PostCard({ post }: PostCardProps) {
       <article
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        className="spotlight card-shine relative rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01]
-                   overflow-hidden h-full flex flex-col
+        className="spotlight card-shine relative rounded-2xl overflow-hidden h-full flex flex-col
                    transition-all duration-500 ease-out
                    active:scale-[0.99] active:border-amber-400/30
-                   hover:border-amber-400/30 hover:-translate-y-1
-                   hover:shadow-[0_24px_60px_-20px_rgba(249,189,24,0.25)]"
+                   hover:border-white/[0.22] hover:-translate-y-1
+                   backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                   bg-gradient-to-b from-white/[0.08] to-white/[0.015]
+                   border border-white/[0.15]
+                   shadow-[0_8px_32px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]
+                   hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45),0_24px_60px_-20px_rgba(249,189,24,0.15),inset_0_1px_0_rgba(255,255,255,0.14)]"
       >
+        {/* Specular top highlight */}
+        <div className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/50 to-transparent z-[2] pointer-events-none" />
+
+        {/* Inner refraction glow */}
+        <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_25%_12%,rgba(255,255,255,0.06)_0%,transparent_45%)] pointer-events-none z-[1]" />
         {/* Cover image */}
         <div className="relative h-44 sm:h-48 overflow-hidden">
           {hasImage ? (
@@ -66,8 +74,13 @@ export function PostCard({ post }: PostCardProps) {
             <CategoryBadge category={frontmatter.category} />
           </div>
 
-          {/* Arrow icon on hover (desktop) / always-visible muted (mobile) */}
-          <div className="absolute top-3 right-3 w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-black/70 border border-white/[0.12] flex items-center justify-center
+          {/* Arrow icon — liquid glass mini pill */}
+          <div className="absolute top-3 right-3 w-8 h-8 sm:w-9 sm:h-9 rounded-xl
+                          backdrop-blur-[40px] saturate-[180%]
+                          bg-gradient-to-b from-white/[0.1] to-white/[0.03]
+                          border border-white/[0.15]
+                          shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_4px_12px_-4px_rgba(0,0,0,0.4)]
+                          flex items-center justify-center
                           opacity-70 sm:opacity-0 sm:-translate-y-1 sm:group-hover:opacity-100 sm:group-hover:translate-y-0
                           transition-all duration-300">
             <ArrowUpRight className="w-4 h-4 text-amber-300" />
@@ -87,22 +100,25 @@ export function PostCard({ post }: PostCardProps) {
             {frontmatter.excerpt}
           </p>
 
-          {/* Date and read time */}
-          <div className="flex items-center gap-3 sm:gap-4 pt-3 mt-1 border-t border-white/[0.05]">
-            <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-mono">
-              <Calendar className="w-3 h-3" />
-              <time dateTime={frontmatter.date}>
-                {new Date(frontmatter.date).toLocaleDateString("pt-BR", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </time>
-            </div>
-            <div className="w-px h-3 bg-white/10" />
-            <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-mono">
-              <Clock className="w-3 h-3" />
-              <span>{frontmatter.readTime}</span>
+          {/* Date and read time — glass gradient divider */}
+          <div className="relative pt-3 mt-1">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-mono">
+                <Calendar className="w-3 h-3" />
+                <time dateTime={frontmatter.date}>
+                  {new Date(frontmatter.date).toLocaleDateString("pt-BR", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </time>
+              </div>
+              <div className="w-px h-3 bg-white/10" />
+              <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-mono">
+                <Clock className="w-3 h-3" />
+                <span>{frontmatter.readTime}</span>
+              </div>
             </div>
           </div>
         </div>

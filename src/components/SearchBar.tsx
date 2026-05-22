@@ -107,13 +107,21 @@ export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white/40 hover:text-white/60 hover:border-white/10 transition-all duration-200 text-sm"
+        className="flex items-center gap-2 px-3 py-2 rounded-xl relative overflow-hidden
+                   backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                   bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                   border border-white/[0.14]
+                   shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_16px_-4px_rgba(0,0,0,0.3)]
+                   text-white/40 hover:text-white/60 hover:border-white/[0.22]
+                   active:scale-95 transition-all duration-200 text-sm"
         aria-label="Buscar artigos"
         type="button"
       >
+        {/* Specular highlight */}
+        <span className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
         <Search className="w-4 h-4" />
         <span className="hidden lg:inline">Buscar...</span>
-        <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.05] text-[10px] text-white/25 font-mono">
+        <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.06] text-[10px] text-white/25 font-mono">
           Ctrl K
         </kbd>
       </button>
@@ -122,8 +130,15 @@ export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
 
   return (
     <div ref={containerRef} className="relative w-full max-w-xl">
-      {/* Input */}
-      <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/[0.05] border border-amber-500/30 shadow-lg shadow-amber-500/10 search-glow">
+      {/* Input — liquid glass with amber tint */}
+      <div className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl
+                  backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                  bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                  border border-amber-500/20
+                  shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.08)]
+                  search-glow relative overflow-hidden">
+        {/* Specular highlight */}
+        <span className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-amber-300/30 to-transparent pointer-events-none z-[2]" />
         <Search className="w-4 h-4 text-amber-400 shrink-0" />
         <input
           ref={inputRef}
@@ -149,9 +164,11 @@ export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
         </kbd>
       </div>
 
-      {/* Results dropdown */}
+      {/* Results dropdown — liquid glass panel */}
       {results.length > 0 && query.trim().length >= 2 && (
-        <div className="absolute top-full mt-2 left-0 right-0 bg-[#111]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl overflow-hidden shadow-2xl shadow-black/50 z-50">
+        <div className="absolute top-full mt-2 left-0 right-0 liquid-glass-panel rounded-xl overflow-hidden z-50">
+          {/* Specular top highlight */}
+          <div className="absolute top-0 left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-[3]" />
           <div className="p-1 max-h-[60vh] overflow-y-auto">
             {results.map((post, i) => (
               <button
@@ -159,8 +176,8 @@ export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
                 onClick={() => handleSelect(post.slug)}
                 className={`w-full text-left px-3 py-2.5 rounded-lg flex items-start gap-3 transition-colors duration-100 ${
                   i === selectedIndex
-                    ? "bg-amber-500/10"
-                    : "hover:bg-white/[0.04] active:bg-white/[0.06]"
+                    ? "bg-amber-500/10 backdrop-blur-[10px]"
+                    : "hover:bg-white/[0.05] active:bg-white/[0.06]"
                 }`}
                 type="button"
               >
@@ -186,9 +203,9 @@ export function SearchBar({ allPosts, alwaysOpen = false }: SearchBarProps) {
         </div>
       )}
 
-      {/* No results */}
+      {/* No results — liquid glass panel */}
       {query.trim().length >= 2 && results.length === 0 && (
-        <div className="absolute top-full mt-2 left-0 right-0 bg-[#111]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl overflow-hidden shadow-2xl shadow-black/50 z-50">
+        <div className="absolute top-full mt-2 left-0 right-0 liquid-glass-panel rounded-xl overflow-hidden z-50">
           <div className="px-4 py-8 text-center">
             <p className="text-sm text-white/30">
               Nenhum resultado para &quot;{query}&quot;

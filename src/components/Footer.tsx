@@ -36,8 +36,11 @@ export function Footer() {
 
   return (
     <footer className="relative mt-auto overflow-hidden">
-      {/* Top gradient divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
+      {/* Top gradient divider — liquid glass edge */}
+      <div className="relative h-px">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+      </div>
 
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
@@ -77,9 +80,12 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={item.label}
                   className="w-10 h-10 inline-flex items-center justify-center rounded-xl
-                             bg-white/[0.03] border border-white/[0.08]
+                             backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                             bg-gradient-to-b from-white/[0.08] to-white/[0.02]
+                             border border-white/[0.14]
+                             shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_16px_-4px_rgba(0,0,0,0.3)]
                              text-white/50 hover:text-amber-300
-                             hover:bg-amber-500/10 hover:border-amber-400/30
+                             hover:bg-white/[0.06] hover:border-white/[0.22]
                              active:scale-95
                              transition-all duration-200"
                 >
@@ -99,9 +105,10 @@ export function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200"
+                    className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200
+                               hover:bg-white/[0.03] rounded-lg -ml-1 pl-1 py-0.5"
                   >
-                    <span className="w-0 group-hover:w-3 h-px bg-amber-400 transition-all duration-300" />
+                    <span className="w-0 group-hover:w-3 h-px bg-gradient-to-r from-amber-400 to-transparent transition-all duration-300" />
                     {item.label}
                   </Link>
                 </li>
@@ -124,9 +131,10 @@ export function Footer() {
                       {...(isExternal
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200"
+                      className="group inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-amber-200 transition-colors duration-200
+                                 hover:bg-white/[0.03] rounded-lg -ml-1 pl-1 py-0.5"
                     >
-                      <span className="w-0 group-hover:w-3 h-px bg-amber-400 transition-all duration-300" />
+                      <span className="w-0 group-hover:w-3 h-px bg-gradient-to-r from-amber-400 to-transparent transition-all duration-300" />
                       {item.label}
                       {isExternal && (
                         <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />

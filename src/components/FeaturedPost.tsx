@@ -35,13 +35,20 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
         <article
           ref={cardRef}
           onMouseMove={handleMouseMove}
-          className="spotlight card-shine relative rounded-2xl overflow-hidden border border-white/[0.06]
-                     bg-gradient-to-br from-white/[0.04] to-white/[0.01]
-                     transition-all duration-500 ease-out h-full flex flex-col
+          className="spotlight card-shine relative rounded-2xl overflow-hidden h-full flex flex-col
+                     transition-all duration-500 ease-out
                      active:scale-[0.99]
-                     hover:border-amber-400/30 hover:-translate-y-1
-                     hover:shadow-[0_24px_60px_-20px_rgba(249,189,24,0.3)]"
+                     hover:border-white/[0.22] hover:-translate-y-1
+                     backdrop-blur-[40px] saturate-[200%] brightness-[105%]
+                     bg-gradient-to-br from-white/[0.08] to-white/[0.015]
+                     border border-white/[0.15]
+                     shadow-[0_8px_32px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]
+                     hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45),0_24px_60px_-20px_rgba(249,189,24,0.18),inset_0_1px_0_rgba(255,255,255,0.14)]"
         >
+          {/* Specular top highlight */}
+          <div className="absolute top-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/40 to-transparent z-[2] pointer-events-none" />
+          {/* Inner refraction glow */}
+          <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_25%_12%,rgba(255,255,255,0.05)_0%,transparent_45%)] pointer-events-none z-[1]" />
           {/* Background image */}
           <div className="relative h-40 sm:h-48 overflow-hidden">
             {hasImage ? (
@@ -69,7 +76,8 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
             <p className="text-sm text-white/45 leading-relaxed line-clamp-2 flex-1">
               {frontmatter.excerpt}
             </p>
-            <div className="flex items-center justify-between pt-3 border-t border-white/[0.05]">
+            <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] relative">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
               <div className="flex items-center gap-3 text-[11px] text-white/35 font-mono">
                 <span className="inline-flex items-center gap-1">
                   <Clock className="w-3 h-3" />
@@ -93,12 +101,15 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
       <article
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        className="spotlight card-shine relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/[0.08]
+        className="spotlight card-shine relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/[0.12]
                    transition-all duration-500 ease-out h-full min-h-[360px] sm:min-h-[440px] lg:min-h-[480px]
                    active:scale-[0.99]
-                   hover:border-amber-400/35
-                   hover:shadow-[0_40px_100px_-20px_rgba(249,189,24,0.35)]"
+                   hover:border-white/[0.25]
+                   hover:shadow-[0_40px_100px_-20px_rgba(249,189,24,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]"
       >
+        {/* Specular highlight at top of hero */}
+        <div className="absolute top-0 left-[3%] right-[3%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent z-[3] pointer-events-none" />
+
         {/* Background image */}
         {hasImage && (
           <Image
@@ -111,9 +122,13 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
           />
         )}
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/60 to-[#06060a]/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/15 via-transparent to-rose-900/10 pointer-events-none" />
+        {/* Liquid glass overlay at bottom for text readability */}
+        <div className="absolute inset-x-0 bottom-0 h-[75%] pointer-events-none z-[1]
+                    backdrop-blur-[20px] saturate-[150%] bg-gradient-to-t from-[#06060a] via-[#06060a]/80 to-transparent" />
+        {/* Specular highlight on glass overlay */}
+        <div className="absolute inset-x-0 top-[25%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent z-[2] pointer-events-none" />
+        {/* Color tint overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/15 via-transparent to-rose-900/10 pointer-events-none z-[1]" />
 
         <div className="relative p-5 sm:p-8 lg:p-10 flex flex-col justify-end h-full">
           <div className="flex items-center gap-3 mb-3 sm:mb-4">

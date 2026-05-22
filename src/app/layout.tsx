@@ -77,10 +77,10 @@ export default function RootLayout({
           <div className="grid-bg" />
 
           {/* Ambient blurred orbs */}
-          <div className="ambient-orb animate-orb-1 w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] bg-amber-500/[0.15] -top-[150px] -left-[100px] sm:-top-[200px] sm:-left-[150px]" />
-          <div className="ambient-orb animate-orb-2 w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] bg-rose-500/[0.10] top-[45%] -right-[120px] sm:-right-[180px]" />
-          <div className="ambient-orb animate-orb-3 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] bg-sky-500/[0.08] -bottom-[100px] left-[25%] sm:left-[30%]" />
-          <div className="ambient-orb animate-orb-1 w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-emerald-500/[0.06] top-[20%] right-[15%]" />
+          <div className="ambient-orb animate-orb-1 w-[550px] h-[550px] sm:w-[700px] sm:h-[700px] bg-amber-500/[0.18] -top-[150px] -left-[100px] sm:-top-[200px] sm:-left-[150px]" />
+          <div className="ambient-orb animate-orb-2 w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] bg-rose-500/[0.12] top-[45%] -right-[120px] sm:-right-[180px]" />
+          <div className="ambient-orb animate-orb-3 w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] bg-sky-500/[0.10] -bottom-[100px] left-[25%] sm:left-[30%]" />
+          <div className="ambient-orb animate-orb-1 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] bg-emerald-500/[0.08] top-[20%] right-[15%]" />
 
           {/* Noise overlay */}
           <div className="noise-overlay" />

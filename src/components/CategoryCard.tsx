@@ -101,11 +101,16 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
   const cardStyle: React.CSSProperties = {
     background: `
       radial-gradient(circle at 100% 0%, rgba(${theme.rgb}, 0.18) 0%, transparent 50%),
-      linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%),
-      #0f0d0a
+      linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.025) 50%, rgba(255,255,255,0.008) 100%)
     `,
     borderColor: `rgba(${theme.rgb}, 0.18)`,
-    boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 50px -20px rgba(0,0,0,0.6)`,
+    boxShadow: `
+      0 8px 32px -8px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.04)
+    `,
+    backdropFilter: 'blur(40px) saturate(200%) brightness(105%)',
+    WebkitBackdropFilter: 'blur(40px) saturate(200%) brightness(105%)',
   };
 
   return (
@@ -118,16 +123,31 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
                   transition-all duration-500 ease-out
                   hover:-translate-y-1
                   active:scale-[0.99]
+                  hover:border-white/[0.22]
                   ${isLg
                     ? "min-h-[260px] sm:min-h-[300px] p-6 sm:p-8"
                     : "min-h-[180px] p-5 sm:p-6"}
                   ${className}`}
     >
-      {/* ─── Hover spotlight ─── */}
+      {/* ─── Specular top highlight ─── */}
+      <div
+        className="absolute top-0 left-[8%] right-[8%] h-px pointer-events-none z-[2]"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 20%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.35) 80%, transparent 100%)',
+        }}
+      />
+      {/* ─── Inner refraction glow ─── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{
+          background: 'radial-gradient(ellipse at 25% 12%, rgba(255,255,255,0.05) 0%, transparent 45%)',
+        }}
+      />
+      {/* ─── Hover spotlight (liquid glass refraction) ─── */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(${theme.rgb}, 0.12), transparent 60%)`,
+          background: `radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(${theme.rgb}, 0.10), rgba(255,255,255,0.03) 30%, transparent 60%)`,
         }}
       />
 
@@ -163,12 +183,12 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
 
                         ${isLg ? "w-14 h-14" : "w-12 h-12"}
                         group-hover:scale-110 group-hover:-rotate-3
-                        transition-transform duration-500`}
+                        transition-transform duration-500 backdrop-blur-[40px] saturate-[180%]`}
             style={{
               color: theme.hex,
               background: `rgba(${theme.rgb}, 0.08)`,
               borderColor: `rgba(${theme.rgb}, 0.25)`,
-              boxShadow: `0 8px 24px -8px rgba(${theme.rgb}, 0.4)`,
+              boxShadow: `0 8px 24px -8px rgba(${theme.rgb}, 0.35), inset 0 1px 0 rgba(255,255,255,0.1)`,
             }}
           >
             <div className={isLg ? "w-7 h-7" : "w-6 h-6"}>
@@ -176,16 +196,18 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
             </div>
           </div>
 
-          {/* Arrow */}
+          {/* Arrow — liquid glass mini pill */}
           <div
             className="flex items-center justify-center w-9 h-9 rounded-xl
                        border opacity-60 group-hover:opacity-100
                        group-hover:translate-x-0.5 group-hover:-translate-y-0.5
+                       backdrop-blur-[40px] saturate-[180%]
                        transition-all duration-300"
             style={{
               color: theme.hex,
               background: `rgba(${theme.rgb}, 0.08)`,
               borderColor: `rgba(${theme.rgb}, 0.18)`,
+              boxShadow: `inset 0 1px 0 rgba(255,255,255,0.1)`,
             }}
           >
             <ArrowUpRight className="w-4 h-4" />
@@ -218,11 +240,13 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
           )}
 
           <div
-            className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider
+                       backdrop-blur-[40px] saturate-[180%]"
             style={{
               color: theme.hex,
               background: `rgba(${theme.rgb}, 0.08)`,
               border: `1px solid rgba(${theme.rgb}, 0.2)`,
+              boxShadow: `inset 0 1px 0 rgba(255,255,255,0.1)`,
             }}
           >
             <span
@@ -240,11 +264,11 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
         </div>
       </div>
 
-      {/* ─── Border glow on hover ─── */}
+      {/* ─── Border glow on hover (liquid glass) ─── */}
       <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          boxShadow: `0 0 0 1px rgba(${theme.rgb}, 0.4) inset, 0 20px 60px -10px rgba(${theme.rgb}, 0.25)`,
+          boxShadow: `0 0 0 1px rgba(${theme.rgb}, 0.3) inset, 0 12px 40px -10px rgba(${theme.rgb}, 0.2), inset 0 1px 0 rgba(255,255,255,0.12)`,
         }}
       />
     </Link>
