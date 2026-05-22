@@ -7,6 +7,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ScrollRevealInit } from "@/components/ScrollRevealInit";
 import { BokehParticles } from "@/components/BokehParticles";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { getAllPosts } from "@/lib/posts";
 
 const geistSans = Geist({
@@ -105,6 +106,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <ScrollToTop />
       </body>
     </html>
   );
