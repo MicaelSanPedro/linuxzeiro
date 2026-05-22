@@ -107,9 +107,6 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
                    hover:border-white/[0.25]
                    hover:shadow-[0_40px_100px_-20px_rgba(249,189,24,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]"
       >
-        {/* Specular highlight at top of hero */}
-        <div className="absolute top-0 left-[3%] right-[3%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent z-[3] pointer-events-none" />
-
         {/* Background image */}
         {hasImage && (
           <Image
@@ -122,15 +119,13 @@ export function FeaturedPost({ post, variant = "hero" }: FeaturedPostProps) {
           />
         )}
 
-        {/* Liquid glass overlay at bottom for text readability */}
-        <div className="absolute inset-x-0 bottom-0 h-[75%] pointer-events-none z-[1]
-                    backdrop-blur-[20px] saturate-[150%] bg-gradient-to-t from-[#06060a] via-[#06060a]/80 to-transparent" />
-        {/* Specular highlight on glass overlay */}
-        <div className="absolute inset-x-0 top-[25%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent z-[2] pointer-events-none" />
-        {/* Color tint overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/15 via-transparent to-rose-900/10 pointer-events-none z-[1]" />
+        {/* Gradient overlays for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06060a] via-[#06060a]/60 to-[#06060a]/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/15 via-transparent to-rose-900/10 pointer-events-none" />
+        {/* Specular highlight at top */}
+        <div className="absolute top-0 left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-white/25 to-transparent z-[3] pointer-events-none" />
 
-        <div className="relative p-5 sm:p-8 lg:p-10 flex flex-col justify-end h-full">
+        <div className="relative z-[2] p-5 sm:p-8 lg:p-10 flex flex-col justify-end h-full">
           <div className="flex items-center gap-3 mb-3 sm:mb-4">
             <CategoryBadge category={frontmatter.category} />
           </div>
