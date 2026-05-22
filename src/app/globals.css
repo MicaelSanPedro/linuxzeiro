@@ -611,8 +611,13 @@
 }
 .prose-custom pre code { background: none; color: #d4c8b8; padding: 0; border: 0; }
 
+/* ─── Pre wrapper (holds copy button outside scroll) ── */
+.prose-custom .pre-wrapper {
+  position: relative;
+}
+
 /* ─── Code copy button ───────────────── */
-.prose-custom pre .copy-btn {
+.prose-custom .pre-wrapper .copy-btn {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
@@ -633,30 +638,30 @@
   backdrop-filter: blur(8px);
   z-index: 2;
 }
-.prose-custom pre .copy-btn:hover {
+.prose-custom .pre-wrapper .copy-btn:hover {
   background: rgba(249, 189, 24, 0.15);
   color: #fbbf24;
   border-color: rgba(249, 189, 24, 0.4);
 }
-.prose-custom pre .copy-btn .check-icon,
-.prose-custom pre .copy-btn .copied-label {
+.prose-custom .pre-wrapper .copy-btn .check-icon,
+.prose-custom .pre-wrapper .copy-btn .copied-label {
   display: none;
 }
-.prose-custom pre .copy-btn .copy-label {
+.prose-custom .pre-wrapper .copy-btn .copy-label {
   display: inline;
 }
-.prose-custom pre .copy-btn.copied {
+.prose-custom .pre-wrapper .copy-btn.copied {
   opacity: 1;
   background: rgba(52, 211, 153, 0.15);
   border-color: rgba(52, 211, 153, 0.4);
   color: #34d399;
 }
-.prose-custom pre .copy-btn.copied .copy-icon,
-.prose-custom pre .copy-btn.copied .copy-label {
+.prose-custom .pre-wrapper .copy-btn.copied .copy-icon,
+.prose-custom .pre-wrapper .copy-btn.copied .copy-label {
   display: none;
 }
-.prose-custom pre .copy-btn.copied .check-icon,
-.prose-custom pre .copy-btn.copied .copied-label {
+.prose-custom .pre-wrapper .copy-btn.copied .check-icon,
+.prose-custom .pre-wrapper .copy-btn.copied .copied-label {
   display: inline;
 }
 

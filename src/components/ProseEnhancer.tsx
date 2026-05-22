@@ -33,7 +33,18 @@ function showToast() {
   }, 2000);
 }
 
-function createCopyButton(pre: HTMLPreElement): HTMLButtonElement {
+function wrapPreWithCopyButton(pre: HTMLPreElement) {
+  // Skip if already wrapped
+  if (pre.parentElement?.classList.contains("pre-wrapper")) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "pre-wrapper";
+
+  // Insert wrapper before pre, then move pre inside
+  pre.parentNode!.insertBefore(wrapper, pre);
+  wrapper.appendChild(pre);
+
+  // Create copy button (still reads code from pre)
   const btn = document.createElement("button");
   btn.className = "copy-btn";
   btn.type = "button";
@@ -70,12 +81,13 @@ function createCopyButton(pre: HTMLPreElement): HTMLButtonElement {
     setTimeout(() => btn.classList.remove("copied"), 2000);
   });
 
-  return btn;
+  wrapper.appendChild(btn);
 }
 
 /**
  * Enhances prose-custom content:
- * - Adds copy button to all <pre> code blocks
+ * - Wraps all <pre> code blocks in a relative div
+ * - Adds copy button outside the scrollable area
  */
 export function ProseEnhancer() {
   useEffect(() => {
@@ -85,18 +97,14 @@ export function ProseEnhancer() {
     const pres = container.querySelectorAll<HTMLPreElement>("pre");
 
     pres.forEach((pre) => {
-      if (pre.querySelector(".copy-btn")) return;
-      pre.style.position = "relative";
-      pre.appendChild(createCopyButton(pre));
+      wrapPreWithCopyButton(pre);
     });
 
     // Also detect new <pre> blocks added later (scroll-reveal, etc.)
     const observer = new MutationObserver(() => {
       const newPres = container.querySelectorAll<HTMLPreElement>("pre");
       newPres.forEach((pre) => {
-        if (pre.querySelector(".copy-btn")) return;
-        pre.style.position = "relative";
-        pre.appendChild(createCopyButton(pre));
+        wrapPreWithCopyButton(pre);
       });
     });
 
