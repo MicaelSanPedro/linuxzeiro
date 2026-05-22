@@ -36,9 +36,7 @@ export function ScrollToTop() {
                  transition-all duration-300
                  ${visible ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-3 pointer-events-none"}`}
     >
-      {/* Specular highlight */}
-      <span className="absolute top-0 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-white/45 to-transparent pointer-events-none z-[2]" />
-      <ArrowUp className="w-4 h-4 relative z-[3]" />
+      <ArrowUp className="w-4 h-4" />
     </button>
   );
 }
