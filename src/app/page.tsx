@@ -28,7 +28,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* ─────────── Hero ─────────── */}
-      <section className="relative pt-20 pb-12 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-28 px-4 overflow-hidden">
+      <section className="relative pt-[72px] pb-10 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-28 px-4 overflow-hidden">
         <div className="relative max-w-5xl mx-auto text-center">
           {/* Live badge — liquid glass pill */}
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full relative overflow-hidden
