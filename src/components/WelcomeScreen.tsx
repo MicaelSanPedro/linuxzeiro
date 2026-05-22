@@ -25,15 +25,13 @@ export function WelcomeScreen() {
   useEffect(() => {
     if (!isVisible) return;
 
-    const holdTimer = setTimeout(() => setPhase("hold"), 2200);
-    const exitTimer = setTimeout(() => setPhase("exit"), 3200);
+    const exitTimer = setTimeout(() => setPhase("exit"), 1000);
     const doneTimer = setTimeout(() => {
       localStorage.setItem(STORAGE_KEY, "true");
       setIsVisible(false);
-    }, 4100);
+    }, 1600);
 
     return () => {
-      clearTimeout(holdTimer);
       clearTimeout(exitTimer);
       clearTimeout(doneTimer);
     };
@@ -41,12 +39,15 @@ export function WelcomeScreen() {
 
   // Prevent flash on SSR
   if (!mounted) return null;
-  if (!isVisible && phase !== "exit") return null;
+  if (!isVisible) return null;
+
+  const isExiting = phase === "exit";
 
   return (
     <div
-      className={`welcome-overlay ${phase === "enter" ? "welcome-enter" : ""} ${phase === "hold" ? "welcome-hold" : ""} ${phase === "exit" ? "welcome-exit" : ""}`}
+      className={`welcome-overlay ${phase === "enter" ? "welcome-enter" : "welcome-hold"} ${isExiting ? "welcome-exit" : ""}`}
       aria-hidden="true"
+      style={isExiting ? { pointerEvents: "none" } : undefined}
     >
       {/* Letterbox bars */}
       <div className="welcome-letterbox welcome-letterbox--top" />
