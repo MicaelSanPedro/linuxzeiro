@@ -1695,46 +1695,11 @@
 
 /* ─── Cinematic Name Shine ──────────────────── */
 .welcome-name-shine {
-  display: inline-block;
-  background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
-  background-size: 200% 100%;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  position: relative;
-  animation: welcome-name-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
-  overflow: hidden;
-}
-.welcome-name-shine::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0) 20%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0) 80%,
-    transparent 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: welcome-cinema-sweep 1.8s ease-in-out 1.6s both;
-  pointer-events: none;
-}
-@keyframes welcome-name-fade-in {
-  0%   { opacity: 0; transform: translateY(10px); filter: blur(6px); }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-@keyframes welcome-cinema-sweep {
-  0%   { left: -100%; opacity: 0; }
-  10%  { opacity: 1; }
-  100% { left: 200%; opacity: 0; }
 }
 
 /* ─── Cinematic Page Transition ────────────── */
