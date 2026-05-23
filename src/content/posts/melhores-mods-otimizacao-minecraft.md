@@ -1,6 +1,6 @@
 ---
 title: "Melhores Mods de Otimização para Minecraft em 2025"
-date: "2025-05-10"
+date: "2026-05-10"
 excerpt: "Transforme seu Minecraft em uma máquina de FPS. Conheça os mods essenciais de otimização com links de download, versões compatíveis e configurações recomendadas."
 category: "Jogos"
 tags: ["minecraft", "mods", "otimização", "fps", "fabric", "forge", "gaming"]

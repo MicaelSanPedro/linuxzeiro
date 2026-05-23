@@ -1,6 +1,6 @@
 ---
 title: "Como Criar um Site Inteiro com a Z.ai: Do Zero ao Deploy"
-date: "2025-05-22"
+date: "2026-05-22"
 excerpt: "Quer ter seu próprio site mas não sabe programar? Aprenda a criar um site completo do zero usando GitHub, Vercel e o modo agente da Z.ai — sem digitar uma linha de código."
 category: "Desenvolvimento"
 tags: ["z.ai", "github", "vercel", "ia", "desenvolvimento", "deploy", "next.js", "tutorial"]

@@ -1,6 +1,6 @@
 ---
 title: "Guia Completo do WSL 2 no Windows para Desenvolvedores"
-date: "2025-02-03"
+date: "2026-02-03"
 excerpt: "Aprenda a configurar e dominar o WSL 2 no Windows 11. Do básico ao avançado: integração com VS Code, Docker, CUDA e muito mais."
 category: "Windows"
 tags: ["wsl", "windows", "linux", "desenvolvimento", "terminal", "docker"]

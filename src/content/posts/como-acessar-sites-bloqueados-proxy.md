@@ -1,6 +1,6 @@
 ---
 title: "Como Acessar Quase Qualquer Site Bloqueado com Proxy Web"
-date: "2025-05-22"
+date: "2026-05-22"
 excerpt: "Escola, trabalho ou país bloqueou um site? Aprenda a usar proxy web para contornar restrições de acesso de forma simples, rápida e sem instalar nada."
 category: "Dicas"
 tags: ["proxy", "navegação", "privacidade", "vpn", "dicas", "hidester", "bypass"]

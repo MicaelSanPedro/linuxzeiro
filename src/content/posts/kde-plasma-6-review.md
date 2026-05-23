@@ -1,6 +1,6 @@
 ---
 title: "KDE Plasma 6: A Revolução do Desktop Linux Está Aqui"
-date: "2025-05-18"
+date: "2026-05-18"
 excerpt: "Depois de anos de evolução incremental, o KDE Plasma 6 chegou com mudanças significativas em performance, visual e tecnologia. Veja o que mudou e se vale a pena."
 category: "Linux"
 tags: ["kde", "plasma", "desktop", "wayland", "linux", "review", "qt6"]

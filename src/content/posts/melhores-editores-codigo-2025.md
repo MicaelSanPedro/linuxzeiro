@@ -1,6 +1,6 @@
 ---
 title: "Os Melhores Editores de Código em 2025: Comparativo Definitivo"
-date: "2025-03-10"
+date: "2026-03-10"
 excerpt: "VS Code, Neovim, Zed, JetBrains, Helix — qual editor vale a pena? Analisamos performance, extensões, ecossistema e experiência de uso de cada um."
 category: "Desenvolvimento"
 tags: ["editores", "vscode", "neovim", "zed", "jetbrains", "desenvolvimento", "ferramentas"]

@@ -1,6 +1,6 @@
 ---
 title: "Como Instalar Games no Linux: Guia Completo 2025"
-date: "2025-05-21"
+date: "2026-05-21"
 excerpt: "Gaming no Linux nunca foi tão bom. Aprenda a instalar e rodar seus jogos favoritos usando Steam Proton, Lutris, Heroic Launcher e muito mais. Do básico ao avançado."
 category: "Jogos"
 tags: ["linux", "gaming", "steam", "proton", "jogos", "tutorial", "lutris", "heroic"]

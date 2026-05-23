@@ -1,6 +1,6 @@
 ---
 title: "Segurança no Ubuntu: 10 Dicas Essenciais para Proteger seu Sistema"
-date: "2025-04-22"
+date: "2026-04-22"
 excerpt: "Linux é seguro por padrão, mas seguro não é sinônimo de inviolável. Confira as práticas essenciais para blindar seu Ubuntu contra ameaças reais."
 category: "Segurança"
 tags: ["segurança", "ubuntu", "linux", "firewall", "criptografia", "hardening"]

@@ -1,6 +1,6 @@
 ---
 title: "Otimizando o Windows 11 para Gaming: Guia Completo e Definitivo"
-date: "2025-06-07"
+date: "2026-06-07"
 excerpt: "Descubra como extrair cada frame do seu hardware. Desativação de serviços, configurações de GPU, tweaks de BIOS e muito mais para maximizar seu FPS."
 category: "Windows"
 tags: ["gaming", "windows-11", "otimização", "gpu", "fps", "performance"]
