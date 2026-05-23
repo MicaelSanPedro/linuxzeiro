@@ -1702,6 +1702,30 @@
   color: transparent;
 }
 
+/* ─── Welcome Progress Bar ──────────────────── */
+.welcome-progress-wrap {
+  width: 160px;
+  opacity: 0;
+  animation: welcome-text-in 0.5s ease-out 0.4s both;
+}
+.welcome-progress-track {
+  width: 100%;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.welcome-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  box-shadow: 0 0 8px rgba(249, 189, 24, 0.5);
+  transition: width 0.3s ease-out;
+}
+.welcome-exit .welcome-progress-wrap {
+  animation: welcome-element-out 0.3s ease-in both;
+}
+
 /* ─── Cinematic Page Transition ────────────── */
 @keyframes page-enter {
   0% {

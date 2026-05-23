@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Logo } from "./Logo";
 import { Sparkles } from "lucide-react";
 
@@ -30,13 +30,12 @@ export function getUsername(): string | null {
 
 export function WelcomeScreen() {
   const [mounted, setMounted] = useState(false);
-  const [phase, setPhase] = useState<"enter" | "ask" | "exit">(
-    "enter"
-  );
+  const [phase, setPhase] = useState<"enter" | "ask" | "exit">("enter");
   const [isVisible, setIsVisible] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [userName, setUserName] = useState("");
   const [isReturning, setIsReturning] = useState(false);
+  const [progress, setProgress] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Hydrate from localStorage
@@ -53,36 +52,71 @@ export function WelcomeScreen() {
     }
   }, []);
 
-  // Phase transitions
+  // Progress bar logic — simulates loading, completes when site is ready
   useEffect(() => {
-    if (!mounted || !isVisible) return;
+    if (!mounted || !isVisible || phase !== "enter") return;
 
-    if (phase === "enter") {
-      if (isReturning) {
-        // Returning user — show welcome back then exit
-        const exitTimer = setTimeout(() => setPhase("exit"), 5000);
-        return () => clearTimeout(exitTimer);
-      } else {
-        // New user — go to name input after splash
-        const askTimer = setTimeout(() => setPhase("ask"), 1800);
-        return () => clearTimeout(askTimer);
+    let rafId: number;
+    let start: number | null = null;
+    const duration = 3000; // base duration in ms
+    const target = 85; // slow crawl up to 85%
+
+    const animate = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const t = Math.min(elapsed / duration, 1);
+      // ease-out curve for natural feel
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(Math.round(eased * target));
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(animate);
       }
+    };
+
+    rafId = requestAnimationFrame(animate);
+
+    // When site is fully loaded, complete the bar and exit
+    const complete = () => {
+      cancelAnimationFrame(rafId);
+      setProgress(100);
+      // Wait for bar to visually fill, then exit
+      setTimeout(() => setPhase("exit"), 400);
+    };
+
+    // If site already loaded
+    if (document.readyState === "complete") {
+      const timer = setTimeout(complete, 800);
+      return () => {
+        clearTimeout(timer);
+        cancelAnimationFrame(rafId);
+      };
     }
 
-    if (phase === "exit") {
-      const doneTimer = setTimeout(() => setIsVisible(false), 900);
-      return () => clearTimeout(doneTimer);
-    }
-  }, [phase, mounted, isVisible, isReturning]);
+    // Listen for load event
+    window.addEventListener("load", complete);
+    return () => {
+      window.removeEventListener("load", complete);
+      cancelAnimationFrame(rafId);
+    };
+  }, [mounted, isVisible, phase]);
 
-  // Auto-focus input when ask phase starts
+  // Phase transitions (non-enter phases)
   useEffect(() => {
-    if (phase === "ask") {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
-  }, [phase]);
+    if (!mounted || !isVisible || phase !== "ask") return;
 
-  const handleSubmit = (e: React.FormEvent) => {
+    const handle = setTimeout(() => inputRef.current?.focus(), 300);
+    return () => clearTimeout(handle);
+  }, [phase, mounted, isVisible]);
+
+  useEffect(() => {
+    if (!mounted || !isVisible || phase !== "exit") return;
+
+    const doneTimer = setTimeout(() => setIsVisible(false), 900);
+    return () => clearTimeout(doneTimer);
+  }, [phase, mounted, isVisible]);
+
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = nameInput.trim();
     if (!trimmed) return;
@@ -90,7 +124,7 @@ export function WelcomeScreen() {
     setUserName(trimmed);
     setIsReturning(true);
     setPhase("exit");
-  };
+  }, [nameInput]);
 
   // Prevent flash on SSR
   if (!mounted) return null;
@@ -99,6 +133,7 @@ export function WelcomeScreen() {
   const isExiting = phase === "exit";
   const showSplash = phase === "enter";
   const showAsk = phase === "ask";
+  const showProgress = phase === "enter";
 
   return (
     <div
@@ -120,11 +155,7 @@ export function WelcomeScreen() {
       <div className="welcome-content">
         {/* Logo */}
         <div className="welcome-logo-wrap">
-          <Logo
-            className={`w-20 h-20 sm:w-24 sm:h-24`}
-            glow
-            variant="amber"
-          />
+          <Logo className="w-20 h-20 sm:w-24 sm:h-24" glow variant="amber" />
         </div>
 
         {/* ── New user splash ── */}
@@ -181,6 +212,18 @@ export function WelcomeScreen() {
 
         {/* Decorative line */}
         <div className="welcome-line" />
+
+        {/* ── Progress bar ── */}
+        {showProgress && (
+          <div className="welcome-progress-wrap">
+            <div className="welcome-progress-track">
+              <div
+                className="welcome-progress-bar"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Subtle particles ring */}
