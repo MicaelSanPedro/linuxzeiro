@@ -119,7 +119,7 @@ export function CategoryCard({ name, count, size = "md", className = "" }: Categ
       href={`/blog?category=${encodeURIComponent(name)}`}
       onMouseMove={handleMouseMove}
       style={cardStyle}
-      className={`group relative block overflow-hidden rounded-2xl border
+      className={`category-card group relative block overflow-hidden rounded-2xl border
                   transition-all duration-500 ease-out
                   hover:-translate-y-1
                   active:scale-[0.99]

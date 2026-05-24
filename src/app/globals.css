@@ -349,6 +349,68 @@ html:not(.dark) .card-shine::after {
   background: linear-gradient(to bottom right, transparent 35%, rgba(0,0,0,0.04) 45%, rgba(0,0,0,0.02) 55%, transparent 65%) !important;
 }
 
+/* ── Category cards: light mode ── */
+html:not(.dark) .category-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.2) 100%) !important;
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+  backdrop-filter: blur(40px) saturate(180%) brightness(102%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(102%) !important;
+}
+/* Specular top highlight */
+html:not(.dark) .category-card > div:first-child {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 20%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.4) 80%, transparent 100%) !important;
+}
+/* Inner refraction glow */
+html:not(.dark) .category-card > div:nth-child(2) {
+  background: radial-gradient(ellipse at 25% 12%, rgba(255,255,255,0.25) 0%, transparent 45%) !important;
+}
+/* Hover spotlight */
+html:not(.dark) .category-card > div:nth-child(3) {
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(0,0,0,0.03), transparent 60%) !important;
+}
+/* Glow blob: reduce opacity */
+html:not(.dark) .category-card > div:nth-child(4) {
+  opacity: 0.08 !important;
+}
+html:not(.dark) .category-card:hover > div:nth-child(4) {
+  opacity: 0.15 !important;
+}
+/* Icon container shadow */
+html:not(.dark) .category-card [class*="rounded-xl"][style*="box-shadow"] {
+  box-shadow: 0 4px 12px -4px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+/* Arrow container shadow */
+html:not(.dark) .category-card div[class*="opacity-60"][style*="box-shadow"] {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+/* Article count pill */
+html:not(.dark) .category-card div[class*="rounded-full"][style*="border"] {
+  background: rgba(0, 0, 0, 0.03) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+/* Border glow on hover */
+html:not(.dark) .category-card > div:last-child {
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05) inset, 0 12px 40px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.3) !important;
+}
+
+/* ── Mobile menu: light mode shadows ── */
+html:not(.dark) .liquid-glass-mobile-menu {
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+/* Nav buttons (hamburger, search, settings) */
+html:not(.dark) nav button[class*="shadow-"],
+html:not(.dark) nav a[class*="shadow-"] {
+  --tw-shadow: 0 4px 12px -4px rgba(0,0,0,0.06) !important;
+  --tw-shadow-colored: 0 4px 12px -4px rgba(0,0,0,0.06) !important;
+  box-shadow: var(--tw-shadow-offset, 0 0 0 0) var(--tw-ring-offset, 0 0 0 0) var(--tw-ring, 0 0 0 0), var(--tw-shadow) !important;
+}
+/* Mobile menu links */
+html:not(.dark) .liquid-glass-mobile-menu a[class*="shadow-"] {
+  --tw-shadow: inset 0 1px 0 rgba(255,255,255,0.3) !important;
+  --tw-shadow-colored: inset 0 1px 0 rgba(255,255,255,0.3) !important;
+  box-shadow: var(--tw-shadow-offset, 0 0 0 0) var(--tw-ring-offset, 0 0 0 0) var(--tw-ring, 0 0 0 0), var(--tw-shadow) !important;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
