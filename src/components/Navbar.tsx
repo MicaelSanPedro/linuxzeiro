@@ -241,16 +241,6 @@ export function Navbar({ allPosts }: NavbarProps) {
                 </div>
               )}
 
-              {/* Settings panel dropdown */}
-              <div className="relative">
-                <SettingsPanel
-                  userName={userName || ""}
-                  onNameChange={(name) => setUserName(name)}
-                  isOpen={settingsOpen}
-                  onClose={() => setSettingsOpen(false)}
-                />
-              </div>
-
               <div className="hidden md:block">
                 <SearchBar allPosts={allPosts} />
               </div>
@@ -318,6 +308,14 @@ export function Navbar({ allPosts }: NavbarProps) {
           )}
         </div>
       </nav>
+
+      {/* Settings panel — rendered outside nav so position:fixed works correctly */}
+      <SettingsPanel
+        userName={userName || ""}
+        onNameChange={(name) => setUserName(name)}
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
 
       {/* Mobile fullscreen menu backdrop */}
       <div

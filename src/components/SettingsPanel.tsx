@@ -67,6 +67,8 @@ export function SettingsPanel({ userName, onNameChange, isOpen, onClose }: Setti
     try {
       localStorage.setItem(THEME_KEY, next);
       document.documentElement.classList.toggle("dark", next === "dark");
+      const meta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+      if (meta) meta.content = next === "dark" ? "#08070a" : "#f8f7f5";
     } catch { /* ignore */ }
   };
 
