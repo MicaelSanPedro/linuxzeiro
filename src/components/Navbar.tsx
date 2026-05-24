@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Search as SearchIcon, User } from "lucide-react";
+import { Menu, X, ArrowRight, Search as SearchIcon, User, Settings } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
+import { SettingsPanel } from "@/components/SettingsPanel";
 import { getUsername } from "@/components/WelcomeScreen";
 import type { PostSummary } from "@/lib/posts";
 
@@ -25,6 +26,7 @@ export function Navbar({ allPosts }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [categoriesInView, setCategoriesInView] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const pathname = usePathname();
 
   // Load username from localStorage
@@ -211,17 +213,43 @@ export function Navbar({ allPosts }: NavbarProps) {
 
             {/* Right side */}
             <div className="flex items-center gap-1 sm:gap-2">
-              {/* User name badge */}
+              {/* User name badge + settings button */}
               {userName && (
-                <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full
-                            backdrop-blur-[40px] saturate-[180%] brightness-[105%]
-                            bg-gradient-to-b from-white/[0.07] to-white/[0.02]
-                            border border-white/[0.10]
-                            shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                  <User className="w-3.5 h-3.5 text-amber-400/80" />
-                  <span className="text-xs font-medium text-white/70 max-w-[100px] truncate">{userName}</span>
+                <div className="hidden sm:flex items-center gap-1">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full
+                              backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                              bg-gradient-to-b from-white/[0.07] to-white/[0.02]
+                              border border-white/[0.10]
+                              shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                    <User className="w-3.5 h-3.5 text-amber-400/80" />
+                    <span className="text-xs font-medium text-white/70 max-w-[100px] truncate">{userName}</span>
+                  </div>
+                  <button
+                    onClick={() => setSettingsOpen(!settingsOpen)}
+                    className="flex items-center justify-center w-8 h-8 rounded-xl
+                               backdrop-blur-[40px] saturate-[180%] brightness-[105%]
+                               bg-gradient-to-b from-white/[0.07] to-white/[0.02]
+                               border border-white/[0.10]
+                               shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]
+                               hover:border-white/[0.22] active:scale-95
+                               transition-all duration-200"
+                    aria-label="Configurações"
+                    type="button"
+                  >
+                    <Settings className="w-3.5 h-3.5 text-white/50 hover:text-white/80 transition-colors" />
+                  </button>
                 </div>
               )}
+
+              {/* Settings panel dropdown */}
+              <div className="relative hidden sm:block">
+                <SettingsPanel
+                  userName={userName || ""}
+                  onNameChange={(name) => setUserName(name)}
+                  isOpen={settingsOpen}
+                  onClose={() => setSettingsOpen(false)}
+                />
+              </div>
 
               <div className="hidden md:block">
                 <SearchBar allPosts={allPosts} />
@@ -353,6 +381,23 @@ export function Navbar({ allPosts }: NavbarProps) {
               Ler todos os artigos
               <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+
+          {/* Settings link in mobile */}
+          <div className="pt-2 mt-1">
+            <button
+              onClick={() => { setMobileOpen(false); setSettingsOpen(true); }}
+              className="flex items-center justify-between w-full px-4 py-3.5 text-base font-medium rounded-xl
+                         text-white/50 hover:text-white/70 hover:bg-white/[0.03] border border-transparent
+                         hover:border-white/[0.06] transition-all duration-200"
+              type="button"
+            >
+              <div className="flex items-center gap-3">
+                <Settings className="w-4 h-4" />
+                <span>Configurações</span>
+              </div>
+              <ArrowRight className="w-4 h-4 opacity-50" />
+            </button>
           </div>
         </div>
       </div>

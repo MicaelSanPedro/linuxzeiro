@@ -1726,7 +1726,85 @@
   animation: welcome-element-out 0.3s ease-in both;
 }
 
-/* ─── Cinematic Page Transition ────────────── */
+/* ─── Settings Panel ────────────────────────── */
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  z-index: 100;
+  border-radius: 1rem;
+  backdrop-filter: blur(50px) saturate(200%);
+  -webkit-backdrop-filter: blur(50px) saturate(200%);
+  background: rgba(15, 13, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 60px -12px rgba(0, 0, 0, 0.6),
+    0 8px 24px -8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: settings-in 0.2s ease-out both;
+}
+@keyframes settings-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.settings-divider {
+  height: 1px;
+  margin: 0 1rem;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+}
+.settings-input {
+  width: 100%;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.settings-input:focus {
+  border-color: rgba(249, 189, 24, 0.35);
+  box-shadow: 0 0 0 2px rgba(249, 189, 24, 0.08);
+}
+.settings-btn-sm {
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.4rem;
+  border: 1px solid rgba(249, 189, 24, 0.25);
+  background: rgba(249, 189, 24, 0.15);
+  color: #fbbf24;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.settings-btn-sm:hover {
+  background: rgba(249, 189, 24, 0.25);
+}
+.settings-btn-cancel {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.5);
+}
+.settings-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.settings-btn-danger {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.settings-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
 @keyframes page-enter {
   0% {
     opacity: 0;
