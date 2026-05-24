@@ -83,15 +83,21 @@ export function SettingsPanel({ userName, onNameChange, isOpen, onClose }: Setti
   if (!isOpen) return null;
 
   return (
-    <div ref={panelRef} className="settings-panel">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-4 pb-3">
-        <div className="flex items-center gap-2">
-          <Settings className="w-4 h-4 text-amber-400/70" />
-          <span className="text-sm font-semibold text-white/80">Configurações</span>
+    <>
+      {/* Backdrop for mobile */}
+      <div
+        className="fixed inset-0 z-[99] bg-black/50 backdrop-blur-sm sm:hidden"
+        onClick={onClose}
+      />
+      <div ref={panelRef} className="settings-panel settings-panel-mobile">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 pt-4 pb-3">
+          <div className="flex items-center gap-2">
+            <Settings className="w-4 h-4 text-amber-400/70" />
+            <span className="text-sm font-semibold text-white/80">Configurações</span>
+          </div>
+          <span className="text-[10px] text-white/25 uppercase tracking-widest">TechMate</span>
         </div>
-        <span className="text-[10px] text-white/25 uppercase tracking-widest">TechMate</span>
-      </div>
 
       <div className="settings-divider" />
 
@@ -210,5 +216,6 @@ export function SettingsPanel({ userName, onNameChange, isOpen, onClose }: Setti
         )}
       </div>
     </div>
+    </>
   );
 }

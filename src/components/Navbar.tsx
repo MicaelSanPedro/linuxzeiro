@@ -242,7 +242,7 @@ export function Navbar({ allPosts }: NavbarProps) {
               )}
 
               {/* Settings panel dropdown */}
-              <div className="relative hidden sm:block">
+              <div className="relative">
                 <SettingsPanel
                   userName={userName || ""}
                   onNameChange={(name) => setUserName(name)}

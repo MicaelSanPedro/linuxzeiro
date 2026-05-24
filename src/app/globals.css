@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── Color tokens ─── */
+  /* ─── Color tokens (dark by default) ─── */
   --background: #08070a;
   --foreground: #ece8df;
   --muted: rgba(236, 232, 223, 0.55);
@@ -27,6 +27,146 @@
   --r-lg: 1rem;
   --r-xl: 1.25rem;
   --r-2xl: 1.75rem;
+}
+
+/* ─── Light mode overrides ─── */
+html:not(.dark) {
+  --background: #f8f7f5;
+  --foreground: #1a1a1a;
+  --muted: rgba(30, 30, 30, 0.5);
+  --muted-2: rgba(30, 30, 30, 0.3);
+
+  --surface-1: rgba(0, 0, 0, 0.03);
+  --surface-2: rgba(0, 0, 0, 0.05);
+  --border-1: rgba(0, 0, 0, 0.08);
+  --border-2: rgba(0, 0, 0, 0.12);
+}
+html:not(.dark) body {
+  background: var(--background);
+  color: var(--foreground);
+}
+/* Light mode: glass surfaces become light */
+html:not(.dark) .glass-nav,
+html:not(.dark) .liquid-glass-mobile-menu {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html:not(.dark) .glass-nav.scrolled {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+html:not(.dark) .site-backdrop {
+  background: #f8f7f5;
+}
+html:not(.dark) .ambient-orb {
+  opacity: 0.3;
+}
+html:not(.dark) .noise-overlay {
+  opacity: 0.02;
+}
+html:not(.dark) .cinema-vignette {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.06) 100%);
+}
+html:not(.dark) .cinema-grain {
+  opacity: 0.015;
+}
+html:not(.dark) .liquid-glass-card {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.08) !important;
+}
+html:not(.dark) .post-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+html:not(.dark) .prose-custom h1,
+html:not(.dark) .prose-custom h2,
+html:not(.dark) .prose-custom h3 {
+  color: rgba(30, 30, 30, 0.9);
+}
+html:not(.dark) .prose-custom p,
+html:not(.dark) .prose-custom li {
+  color: rgba(30, 30, 30, 0.7);
+}
+html:not(.dark) .prose-custom strong {
+  color: rgba(30, 30, 30, 0.85);
+}
+html:not(.dark) .prose-custom code {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(30, 30, 30, 0.8);
+}
+html:not(.dark) .prose-custom pre {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html:not(.dark) .prose-custom th {
+  background: rgba(249, 189, 24, 0.06) !important;
+  color: #92400e !important;
+}
+html:not(.dark) .prose-custom td {
+  color: rgba(30, 30, 30, 0.65) !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+html:not(.dark) .prose-custom td:first-child,
+html:not(.dark) .prose-custom th:first-child {
+  color: rgba(30, 30, 30, 0.8) !important;
+}
+html:not(.dark) .prose-custom a {
+  color: #b45309;
+}
+html:not(.dark) .prose-custom blockquote {
+  border-color: rgba(249, 189, 24, 0.3) !important;
+  background: rgba(249, 189, 24, 0.04) !important;
+}
+html:not(.dark) .prose-custom {
+  --tw-prose-body: rgba(30, 30, 30, 0.7);
+  --tw-prose-headings: rgba(30, 30, 30, 0.9);
+  --tw-prose-links: #b45309;
+  --tw-prose-bold: rgba(30, 30, 30, 0.85);
+}
+html:not(.dark) .shimmer-text {
+  background: linear-gradient(90deg, #b45309 0%, #d97706 25%, #f59e0b 50%, #d97706 75%, #b45309 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+html:not(.dark) .settings-panel {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html:not(.dark) .settings-panel span,
+html:not(.dark) .settings-panel p {
+  color: rgba(30, 30, 30, 0.7);
+}
+html:not(.dark) .settings-panel p.text-sm {
+  color: rgba(30, 30, 30, 0.8);
+}
+html:not(.dark) .settings-panel span.text-sm {
+  color: rgba(30, 30, 30, 0.8);
+}
+html:not(.dark) .welcome-overlay {
+  background: #f8f7f5;
+}
+html:not(.dark) .welcome-letterbox {
+  background: #f8f7f5;
+}
+html:not(.dark) .welcome-title--tech {
+  color: rgba(30, 30, 30, 0.8);
+}
+html:not(.dark) .welcome-tagline {
+  color: rgba(30, 30, 30, 0.45);
+}
+html:not(.dark) .welcome-vignette {
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.08) 100%);
+}
+html:not(.dark) .welcome-glow {
+  background: radial-gradient(circle, rgba(249, 189, 24, 0.12) 0%, rgba(249, 189, 24, 0.03) 40%, transparent 70%);
+}
+html:not(.dark) .welcome-progress-track {
+  background: rgba(0, 0, 0, 0.06);
+}
+html:not(.dark) .footer-glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 @layer base {
@@ -1804,6 +1944,22 @@
 }
 .settings-btn-danger:hover {
   background: rgba(239, 68, 68, 0.22);
+}
+/* Mobile: center panel as overlay */
+@media (max-width: 640px) {
+  .settings-panel-mobile {
+    position: fixed !important;
+    top: auto !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    bottom: 2rem !important;
+    width: auto !important;
+    animation: settings-mobile-in 0.25s ease-out both !important;
+  }
+  @keyframes settings-mobile-in {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
 }
 @keyframes page-enter {
   0% {
