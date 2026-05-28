@@ -1,118 +1,132 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 export function MouseOrb() {
-  const orbRef = useRef<HTMLDivElement>(null);
-  const trailRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const pos = useRef({ x: -200, y: -200 });
-  const target = useRef({ x: -200, y: -200 });
-  const rafId = useRef<number>(0);
-  const [visible, setVisible] = useState(false);
-  const trailPositions = useRef<{ x: number; y: number }[]>(
-    Array.from({ length: 5 }, () => ({ x: -200, y: -200 }))
-  );
-
-  const handleMove = useCallback((e: MouseEvent) => {
-    target.current = { x: e.clientX, y: e.clientY };
-    if (!visible) setVisible(true);
-  }, [visible]);
+  const initialized = useRef(false);
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMove, { passive: true });
+    if (initialized.current) return;
+    initialized.current = true;
 
-    const handleLeave = () => setVisible(false);
-    const handleEnter = () => {
-      setVisible(true);
-      /* snap orb to cursor position on re-enter */
-      pos.current = { ...target.current };
+    /* Create orb element and inject directly into body to avoid
+       any stacking context from React tree or parent wrappers */
+    const orb = document.createElement("div");
+    orb.id = "mouse-orb";
+    orb.style.cssText =
+      "position:fixed;width:60px;height:60px;border-radius:50%;" +
+      "pointer-events:none;z-index:999999;" +
+      "transform:translate3d(-200px,-200px,0) translate(-50%,-50%);" +
+      "will-change:transform;top:0;left:0;";
+
+    /* Create trail elements */
+    const TRAIL_COUNT = 4;
+    const trails: HTMLDivElement[] = [];
+    for (let i = 0; i < TRAIL_COUNT; i++) {
+      const trail = document.createElement("div");
+      trail.className = "mouse-orb-trail";
+      const size = 48 - i * 7;
+      trail.style.cssText =
+        "position:fixed;border-radius:50%;pointer-events:none;" +
+        `width:${size}px;height:${size}px;z-index:999998;` +
+        "transform:translate3d(-200px,-200px,0) translate(-50%,-50%);" +
+        "will-change:transform,opacity;top:0;left:0;opacity:0;";
+      document.body.appendChild(trail);
+      trails.push(trail);
+    }
+
+    document.body.appendChild(orb);
+
+    const pos = { x: -200, y: -200 };
+    const target = { x: -200, y: -200 };
+    const trailPos = Array.from({ length: TRAIL_COUNT }, () => ({
+      x: -200,
+      y: -200,
+    }));
+    let rafId = 0;
+    let isActive = false;
+
+    const handleMove = (e: MouseEvent) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+      if (!isActive) {
+        isActive = true;
+        orb.style.opacity = "1";
+        trails.forEach((t) => {
+          t.style.opacity = "0.5";
+        });
+      }
     };
 
-    document.addEventListener("mouseleave", handleLeave);
-    document.addEventListener("mouseenter", handleEnter);
+    const handleLeave = () => {
+      isActive = false;
+      orb.style.opacity = "0";
+      trails.forEach((t) => {
+        t.style.opacity = "0";
+      });
+    };
+
+    const handleEnter = (e: MouseEvent) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+      isActive = true;
+      orb.style.opacity = "1";
+      trails.forEach((t) => {
+        t.style.opacity = "0.5";
+      });
+    };
+
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", handleLeave);
+    document.documentElement.addEventListener("mouseenter", handleEnter);
 
     const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b;
 
     const animate = () => {
-      /* Main orb - fast follow */
-      pos.current.x = lerp(pos.current.x, target.current.x, 0.18);
-      pos.current.y = lerp(pos.current.y, target.current.y, 0.18);
+      pos.x = lerp(pos.x, target.x, 0.18);
+      pos.y = lerp(pos.y, target.y, 0.18);
 
-      const dx = target.current.x - pos.current.x;
-      const dy = target.current.y - pos.current.y;
+      const dx = target.x - pos.x;
+      const dy = target.y - pos.y;
       const speed = Math.sqrt(dx * dx + dy * dy);
       const scale = 1 + Math.min(speed * 0.002, 0.15);
 
-      if (orbRef.current) {
-        orbRef.current.style.transform =
-          `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) ` +
-          `translate(-50%, -50%) scale(${scale})`;
-      }
+      orb.style.transform =
+        `translate3d(${pos.x}px,${pos.y}px,0) translate(-50%,-50%) scale(${scale})`;
 
-      /* Trail orbs - progressively slower */
-      for (let i = 0; i < trailPositions.current.length; i++) {
-        const prev =
-          i === 0
-            ? pos.current
-            : trailPositions.current[i - 1];
-        const factor = 0.12 - i * 0.018;
-        const trail = trailPositions.current[i];
-        trail.x = lerp(trail.x, prev.x, factor);
-        trail.y = lerp(trail.y, prev.y, factor);
+      for (let i = 0; i < TRAIL_COUNT; i++) {
+        const prev = i === 0 ? pos : trailPos[i - 1];
+        const factor = 0.11 - i * 0.02;
+        trailPos[i].x = lerp(trailPos[i].x, prev.x, factor);
+        trailPos[i].y = lerp(trailPos[i].y, prev.y, factor);
 
-        const el = trailRefs.current[i];
-        if (el) {
-          const trailScale = 1 - i * 0.12;
-          const trailOpacity = 0.6 - i * 0.1;
-          el.style.transform =
-            `translate3d(${trail.x}px, ${trail.y}px, 0) ` +
-            `translate(-50%, -50%) scale(${trailScale})`;
-          el.style.opacity = String(Math.max(trailOpacity + Math.min(speed * 0.002, 0.2), 0.1));
+        const tScale = 1 - i * 0.1;
+        const tOpacity = Math.max(0.5 - i * 0.12 + Math.min(speed * 0.002, 0.15), 0.05);
+        trails[i].style.transform =
+          `translate3d(${trailPos[i].x}px,${trailPos[i].y}px,0) ` +
+          `translate(-50%,-50%) scale(${tScale})`;
+        if (isActive) {
+          trails[i].style.opacity = String(tOpacity);
         }
       }
 
-      rafId.current = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
-    rafId.current = requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("mousemove", handleMove);
-      document.removeEventListener("mouseleave", handleLeave);
-      document.removeEventListener("mouseenter", handleEnter);
-      cancelAnimationFrame(rafId.current);
+      document.documentElement.removeEventListener("mouseleave", handleLeave);
+      document.documentElement.removeEventListener("mouseenter", handleEnter);
+      cancelAnimationFrame(rafId);
+      orb.remove();
+      trails.forEach((t) => t.remove());
     };
-  }, [handleMove]);
+  }, []);
 
-  return (
-    <>
-      {/* Trail orbs (progressively smaller and fainter) */}
-      {trailPositions.current.map((_, i) => (
-        <div
-          key={i}
-          ref={(el) => { trailRefs.current[i] = el; }}
-          className="mouse-orb-trail pointer-events-none fixed"
-          style={{
-            zIndex: 9997 - i,
-            width: 56 - i * 6,
-            height: 56 - i * 6,
-            transform: "translate3d(-200px, -200px, 0) translate(-50%, -50%)",
-            opacity: 0,
-          }}
-          aria-hidden
-        />
-      ))}
-
-      {/* Main orb */}
-      <div
-        ref={orbRef}
-        className="mouse-orb pointer-events-none fixed"
-        style={{
-          zIndex: 9999,
-          transform: "translate3d(-200px, -200px, 0) translate(-50%, -50%)",
-        }}
-        aria-hidden
-      />
-    </>
-  );
+  /* Render nothing in React - everything is DOM-injected */
+  return null;
 }
