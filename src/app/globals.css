@@ -2362,11 +2362,20 @@ html:not(.dark) .mouse-orb-trail {
 }
 
 /* ─── Mobile Search Bar (unified with hamburger) ─── */
+.mobile-bottom-bar {
+  padding: 0.5rem 0.75rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(10, 10, 14, 0.85);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
 .mobile-search-bar {
   width: 100%;
   display: flex;
   align-items: center;
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(30px) saturate(180%);
@@ -2403,7 +2412,7 @@ html:not(.dark) .mouse-orb-trail {
   -webkit-backdrop-filter: blur(50px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -8px 40px -8px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
@@ -2425,7 +2434,19 @@ html:not(.dark) .mouse-orb-trail {
   pointer-events: none;
 }
 
-/* Light mode for mobile search bar */
+/* Add bottom padding on mobile so content doesn't hide behind bottom bar */
+@media (max-width: 767px) {
+  .site-footer {
+    padding-bottom: 80px;
+  }
+}
+
+/* Light mode for mobile bottom bar */
+html:not(.dark) .mobile-bottom-bar {
+  background: rgba(248, 247, 245, 0.85);
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
 html:not(.dark) .mobile-search-bar {
   background: rgba(0, 0, 0, 0.04);
   border-color: rgba(0, 0, 0, 0.08);
@@ -2452,7 +2473,7 @@ html:not(.dark) .mobile-search-results {
     rgba(244, 243, 240, 0.99) 100%
   );
   border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -8px 40px -8px rgba(0, 0, 0, 0.12);
 }
 
 html:not(.dark) .mobile-search-results::before {

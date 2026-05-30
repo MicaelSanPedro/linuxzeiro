@@ -35,7 +35,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto overflow-hidden">
+    <footer className="site-footer relative mt-auto overflow-hidden">
       {/* Top gradient divider — liquid glass edge */}
       <div className="relative h-px">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />

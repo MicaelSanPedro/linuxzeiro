@@ -175,11 +175,12 @@ export function Navbar({ allPosts }: NavbarProps) {
 
   return (
     <>
+      {/* ── Top Navbar ── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 glass-nav ${scrolled ? "scrolled" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px] gap-3">
+          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
               <div className="relative transition-transform duration-300 group-hover:scale-105">
@@ -236,11 +237,10 @@ export function Navbar({ allPosts }: NavbarProps) {
               </div>
             </div>
 
-            {/* Right side */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {/* User name badge + settings link (desktop) */}
+            {/* Right side (desktop only) */}
+            <div className="hidden md:flex items-center gap-2">
               {userName && (
-                <div className="hidden sm:flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5">
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full
                               backdrop-blur-[40px] saturate-[180%] brightness-[105%]
                               bg-gradient-to-b from-white/[0.07] to-white/[0.02]
@@ -265,12 +265,8 @@ export function Navbar({ allPosts }: NavbarProps) {
                 </div>
               )}
 
-              {/* Desktop search */}
-              <div className="hidden md:block">
-                <SearchBar allPosts={allPosts} />
-              </div>
+              <SearchBar allPosts={allPosts} />
 
-              {/* Desktop CTA */}
               <Link
                 href="/blog"
                 className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full
@@ -285,53 +281,53 @@ export function Navbar({ allPosts }: NavbarProps) {
                 Ler artigos
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-
-              {/* ── Mobile: unified search + hamburger bar ── */}
-              <div className="md:hidden flex-1 max-w-[280px]">
-                <div className="mobile-search-bar flex items-center">
-                  {/* Search area */}
-                  <div className="flex-1 flex items-center gap-2 py-2.5 px-3 min-w-0">
-                    <SearchIcon className="w-[18px] h-[18px] text-white/40 shrink-0" />
-                    <input
-                      ref={mobileInputRef}
-                      type="text"
-                      value={mobileQuery}
-                      onChange={(e) => {
-                        setMobileQuery(e.target.value);
-                        if (!mobileSearchActive) setMobileSearchActive(true);
-                      }}
-                      onFocus={() => setMobileSearchActive(true)}
-                      placeholder="Find..."
-                      className="flex-1 min-w-0 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
-                    />
-                  </div>
-
-                  {/* Divider */}
-                  <div className="mobile-search-divider shrink-0" aria-hidden />
-
-                  {/* Hamburger */}
-                  <button
-                    onClick={() => setMobileOpen(true)}
-                    className="flex items-center justify-center w-12 h-12 shrink-0"
-                    aria-label="Abrir menu"
-                    type="button"
-                  >
-                    <span className="flex flex-col gap-[5px]">
-                      <span className="block w-[16px] h-[2px] rounded-full bg-white/80" />
-                      <span className="block w-[16px] h-[2px] rounded-full bg-white/80" />
-                    </span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* ── Mobile search results dropdown ── */}
+      {/* ── Mobile Bottom Bar (search + hamburger) ── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 mobile-bottom-bar">
+        <div className="mobile-search-bar flex items-center">
+          {/* Search area */}
+          <div className="flex-1 flex items-center gap-2 py-2.5 px-3 min-w-0">
+            <SearchIcon className="w-[18px] h-[18px] text-white/40 shrink-0" />
+            <input
+              ref={mobileInputRef}
+              type="text"
+              value={mobileQuery}
+              onChange={(e) => {
+                setMobileQuery(e.target.value);
+                if (!mobileSearchActive) setMobileSearchActive(true);
+              }}
+              onFocus={() => setMobileSearchActive(true)}
+              placeholder="Find..."
+              className="flex-1 min-w-0 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
+            />
+          </div>
+
+          {/* Divider */}
+          <div className="mobile-search-divider shrink-0" aria-hidden />
+
+          {/* Hamburger */}
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="flex items-center justify-center w-12 h-12 shrink-0"
+            aria-label="Abrir menu"
+            type="button"
+          >
+            <span className="flex flex-col gap-[5px]">
+              <span className="block w-[16px] h-[2px] rounded-full bg-white/80" />
+              <span className="block w-[16px] h-[2px] rounded-full bg-white/80" />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── Mobile search results dropdown (rises from bottom) ── */}
       {mobileSearchActive && mobileResults.length > 0 && (
-        <div className="md:hidden fixed inset-x-0 top-14 z-[55] px-4 animate-fade-in">
-          <div className="mobile-search-results">
+        <div className="md:hidden fixed inset-x-0 bottom-[68px] z-[55] px-3 animate-fade-in">
+          <div className="mobile-search-results relative">
             <div className="p-1.5">
               {mobileResults.map((post) => (
                 <Link
@@ -367,7 +363,7 @@ export function Navbar({ allPosts }: NavbarProps) {
 
       {/* No results overlay */}
       {mobileSearchActive && mobileQuery.trim().length >= 2 && mobileResults.length === 0 && (
-        <div className="md:hidden fixed inset-x-0 top-14 z-[55] px-4 animate-fade-in">
+        <div className="md:hidden fixed inset-x-0 bottom-[68px] z-[55] px-3 animate-fade-in">
           <div className="mobile-search-results">
             <div className="px-4 py-6 text-center">
               <p className="text-sm text-white/30">
@@ -381,7 +377,7 @@ export function Navbar({ allPosts }: NavbarProps) {
       {/* Close mobile search results when tapping outside */}
       {mobileSearchActive && (
         <div
-          className="md:hidden fixed inset-0 top-0 z-[54]"
+          className="md:hidden fixed inset-0 bottom-[68px] z-[54]"
           onClick={() => {
             setMobileSearchActive(false);
             setMobileQuery("");
