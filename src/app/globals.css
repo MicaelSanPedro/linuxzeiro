@@ -2363,11 +2363,10 @@ html:not(.dark) .mouse-orb-trail {
 
 /* ─── Mobile Search Bar (floating pill with hamburger) ─── */
 .mobile-search-bar {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  max-width: 320px;
-  border-radius: 14px;
+  width: auto;
+  border-radius: 9999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(40px) saturate(200%);
@@ -2386,12 +2385,11 @@ html:not(.dark) .mouse-orb-trail {
     0 8px 40px -4px rgba(249, 189, 24, 0.2),
     0 2px 8px -2px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  max-width: 380px;
 }
 
 .mobile-search-divider {
   width: 1px;
-  height: 18px;
+  height: 14px;
   background: rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
 }

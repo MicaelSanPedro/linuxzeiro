@@ -290,8 +290,8 @@ export function Navbar({ allPosts }: NavbarProps) {
       <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
         <div className="mobile-search-bar pointer-events-auto flex items-center">
           {/* Search area */}
-          <div className="flex-1 flex items-center gap-2 py-2 px-3 min-w-0">
-            <SearchIcon className="w-4 h-4 text-white/40 shrink-0" />
+          <div className="flex items-center gap-1.5 py-1.5 px-2.5 min-w-0">
+            <SearchIcon className="w-3.5 h-3.5 text-white/40 shrink-0" />
             <input
               ref={mobileInputRef}
               type="text"
@@ -302,7 +302,7 @@ export function Navbar({ allPosts }: NavbarProps) {
               }}
               onFocus={() => setMobileSearchActive(true)}
               placeholder="Pesquisar"
-              className="flex-1 min-w-0 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
+              className="w-[70px] min-w-0 bg-transparent text-xs text-white placeholder:text-white/25 outline-none"
             />
           </div>
 
@@ -312,13 +312,13 @@ export function Navbar({ allPosts }: NavbarProps) {
           {/* Hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="flex items-center justify-center w-10 h-10 shrink-0"
+            className="flex items-center justify-center w-8 h-8 shrink-0"
             aria-label="Abrir menu"
             type="button"
           >
-            <span className="flex flex-col gap-[5px]">
-              <span className="block w-[14px] h-[2px] rounded-full bg-white/80" />
-              <span className="block w-[14px] h-[2px] rounded-full bg-white/80" />
+            <span className="flex flex-col gap-[4px]">
+              <span className="block w-[12px] h-[1.5px] rounded-full bg-white/80" />
+              <span className="block w-[12px] h-[1.5px] rounded-full bg-white/80" />
             </span>
           </button>
         </div>
