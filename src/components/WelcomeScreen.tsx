@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Logo } from "./Logo";
-import { Sparkles } from "lucide-react";
+import { Sparkles, User } from "lucide-react";
+import { getAvatar } from "@/lib/profile";
 
 const STORAGE_KEY = "techmate_username";
 
@@ -35,6 +36,7 @@ export function WelcomeScreen() {
   const [nameInput, setNameInput] = useState("");
   const [userName, setUserName] = useState("");
   const [isReturning, setIsReturning] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,6 +44,7 @@ export function WelcomeScreen() {
   useEffect(() => {
     setMounted(true);
     const stored = getStoredName();
+    setAvatarUrl(getAvatar());
     if (stored) {
       setIsVisible(true);
       setUserName(stored);
@@ -108,6 +111,13 @@ export function WelcomeScreen() {
     setPhase("exit");
   }, [nameInput]);
 
+  // Listen for avatar changes
+  useEffect(() => {
+    const handler = () => setAvatarUrl(getAvatar());
+    window.addEventListener("techmate:avatar-set", handler);
+    return () => window.removeEventListener("techmate:avatar-set", handler);
+  }, []);
+
   // Prevent flash on SSR
   if (!mounted) return null;
   if (!isVisible) return null;
@@ -135,9 +145,21 @@ export function WelcomeScreen() {
 
       {/* Content */}
       <div className="welcome-content">
-        {/* Logo */}
+        {/* Logo / Avatar */}
         <div className="welcome-logo-wrap">
-          <Logo className="w-20 h-20 sm:w-24 sm:h-24" glow variant="amber" />
+          {showSplash && isReturning ? (
+            avatarUrl ? (
+              <div className="welcome-avatar-circle">
+                <img src={avatarUrl} alt="" className="w-full h-full object-cover rounded-full" />
+              </div>
+            ) : (
+              <div className="welcome-avatar-circle welcome-avatar-circle--fallback">
+                <User className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400" />
+              </div>
+            )
+          ) : (
+            <Logo className="w-20 h-20 sm:w-24 sm:h-24" glow variant="amber" />
+          )}
         </div>
 
         {/* ── New user splash ── */}

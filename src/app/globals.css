@@ -1823,6 +1823,29 @@ html:not(.dark) .liquid-glass-mobile-menu a[class*="shadow-"] {
   100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
 }
 
+/* Avatar circle for returning user */
+.welcome-avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(249, 189, 24, 0.3);
+  box-shadow: 0 0 30px rgba(249, 189, 24, 0.15), 0 0 60px rgba(249, 189, 24, 0.08);
+}
+@media (min-width: 640px) {
+  .welcome-avatar-circle {
+    width: 96px;
+    height: 96px;
+  }
+}
+.welcome-avatar-circle--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(249, 189, 24, 0.15), rgba(249, 189, 24, 0.05));
+  border: 2px solid rgba(249, 189, 24, 0.25);
+}
+
 /* Title */
 .welcome-title {
   font-size: 2.5rem;
