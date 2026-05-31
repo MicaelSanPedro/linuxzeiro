@@ -2,6 +2,7 @@
 
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/components/FavoritesProvider";
+import { openSignInModal } from "@/components/SignInModal";
 import { useState } from "react";
 
 interface FavoriteButtonProps {
@@ -19,7 +20,7 @@ export function FavoriteButton({ slug, className = "", size = "sm" }: FavoriteBu
     e.preventDefault();
     e.stopPropagation();
     if (!isLoggedIn) {
-      window.location.href = "/api/auth/signin";
+      openSignInModal();
       return;
     }
     setAnimating(true);
