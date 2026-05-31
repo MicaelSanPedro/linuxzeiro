@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Logo } from "./Logo";
 import { User } from "lucide-react";
@@ -44,9 +44,11 @@ export function WelcomeScreen() {
       }
       // Not logged in + already welcomed = no welcome screen ever
     } else {
-      // First visit — open login modal
+      // First visit — open login modal once
       if (!signInAttempted.current) {
         signInAttempted.current = true;
+        // Mark as welcomed immediately so a refresh won't re-trigger the modal
+        markWelcomed();
         setTimeout(() => openSignInModal(), 800);
       }
 
@@ -65,24 +67,15 @@ export function WelcomeScreen() {
   // React to session changes (login after first mount)
   useEffect(() => {
     if (!mounted) return;
-    const welcomed = hasWelcomed();
 
-    if (!welcomed && session?.user && !showWelcome) {
+    // If user logs in (from any page, including after dismissing modal)
+    if (session?.user && !showWelcome) {
       setDisplayName(session.user.name || session.user.login || null);
       setDisplayPhoto(session.user.image || null);
       setShowWelcome(true);
       setIsVisible(true);
       setPhase("enter");
       markWelcomed();
-    }
-
-    // Returning welcomed user who just logged in
-    if (welcomed && session?.user && !showWelcome) {
-      setDisplayName(session.user.name || session.user.login || null);
-      setDisplayPhoto(session.user.image || null);
-      setShowWelcome(true);
-      setIsVisible(true);
-      setPhase("enter");
     }
   }, [mounted, session?.user, showWelcome]);
 
