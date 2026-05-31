@@ -190,7 +190,7 @@ export default function NotFound() {
                        transition-all duration-300"
           >
             <Home className="w-4 h-4" />
-            Voltar ao inicio
+            Voltar ao início
           </Link>
           <Link
             href="/blog"

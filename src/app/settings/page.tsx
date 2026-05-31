@@ -483,8 +483,8 @@ export default function SettingsPage() {
             <ArrowLeft className="w-4 h-4 text-white/60" />
           </Link>
           <div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight">Configuracoes</h1>
-            <p className="text-xs text-white/35 mt-0.5">Personalize sua experiencia no TechMate</p>
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">Configurações</h1>
+            <p className="text-xs text-white/35 mt-0.5">Personalize sua experiência no TechMate</p>
           </div>
           {savedMsg && (
             <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold text-emerald-400 animate-fade-in">
@@ -575,14 +575,14 @@ export default function SettingsPage() {
           <Divider />
 
           <SettingRow>
-            <SettingLabel label="Visitas ao site" description="Total de vezes que voce acessou o TechMate" />
+            <SettingLabel label="Visitas ao site" description="Total de vezes que você acessou o TechMate" />
             <span className="text-sm font-mono text-white/40 tabular-nums">{visitCount}x</span>
           </SettingRow>
 
           <Divider />
 
           <SettingRow>
-            <SettingLabel label="Primeira visita" description="Quando voce descobriu o TechMate" />
+            <SettingLabel label="Primeira visita" description="Quando você descobriu o TechMate" />
             <span className="text-sm font-mono text-white/40">{firstVisit}</span>
           </SettingRow>
         </section>
@@ -728,8 +728,8 @@ export default function SettingsPage() {
               <SettingLabel
                 label="Modo compacto"
                 description={compactMode
-                  ? "Espacamento reduzido, mais conteudo na tela"
-                  : "Ative para reduzir espacamentos e mostrar mais conteudo"}
+                  ? "Espaçamento reduzido, mais conteúdo na tela"
+                  : "Ative para reduzir espaçamentos e mostrar mais conteúdo"}
               />
             </div>
             <Toggle checked={compactMode} onChange={handleCompactModeToggle} />
@@ -789,7 +789,7 @@ export default function SettingsPage() {
               </div>
               <SettingLabel
                 label="Plataforma"
-                description="Dispositivo que voce esta usando"
+                description="Dispositivo que você está usando"
               />
             </div>
             <span className="text-xs font-medium text-white/30 px-2.5 py-1 rounded-lg
@@ -947,9 +947,9 @@ export default function SettingsPage() {
 
           <div className="py-3 px-4">
             <p className="text-xs text-white/25 leading-relaxed">
-              TechMate e um blog independente focado em conteudo tecnico honesto e pratico.
-              Tutoriais sobre Linux, Windows, desenvolvimento, seguranca e gaming.
-              Sem fluff, sem enrolacao.
+              TechMate é um blog independente focado em conteúdo técnico honesto e prático.
+              Tutoriais sobre Linux, Windows, desenvolvimento, segurança e gaming.
+              Sem fluff, sem enrolação.
             </p>
           </div>
         </section>

@@ -10,7 +10,7 @@ import { getUsername } from "@/components/WelcomeScreen";
 import type { PostSummary } from "@/lib/posts";
 
 const navLinks = [
-  { label: "Inicio", href: "/" },
+  { label: "Início", href: "/" },
   { label: "Blog", href: "/blog" },
   { label: "Categorias", href: "/#categories" },
 ];
@@ -258,7 +258,7 @@ export function Navbar({ allPosts }: NavbarProps) {
                                shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]
                                hover:border-white/[0.22] active:scale-95
                                transition-all duration-200"
-                    aria-label="Configuracoes"
+                    aria-label="Configurações"
                   >
                     <Settings className="w-3.5 h-3.5 text-white/50 hover:text-white/80 transition-colors" />
                   </Link>
@@ -412,7 +412,7 @@ export function Navbar({ allPosts }: NavbarProps) {
                   <User className="w-5 h-5 text-amber-400" />
                 </div>
                 <div className="mt-3 text-center">
-                  <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Ola</p>
+                  <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Olá</p>
                   <p className="text-lg font-semibold text-white/90 truncate max-w-[200px]">{userName}</p>
                 </div>
               </div>
@@ -443,7 +443,7 @@ export function Navbar({ allPosts }: NavbarProps) {
               >
                 <div className="flex items-center gap-3">
                   <Settings className="w-4 h-4" />
-                  <span className="mobile-menu-link-text">Configuracoes</span>
+                  <span className="mobile-menu-link-text">Configurações</span>
                 </div>
                 <ArrowRight className="w-4 h-4 opacity-40" />
               </Link>
