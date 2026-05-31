@@ -51,7 +51,7 @@ A realidade é que existe uma comunidade gigante (milhões de estudantes ao redo
 
 Existe um site que se destaca entre todos os outros pela simplicidade e confiabilidade: o **Unblocked Games - Classroom Resources**.
 
-**Link:** [https://sites.google.com/view/drive-u-7-home/home](https://sites.google.com/view/drive-u-7-home/home)
+**Link:** [Unblocked Games - Classroom Resources](https://sites.google.com/view/drive-u-7-home/home)
 
 Por que esse site é tão bom? Por causa de três motivos simples:
 
