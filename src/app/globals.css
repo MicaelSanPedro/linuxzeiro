@@ -2366,7 +2366,7 @@ html:not(.dark) .mouse-orb-trail {
   display: inline-flex;
   align-items: center;
   width: 170px;
-  border-radius: 9999px;
+  border-radius: 14px;
   background: rgba(0, 0, 0, 0.85);
   border: none;
   backdrop-filter: blur(20px);
@@ -2375,7 +2375,6 @@ html:not(.dark) .mouse-orb-trail {
     0 8px 32px -4px rgba(0, 0, 0, 0.5),
     0 2px 8px -2px rgba(0, 0, 0, 0.3);
   transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s ease;
 }
 
@@ -2406,7 +2405,7 @@ html:not(.dark) .mouse-orb-trail {
 /* Expanded state when focused */
 .mobile-search-bar.expanded {
   width: calc(100vw - 2rem);
-  border-radius: 16px;
+  border-radius: 14px;
 }
 
 .mobile-search-bar .mobile-search-input-wrap {
