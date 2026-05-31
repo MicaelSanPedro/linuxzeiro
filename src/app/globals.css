@@ -3127,3 +3127,14 @@ button, a, [role="button"] {
     opacity: 0.025;
   }
 }
+
+/* ─── Giscus Comments ──────────────────────────── */
+.giscus-frame {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+}
+.giscus-frame,
+.giscus-frame + .giscus {
+  max-width: 100% !important;
+}

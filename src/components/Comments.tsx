@@ -7,11 +7,64 @@ interface CommentsProps {
 }
 
 function getGiscusTheme(): string {
-  if (typeof window === "undefined") return "dark_dimmed";
-  return document.documentElement.classList.contains("dark")
-    ? "dark_dimmed"
-    : "light";
+  if (typeof window === "undefined") return "dark";
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
+
+const GISCUS_CSS = `
+  .giscus,
+  .giscus-frame {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .giscus .giscus-box {
+    border: none !important;
+    border-radius: 0.75rem !important;
+    background: transparent !important;
+  }
+  .giscus .comment,
+  .giscus .comment-body,
+  .giscus .comment-header,
+  .giscus .comment-content,
+  .giscus .reaction-group,
+  .giscus .form-control {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    border-radius: 0.5rem !important;
+  }
+  .giscus .comment {
+    border: none !important;
+    padding: 0.75rem 0 !important;
+  }
+  .giscus .comment-body {
+    padding: 0 !important;
+  }
+  .giscus .comment-header {
+    padding: 0 !important;
+    border: none !important;
+  }
+  .giscus .comment-content {
+    padding: 0 !important;
+  }
+  .giscus .comment-action,
+  .giscus .comment-actions {
+    gap: 0.5rem !important;
+  }
+  .giscus .reaction-group {
+    display: flex !important;
+    gap: 0.25rem !important;
+    padding: 0 !important;
+  }
+  .giscus .reaction-group .reaction-button {
+    margin: 0 !important;
+    border-radius: 0.5rem !important;
+  }
+  .giscus .form-control {
+    padding: 0.75rem !important;
+  }
+  .giscus .giscus-footer {
+    display: none !important;
+  }
+`;
 
 export function Comments({ slug }: CommentsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +72,19 @@ export function Comments({ slug }: CommentsProps) {
 
   useEffect(() => {
     const theme = getGiscusTheme();
+
+    function injectCSS() {
+      setTimeout(() => {
+        const iframe = containerRef.current?.querySelector(
+          "iframe.giscus-frame"
+        ) as HTMLIFrameElement | null;
+        if (!iframe || !iframe.contentDocument) return;
+
+        const style = iframe.contentDocument.createElement("style");
+        style.textContent = GISCUS_CSS;
+        iframe.contentDocument.head.appendChild(style);
+      }, 1000);
+    }
 
     if (scriptLoaded.current) {
       const iframe = containerRef.current?.querySelector(
@@ -29,6 +95,7 @@ export function Comments({ slug }: CommentsProps) {
           { giscus: { setConfig: { theme } } },
           "https://giscus.app"
         );
+        injectCSS();
       }
       return;
     }
@@ -52,6 +119,9 @@ export function Comments({ slug }: CommentsProps) {
 
     containerRef.current?.appendChild(script);
     scriptLoaded.current = true;
+
+    // Inject CSS after iframe loads
+    script.addEventListener("load", injectCSS);
 
     // Listen for theme changes
     const observer = new MutationObserver(() => {
@@ -105,7 +175,10 @@ export function Comments({ slug }: CommentsProps) {
         <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
       </div>
 
-      <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-white/[0.02]">
+      <div
+        className="rounded-2xl overflow-hidden border border-white/[0.08] bg-white/[0.02]"
+        style={{ minHeight: "120px" }}
+      >
         <div ref={containerRef} />
       </div>
 
