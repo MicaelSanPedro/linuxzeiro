@@ -7,6 +7,7 @@ import { ArrowRight, Search as SearchIcon, User, Settings, X } from "lucide-reac
 import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
 import { getUsername } from "@/components/WelcomeScreen";
+import { getAvatar } from "@/lib/profile";
 import type { PostSummary } from "@/lib/posts";
 
 const navLinks = [
@@ -25,6 +26,7 @@ export function Navbar({ allPosts }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [categoriesInView, setCategoriesInView] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [mobileQuery, setMobileQuery] = useState("");
   const [mobileResults, setMobileResults] = useState<PostSummary[]>([]);
   const pathname = usePathname();
@@ -40,6 +42,18 @@ export function Navbar({ allPosts }: NavbarProps) {
     const handler = () => setUserName(getUsername());
     window.addEventListener("techmate:username-set", handler);
     return () => window.removeEventListener("techmate:username-set", handler);
+  }, []);
+
+  // Load avatar
+  useEffect(() => {
+    setAvatarUrl(getAvatar());
+  }, []);
+
+  // Listen for avatar changes
+  useEffect(() => {
+    const handler = () => setAvatarUrl(getAvatar());
+    window.addEventListener("techmate:avatar-set", handler);
+    return () => window.removeEventListener("techmate:avatar-set", handler);
   }, []);
 
   // ── Mobile search filtering ──
@@ -246,7 +260,13 @@ export function Navbar({ allPosts }: NavbarProps) {
                               bg-gradient-to-b from-white/[0.07] to-white/[0.02]
                               border border-white/[0.10]
                               shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                    <User className="w-3.5 h-3.5 text-amber-400/80" />
+                    {avatarUrl ? (
+                      <div className="w-5 h-5 rounded-full overflow-hidden border border-amber-400/20 shrink-0">
+                        <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <User className="w-3.5 h-3.5 text-amber-400/80" />
+                    )}
                     <span className="text-xs font-medium text-white/70 max-w-[100px] truncate">{userName}</span>
                   </div>
                   <Link
@@ -407,10 +427,18 @@ export function Navbar({ allPosts }: NavbarProps) {
           <div className="mobile-menu-links">
             {userName && (
               <div className="mobile-menu-user flex flex-col items-center">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full shrink-0
-                            bg-gradient-to-b from-amber-400/20 to-amber-500/10 border border-amber-400/20">
-                  <User className="w-5 h-5 text-amber-400" />
-                </div>
+                {avatarUrl ? (
+                  <div className="w-14 h-14 rounded-full overflow-hidden shrink-0
+                              border-2 border-amber-400/25
+                              shadow-[0_0_20px_rgba(249,189,24,0.2)]">
+                    <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full shrink-0
+                              bg-gradient-to-b from-amber-400/20 to-amber-500/10 border border-amber-400/20">
+                    <User className="w-5 h-5 text-amber-400" />
+                  </div>
+                )}
                 <div className="mt-3 text-center">
                   <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Olá</p>
                   <p className="text-lg font-semibold text-white/90 truncate max-w-[200px]">{userName}</p>

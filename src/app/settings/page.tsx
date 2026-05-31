@@ -32,6 +32,8 @@ import {
   Eye,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { getAvatar, setAvatar, removeAvatar } from "@/lib/profile";
+import { Camera, Trash2 as Trash2Icon } from "lucide-react";
 
 /* ─── Storage helpers ─── */
 const KEYS = {
@@ -302,7 +304,9 @@ export default function SettingsPage() {
   const [visitCount, setVisitCount] = useState(1);
   const [firstVisit, setFirstVisit] = useState("Hoje");
   const [savedMsg, setSavedMsg] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   const hydrate = useCallback(() => {
     setMounted(true);
@@ -328,9 +332,17 @@ export default function SettingsPage() {
     setStorageSize(getStorageSize());
     setVisitCount(getVisitCount());
     setFirstVisit(getFirstVisit());
+    setAvatarUrl(getAvatar());
   }, []);
 
   useEffect(() => { hydrate(); }, [hydrate]);
+
+  // Listen for avatar changes
+  useEffect(() => {
+    const handler = () => setAvatarUrl(getAvatar());
+    window.addEventListener("techmate:avatar-set", handler);
+    return () => window.removeEventListener("techmate:avatar-set", handler);
+  }, []);
 
   /* ── Apply preferences to document ── */
   const applyFontSize = useCallback((size: string) => {
@@ -442,10 +454,33 @@ export default function SettingsPage() {
     showSaved();
   };
 
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAvatar(file)
+      .then((url) => {
+        setAvatarUrl(url);
+        setStorageSize(getStorageSize());
+        showSaved();
+      })
+      .catch(() => {
+        /* ignore */
+      });
+    if (avatarInputRef.current) avatarInputRef.current.value = "";
+  };
+
+  const handleAvatarRemove = () => {
+    removeAvatar();
+    setAvatarUrl(null);
+    setStorageSize(getStorageSize());
+    showSaved();
+  };
+
   const handleClearData = () => {
     try { localStorage.clear(); } catch { /* ignore */ }
     setUserName("");
     setNameInput("");
+    setAvatarUrl(null);
     setTheme("dark");
     setFontSize("medium");
     setReducedMotion(false);
@@ -592,8 +627,83 @@ export default function SettingsPage() {
 
           <Divider />
 
+          {/* ── Profile Photo ── */}
+          <div className="py-3 px-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl
+                              bg-white/[0.05] border border-white/[0.08]">
+                <Camera className="w-4 h-4 text-white/50" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white/80">Foto de perfil</p>
+                <p className="text-xs text-white/35 mt-0.5">
+                  {avatarUrl ? "Foto salva (clique para trocar)" : "Nenhuma foto definida"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 mt-3">
+              <div
+                className="relative group cursor-pointer"
+                onClick={() => avatarInputRef.current?.click()}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') avatarInputRef.current?.click(); }}
+              >
+                {avatarUrl ? (
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400/30
+                                  shadow-[0_0_16px_rgba(249,189,24,0.2)]">
+                    <img src={avatarUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center
+                                  bg-gradient-to-br from-amber-400/20 to-amber-500/10
+                                  border-2 border-dashed border-white/[0.15]">
+                    <Camera className="w-5 h-5 text-white/25" />
+                  </div>
+                )}
+                <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center
+                                opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <Camera className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => avatarInputRef.current?.click()}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                             bg-white/[0.04] border border-white/[0.08] text-white/50
+                             hover:bg-white/[0.07] hover:text-white/70 transition-colors cursor-pointer"
+                >
+                  <Camera className="w-3 h-3" />
+                  {avatarUrl ? "Trocar foto" : "Adicionar foto"}
+                </button>
+                {avatarUrl && (
+                  <button
+                    type="button"
+                    onClick={handleAvatarRemove}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                               border border-red-500/20 bg-red-500/[0.08] text-red-400
+                               hover:bg-red-500/[0.15] transition-colors cursor-pointer"
+                  >
+                    <Trash2Icon className="w-3 h-3" />
+                    Remover
+                  </button>
+                )}
+              </div>
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleAvatarUpload}
+                className="hidden"
+              />
+            </div>
+          </div>
+
+          <Divider />
+
           <SettingRow>
-            <SettingLabel label="Visitas ao site" description="Total de vezes que você acessou o TechMate" />
+            <SettingLabel label="Visitas ao site" description="Total de vezes que voce acessou o TechMate" />
             <span className="text-sm font-mono text-white/40 tabular-nums">{visitCount}x</span>
           </SettingRow>
 
