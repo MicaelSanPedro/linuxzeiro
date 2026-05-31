@@ -313,7 +313,7 @@ export function Navbar({ allPosts }: NavbarProps) {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setMobileOpen(true); }}
-            className="flex items-center justify-center w-8 h-8 shrink-0 ml-auto mr-0 py-2.5 pr-2.5 cursor-pointer select-none"
+            className="flex items-center justify-center w-8 h-8 shrink-0 ml-1 py-2.5 cursor-pointer select-none"
             aria-label="Abrir menu"
           >
             <span className="flex flex-col gap-[4px]">
