@@ -16,7 +16,6 @@ export function FavoriteButton({ slug, className = "", size = "sm" }: FavoriteBu
   const { isFavorite, toggle, loading } = useFavorites();
   const { status } = useSession();
   const [animating, setAnimating] = useState(false);
-  const [toggling, setToggling] = useState(false);
   const fav = isFavorite(slug);
   const isLoggedIn = status === "authenticated";
 
@@ -27,13 +26,10 @@ export function FavoriteButton({ slug, className = "", size = "sm" }: FavoriteBu
       if (!isLoggedIn) openSignInModal();
       return;
     }
-    setToggling(true);
+    // Optimistic visual feedback — animate immediately
     setAnimating(true);
     await toggle(slug);
-    setTimeout(() => {
-      setAnimating(false);
-      setToggling(false);
-    }, 300);
+    setTimeout(() => setAnimating(false), 150);
   };
 
   const iconSize = size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5";
@@ -41,8 +37,8 @@ export function FavoriteButton({ slug, className = "", size = "sm" }: FavoriteBu
   return (
     <button
       onClick={handleToggle}
-      disabled={toggling || loading}
-      className={`flex items-center justify-center transition-all duration-200 ${
+      disabled={loading}
+      className={`flex items-center justify-center transition-all duration-150 ${
         size === "sm"
           ? "w-7 h-7 sm:w-8 sm:h-8 rounded-lg"
           : "w-9 h-9 rounded-xl"
@@ -54,11 +50,11 @@ export function FavoriteButton({ slug, className = "", size = "sm" }: FavoriteBu
       title={fav ? "Remover dos favoritos" : "Adicionar aos favoritos"}
     >
       <Heart
-        className={`${iconSize} transition-all duration-200 ${
+        className={`${iconSize} transition-all duration-150 ${
           fav
             ? "text-rose-400 fill-rose-400"
             : "text-white/60 group-hover:text-white/80"
-        } ${animating ? "scale-125" : ""} ${toggling ? "animate-pulse" : ""}`}
+        } ${animating ? "scale-125" : ""}`}
       />
     </button>
   );
