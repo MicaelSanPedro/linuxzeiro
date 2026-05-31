@@ -66,11 +66,27 @@ function getStorageSize(): string {
   } catch { return "0 B"; }
 }
 function getVisitCount(): number {
-  try { return parseInt(localStorage.getItem("techmate_visits") || "1", 10); }
+  try {
+    const stored = localStorage.getItem("techmate_visits");
+    if (stored) {
+      const count = parseInt(stored, 10) + 1;
+      localStorage.setItem("techmate_visits", String(count));
+      return count;
+    }
+    localStorage.setItem("techmate_visits", "1");
+    return 1;
+  }
   catch { return 1; }
 }
 function getFirstVisit(): string {
-  try { return localStorage.getItem("techmate_first_visit") || "Hoje"; }
+  try {
+    const stored = localStorage.getItem("techmate_first_visit");
+    if (stored) return stored;
+    const now = new Date();
+    const formatted = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1).toString().padStart(2, "0")}/${now.getFullYear()}`;
+    localStorage.setItem("techmate_first_visit", formatted);
+    return formatted;
+  }
   catch { return "Hoje"; }
 }
 
@@ -436,8 +452,10 @@ export default function SettingsPage() {
     setCompactMode(false);
     setAccentColor("amber");
     setStorageSize("0 B");
-    setVisitCount(1);
+    setVisitCount(0);
     setFirstVisit("Hoje");
+    localStorage.removeItem("techmate_visits");
+    localStorage.removeItem("techmate_first_visit");
     document.documentElement.classList.add("dark");
     document.documentElement.classList.remove("reduced-motion", "compact-mode");
     document.documentElement.style.removeProperty("--user-font-scale");
