@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   User,
@@ -32,12 +32,10 @@ import {
   Eye,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { getAvatar, setAvatar, removeAvatar } from "@/lib/profile";
-import { Camera, Trash2 as Trash2Icon } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 /* ─── Storage helpers ─── */
 const KEYS = {
-  username: "techmate_username",
   theme: "techmate_theme",
   fontSize: "techmate_font_size",
   reducedMotion: "techmate_reduced_motion",
@@ -291,9 +289,7 @@ function ColorPicker({
 /* ─── Main Settings Page ─── */
 
 export default function SettingsPage() {
-  const [userName, setUserName] = useState("");
-  const [editingName, setEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState("");
+  const { data: session } = useSession();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [fontSize, setFontSize] = useState<string>("medium");
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -304,15 +300,9 @@ export default function SettingsPage() {
   const [visitCount, setVisitCount] = useState(1);
   const [firstVisit, setFirstVisit] = useState("Hoje");
   const [savedMsg, setSavedMsg] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   const hydrate = useCallback(() => {
     setMounted(true);
-    const name = getStored(KEYS.username) || "";
-    setUserName(name);
-    setNameInput(name);
 
     const t = getStored(KEYS.theme);
     if (t === "light") setTheme("light");
@@ -332,17 +322,9 @@ export default function SettingsPage() {
     setStorageSize(getStorageSize());
     setVisitCount(getVisitCount());
     setFirstVisit(getFirstVisit());
-    setAvatarUrl(getAvatar());
   }, []);
 
   useEffect(() => { hydrate(); }, [hydrate]);
-
-  // Listen for avatar changes
-  useEffect(() => {
-    const handler = () => setAvatarUrl(getAvatar());
-    window.addEventListener("techmate:avatar-set", handler);
-    return () => window.removeEventListener("techmate:avatar-set", handler);
-  }, []);
 
   /* ── Apply preferences to document ── */
   const applyFontSize = useCallback((size: string) => {
@@ -400,16 +382,6 @@ export default function SettingsPage() {
   }, []);
 
   /* ── Handlers ── */
-  const handleSaveName = () => {
-    const trimmed = nameInput.trim();
-    if (!trimmed) { setEditingName(false); return; }
-    setStored(KEYS.username, trimmed);
-    setUserName(trimmed);
-    setEditingName(false);
-    window.dispatchEvent(new CustomEvent("techmate:username-set"));
-    showSaved();
-  };
-
   const handleThemeToggle = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -454,33 +426,8 @@ export default function SettingsPage() {
     showSaved();
   };
 
-  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setAvatar(file)
-      .then((url) => {
-        setAvatarUrl(url);
-        setStorageSize(getStorageSize());
-        showSaved();
-      })
-      .catch(() => {
-        /* ignore */
-      });
-    if (avatarInputRef.current) avatarInputRef.current.value = "";
-  };
-
-  const handleAvatarRemove = () => {
-    removeAvatar();
-    setAvatarUrl(null);
-    setStorageSize(getStorageSize());
-    showSaved();
-  };
-
   const handleClearData = () => {
     try { localStorage.clear(); } catch { /* ignore */ }
-    setUserName("");
-    setNameInput("");
-    setAvatarUrl(null);
     setTheme("dark");
     setFontSize("medium");
     setReducedMotion(false);
@@ -548,157 +495,53 @@ export default function SettingsPage() {
         </div>
 
         {/* ══════════════════════════════════════════
-            SECTION 1: PERFIL
+            SECTION 1: CONTA
         ══════════════════════════════════════════ */}
         <section className="liquid-glass-card rounded-2xl p-5 sm:p-6 mb-5">
-          <SectionTitle icon={User} title="Perfil" />
+          <SectionTitle icon={User} title="Conta" />
           <Divider />
 
-          <div className="py-3">
-            {editingName ? (
-              <div className="flex items-center gap-3 px-4">
-                <div className="flex items-center justify-center w-11 h-11 rounded-full
-                                bg-gradient-to-br from-amber-400/20 to-amber-500/10
-                                border border-amber-400/20 flex-shrink-0">
-                  <span className="text-lg font-bold text-amber-400">
-                    {(nameInput || "?").charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <input
-                  ref={nameInputRef}
-                  type="text"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSaveName();
-                    if (e.key === "Escape") { setEditingName(false); setNameInput(userName); }
-                  }}
-                  maxLength={24}
-                  className="settings-input flex-1 !py-2 !px-3 !text-sm"
-                  placeholder="Seu nome..."
-                  autoFocus
-                />
-                <button
-                  type="button"
-                  onClick={handleSaveName}
-                  className="settings-btn-sm !py-2 !px-4"
-                >
-                  Salvar
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setEditingName(false); setNameInput(userName); }}
-                  className="settings-btn-sm settings-btn-cancel !py-2 !px-3"
-                >
-                  X
-                </button>
-              </div>
-            ) : (
-              <SettingRow>
-                <div className="flex items-center gap-3 flex-1 mr-4">
-                  <div className="flex items-center justify-center w-11 h-11 rounded-full
-                                  bg-gradient-to-br from-amber-400/20 to-amber-500/10
-                                  border border-amber-400/20 flex-shrink-0">
-                    <span className="text-lg font-bold text-amber-400">
-                      {(userName || "?").charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-white/85 truncate">
-                      {userName || "Visitante"}
-                    </p>
-                    <p className="text-xs text-white/30">
-                      {userName ? `${userName.length} caracteres` : "Toque para definir seu nome"}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setEditingName(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                             bg-white/[0.04] border border-white/[0.08] text-white/50
-                             hover:bg-white/[0.07] hover:text-white/70 transition-colors cursor-pointer"
-                >
-                  Editar
-                </button>
-              </SettingRow>
-            )}
-          </div>
-
-          <Divider />
-
-          {/* ── Profile Photo ── */}
-          <div className="py-3 px-4">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl
-                              bg-white/[0.05] border border-white/[0.08]">
-                <Camera className="w-4 h-4 text-white/50" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white/80">Foto de perfil</p>
-                <p className="text-xs text-white/35 mt-0.5">
-                  {avatarUrl ? "Foto salva (clique para trocar)" : "Nenhuma foto definida"}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 mt-3">
-              <div
-                className="relative group cursor-pointer"
-                onClick={() => avatarInputRef.current?.click()}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') avatarInputRef.current?.click(); }}
-              >
-                {avatarUrl ? (
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400/30
-                                  shadow-[0_0_16px_rgba(249,189,24,0.2)]">
-                    <img src={avatarUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+          {session?.user ? (
+            <>
+              <div className="flex items-center gap-4 py-3 px-4">
+                {session.user.image ? (
+                  <div className="w-14 h-14 rounded-full overflow-hidden shrink-0
+                              border-2 border-amber-400/30 shadow-[0_0_20px_rgba(249,189,24,0.2)]">
+                    <img src={session.user.image} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                 ) : (
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center
-                                  bg-gradient-to-br from-amber-400/20 to-amber-500/10
-                                  border-2 border-dashed border-white/[0.15]">
-                    <Camera className="w-5 h-5 text-white/25" />
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full shrink-0
+                              bg-gradient-to-br from-amber-400/20 to-amber-500/10 border border-amber-400/20">
+                    <User className="w-7 h-7 text-amber-400" />
                   </div>
                 )}
-                <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <Camera className="w-4 h-4 text-white" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white/85 truncate">
+                    {session.user.name || session.user.login || "Usuario"}
+                  </p>
+                  <p className="text-xs text-white/35 mt-0.5 flex items-center gap-1.5">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    Conectado via GitHub
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => avatarInputRef.current?.click()}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                             bg-white/[0.04] border border-white/[0.08] text-white/50
-                             hover:bg-white/[0.07] hover:text-white/70 transition-colors cursor-pointer"
-                >
-                  <Camera className="w-3 h-3" />
-                  {avatarUrl ? "Trocar foto" : "Adicionar foto"}
-                </button>
-                {avatarUrl && (
-                  <button
-                    type="button"
-                    onClick={handleAvatarRemove}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                               border border-red-500/20 bg-red-500/[0.08] text-red-400
-                               hover:bg-red-500/[0.15] transition-colors cursor-pointer"
-                  >
-                    <Trash2Icon className="w-3 h-3" />
-                    Remover
-                  </button>
-                )}
-              </div>
-              <input
-                ref={avatarInputRef}
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                onChange={handleAvatarUpload}
-                className="hidden"
-              />
+            </>
+          ) : (
+            <div className="py-6 px-4 text-center">
+              <p className="text-sm text-white/50 mb-3">Voce nao esta conectado</p>
+              <button
+                onClick={() => {
+                  const event = new CustomEvent("techmate:signin-open");
+                  window.dispatchEvent(event);
+                }}
+                className="btn-primary text-sm"
+              >
+                Entrar com GitHub
+              </button>
             </div>
-          </div>
+          )}
 
           <Divider />
 
@@ -710,7 +553,7 @@ export default function SettingsPage() {
           <Divider />
 
           <SettingRow>
-            <SettingLabel label="Primeira visita" description="Quando você descobriu o TechMate" />
+            <SettingLabel label="Primeira visita" description="Quando voce descobriu o TechMate" />
             <span className="text-sm font-mono text-white/40">{firstVisit}</span>
           </SettingRow>
         </section>
@@ -954,7 +797,6 @@ export default function SettingsPage() {
             <p className="text-xs text-white/30 mb-2 font-medium uppercase tracking-wider">Dados armazenados</p>
             <div className="space-y-1.5">
               {[
-                { label: "Nome de usuario", key: KEYS.username },
                 { label: "Tema", key: KEYS.theme },
                 { label: "Tamanho da fonte", key: KEYS.fontSize },
                 { label: "Animacoes reduzidas", key: KEYS.reducedMotion },

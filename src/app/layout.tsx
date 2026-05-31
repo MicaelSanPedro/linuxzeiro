@@ -100,19 +100,19 @@ export default function RootLayout({
           <div className="noise-overlay" />
         </div>
 
-        {/* Cinematic overlays */}
-        {/* Welcome screen for first-time visitors */}
-        <WelcomeScreen />
-
-        <div className="cinema-vignette" aria-hidden />
-        <div className="cinema-grain" aria-hidden />
-        <div className="light-leak light-leak--amber" aria-hidden />
-        <div className="light-leak light-leak--rose" aria-hidden />
-        <div className="light-leak light-leak--sky" aria-hidden />
-        <BokehParticles />
-
         <SessionProvider>
           <FavoritesProvider>
+            {/* Cinematic overlays */}
+            {/* Welcome screen for first-time visitors */}
+            <WelcomeScreen />
+
+            <div className="cinema-vignette" aria-hidden />
+            <div className="cinema-grain" aria-hidden />
+            <div className="light-leak light-leak--amber" aria-hidden />
+            <div className="light-leak light-leak--rose" aria-hidden />
+            <div className="light-leak light-leak--sky" aria-hidden />
+            <BokehParticles />
+
             <div className="relative z-10 min-h-screen flex flex-col">
               <ScrollRevealInit />
               <Navbar allPosts={allPosts} />

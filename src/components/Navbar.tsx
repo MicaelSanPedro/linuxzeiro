@@ -9,8 +9,6 @@ import { openSignInModal } from "@/components/SignInModal";
 import { useSession } from "next-auth/react";
 import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
-import { getUsername } from "@/components/WelcomeScreen";
-import { getAvatar } from "@/lib/profile";
 import type { PostSummary } from "@/lib/posts";
 
 const navLinks = [
@@ -51,36 +49,13 @@ export function Navbar({ allPosts }: NavbarProps) {
   const [mobileSearchActive, setMobileSearchActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [categoriesInView, setCategoriesInView] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const userName = session?.user?.name || session?.user?.login || null;
+  const avatarUrl = session?.user?.image || null;
   const [mobileQuery, setMobileQuery] = useState("");
   const [mobileResults, setMobileResults] = useState<PostSummary[]>([]);
   const pathname = usePathname();
   const mobileInputRef = useRef<HTMLInputElement>(null);
-
-  // Load username from localStorage
-  useEffect(() => {
-    setUserName(getUsername());
-  }, []);
-
-  // Listen for name changes via custom event
-  useEffect(() => {
-    const handler = () => setUserName(getUsername());
-    window.addEventListener("techmate:username-set", handler);
-    return () => window.removeEventListener("techmate:username-set", handler);
-  }, []);
-
-  // Load avatar
-  useEffect(() => {
-    setAvatarUrl(getAvatar());
-  }, []);
-
-  // Listen for avatar changes
-  useEffect(() => {
-    const handler = () => setAvatarUrl(getAvatar());
-    window.addEventListener("techmate:avatar-set", handler);
-    return () => window.removeEventListener("techmate:avatar-set", handler);
-  }, []);
 
   // ── Mobile search filtering ──
   useEffect(() => {
@@ -427,7 +402,7 @@ export function Navbar({ allPosts }: NavbarProps) {
                   <div className="w-14 h-14 rounded-full overflow-hidden shrink-0
                               border-2 border-amber-400/25
                               shadow-[0_0_20px_rgba(249,189,24,0.2)]">
-                    <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+                    <img src={avatarUrl} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                 ) : (
                   <div className="flex items-center justify-center w-12 h-12 rounded-full shrink-0

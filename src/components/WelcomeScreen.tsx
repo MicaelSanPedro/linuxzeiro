@@ -1,78 +1,103 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { Logo } from "./Logo";
-import { Sparkles, User, Camera } from "lucide-react";
-import { getAvatar, setAvatar } from "@/lib/profile";
+import { User } from "lucide-react";
+import { openSignInModal } from "./SignInModal";
 
-const STORAGE_KEY = "techmate_username";
+const WELCOMED_KEY = "techmate_welcomed";
 
-function getStoredName(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    return localStorage.getItem(STORAGE_KEY);
-  } catch {
-    return null;
-  }
+function hasWelcomed(): boolean {
+  if (typeof window === "undefined") return true;
+  try { return localStorage.getItem(WELCOMED_KEY) === "true"; } catch { return true; }
 }
 
-function storeName(name: string) {
-  try {
-    localStorage.setItem(STORAGE_KEY, name);
-    window.dispatchEvent(new CustomEvent("techmate:username-set"));
-  } catch {
-    /* ignore */
-  }
-}
-
-export function getUsername(): string | null {
-  return getStoredName();
+function markWelcomed() {
+  try { localStorage.setItem(WELCOMED_KEY, "true"); } catch { /* ignore */ }
 }
 
 export function WelcomeScreen() {
+  const { data: session, status } = useSession();
   const [mounted, setMounted] = useState(false);
-  const [phase, setPhase] = useState<"enter" | "ask" | "photo" | "exit">("enter");
+  const [phase, setPhase] = useState<"enter" | "exit">("enter");
   const [isVisible, setIsVisible] = useState(false);
-  const [nameInput, setNameInput] = useState("");
-  const [userName, setUserName] = useState("");
-  const [isReturning, setIsReturning] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [progress, setProgress] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [displayName, setDisplayName] = useState<string | null>(null);
+  const [displayPhoto, setDisplayPhoto] = useState<string | null>(null);
+  const signInAttempted = useRef(false);
 
-  // Hydrate from localStorage
+  // Hydrate
   useEffect(() => {
     setMounted(true);
-    const stored = getStoredName();
-    setAvatarUrl(getAvatar());
-    if (stored) {
-      setIsVisible(true);
-      setUserName(stored);
-      setIsReturning(true);
-    } else {
-      setIsVisible(true);
-      setIsReturning(false);
-    }
-  }, []);
+    const welcomed = hasWelcomed();
 
-  // Progress bar — animates 0 to 100% over 3 seconds
+    if (welcomed) {
+      // Returning user — show splash if logged in
+      if (session?.user) {
+        setDisplayName(session.user.name || session.user.login || null);
+        setDisplayPhoto(session.user.image || null);
+        setShowWelcome(true);
+        setIsVisible(true);
+        setPhase("enter");
+      }
+      // Not logged in + already welcomed = no welcome screen ever
+    } else {
+      // First visit — open login modal
+      if (!signInAttempted.current) {
+        signInAttempted.current = true;
+        setTimeout(() => openSignInModal(), 800);
+      }
+
+      // Listen for session to appear (user just logged in)
+      if (session?.user) {
+        setDisplayName(session.user.name || session.user.login || null);
+        setDisplayPhoto(session.user.image || null);
+        setShowWelcome(true);
+        setIsVisible(true);
+        setPhase("enter");
+        markWelcomed();
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // React to session changes (login after first mount)
+  useEffect(() => {
+    if (!mounted) return;
+    const welcomed = hasWelcomed();
+
+    if (!welcomed && session?.user && !showWelcome) {
+      setDisplayName(session.user.name || session.user.login || null);
+      setDisplayPhoto(session.user.image || null);
+      setShowWelcome(true);
+      setIsVisible(true);
+      setPhase("enter");
+      markWelcomed();
+    }
+
+    // Returning welcomed user who just logged in
+    if (welcomed && session?.user && !showWelcome) {
+      setDisplayName(session.user.name || session.user.login || null);
+      setDisplayPhoto(session.user.image || null);
+      setShowWelcome(true);
+      setIsVisible(true);
+      setPhase("enter");
+    }
+  }, [mounted, session?.user, showWelcome]);
+
+  // Progress bar
   useEffect(() => {
     if (!mounted || !isVisible || phase !== "enter") return;
-
     const duration = 3000;
     const startTime = performance.now();
     let rafId: number;
-
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / duration, 1);
       setProgress(Math.round(t * 100));
       if (t < 1) rafId = requestAnimationFrame(animate);
     };
-
     rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, [mounted, isVisible, phase]);
@@ -80,86 +105,24 @@ export function WelcomeScreen() {
   // Phase transitions
   useEffect(() => {
     if (!mounted || !isVisible) return;
-
     if (phase === "enter") {
-      if (isReturning) {
-        const exitTimer = setTimeout(() => setPhase("exit"), 3000);
-        return () => clearTimeout(exitTimer);
-      } else {
-        const askTimer = setTimeout(() => setPhase("ask"), 3000);
-        return () => clearTimeout(askTimer);
-      }
+      const timer = setTimeout(() => setPhase("exit"), 3000);
+      return () => clearTimeout(timer);
     }
-
     if (phase === "exit") {
-      const doneTimer = setTimeout(() => setIsVisible(false), 900);
-      return () => clearTimeout(doneTimer);
+      const timer = setTimeout(() => setIsVisible(false), 900);
+      return () => clearTimeout(timer);
     }
-  }, [phase, mounted, isVisible, isReturning]);
+  }, [phase, mounted, isVisible]);
 
-  // Auto-focus input when ask phase starts
-  useEffect(() => {
-    if (phase === "ask") {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
-  }, [phase]);
-
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = nameInput.trim();
-    if (!trimmed) return;
-    storeName(trimmed);
-    setUserName(trimmed);
-    setIsReturning(true);
-    setPhase("photo");
-  }, [nameInput]);
-
-  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const dataUrl = await setAvatar(file);
-      setAvatarUrl(dataUrl);
-      setPhotoPreview(dataUrl);
-    } catch {
-      /* storage full or invalid file */
-    }
-    setUploading(false);
-  }, []);
-
-  const handlePhotoClick = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleSkipPhoto = useCallback(() => {
-    setPhase("exit");
-  }, []);
-
-  const handleConfirmPhoto = useCallback(() => {
-    setPhase("exit");
-  }, []);
-
-  // Listen for avatar changes
-  useEffect(() => {
-    const handler = () => setAvatarUrl(getAvatar());
-    window.addEventListener("techmate:avatar-set", handler);
-    return () => window.removeEventListener("techmate:avatar-set", handler);
-  }, []);
-
-  // Prevent flash on SSR
   if (!mounted) return null;
   if (!isVisible) return null;
 
   const isExiting = phase === "exit";
-  const showSplash = phase === "enter";
-  const showAsk = phase === "ask";
-  const showPhoto = phase === "photo";
-  const showProgress = phase === "enter";
 
   return (
     <div
-      className={`welcome-overlay ${showSplash ? "welcome-enter" : "welcome-hold"} ${isExiting ? "welcome-exit" : ""}`}
+      className={`welcome-overlay ${phase === "enter" ? "welcome-enter" : "welcome-hold"} ${isExiting ? "welcome-exit" : ""}`}
       aria-hidden="true"
       style={isExiting ? { pointerEvents: "none" } : undefined}
     >
@@ -175,25 +138,32 @@ export function WelcomeScreen() {
 
       {/* Content */}
       <div className="welcome-content">
-        {/* Logo / Avatar */}
+        {/* Avatar or Logo */}
         <div className="welcome-logo-wrap">
-          {showSplash && isReturning ? (
-            avatarUrl ? (
-              <div className="welcome-avatar-circle">
-                <img src={avatarUrl} alt="" className="w-full h-full object-cover rounded-full" />
-              </div>
-            ) : (
-              <div className="welcome-avatar-circle welcome-avatar-circle--fallback">
-                <User className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400" />
-              </div>
-            )
+          {displayPhoto ? (
+            <div className="welcome-avatar-circle">
+              <img src={displayPhoto} alt="" className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+            </div>
+          ) : displayName ? (
+            <div className="welcome-avatar-circle welcome-avatar-circle--fallback">
+              <User className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400" />
+            </div>
           ) : (
             <Logo className="w-20 h-20 sm:w-24 sm:h-24" glow variant="amber" />
           )}
         </div>
 
-        {/* ── New user splash ── */}
-        {showSplash && !isReturning && (
+        {/* Returning / newly logged-in user */}
+        {displayName ? (
+          <div className="welcome-text-group">
+            <h1 className="welcome-title">
+              <span className="welcome-title--tech">Bem-vindo{showWelcome && !hasWelcomed() ? "" : " de volta"}, </span>
+              <span className="welcome-title--mate welcome-name-shine">{displayName}</span>
+              <span className="welcome-title--tech">!</span>
+            </h1>
+            <p className="welcome-tagline">Bom te ver por aqui</p>
+          </div>
+        ) : (
           <div className="welcome-text-group">
             <h1 className="welcome-title">
               <span className="welcome-title--tech">Tech</span>
@@ -203,107 +173,11 @@ export function WelcomeScreen() {
           </div>
         )}
 
-        {/* ── Returning user ── */}
-        {showSplash && isReturning && (
-          <div className="welcome-text-group">
-            <h1 className="welcome-title">
-              <span className="welcome-title--tech">Bem-vindo de volta, </span>
-              <span className="welcome-title--mate welcome-name-shine">{userName}</span>
-              <span className="welcome-title--tech">!</span>
-            </h1>
-            <p className="welcome-tagline">Bom te ver por aqui</p>
-          </div>
-        )}
-
-        {/* ── Ask name phase ── */}
-        {showAsk && (
-          <div className="welcome-name-section">
-            <h2 className="welcome-name-heading">
-              <Sparkles className="w-5 h-5 text-amber-400 mb-1" />
-              Qual é o seu nome?
-            </h2>
-            <form onSubmit={handleSubmit} className="welcome-name-form">
-              <input
-                ref={inputRef}
-                type="text"
-                value={nameInput}
-                onChange={(e) => setNameInput(e.target.value)}
-                placeholder="Seu nome..."
-                maxLength={24}
-                className="welcome-name-input"
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                disabled={!nameInput.trim()}
-                className="welcome-name-btn"
-              >
-                Entrar
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* ── Ask photo phase ── */}
-        {showPhoto && (
-          <div className="welcome-photo-section">
-            <h2 className="welcome-photo-heading">
-              <Camera className="w-5 h-5 text-amber-400 mb-1" />
-              Quer adicionar uma foto de perfil?
-            </h2>
-            <div
-              className="welcome-photo-upload-area"
-              onClick={handlePhotoClick}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handlePhotoClick(); }}
-            >
-              {photoPreview ? (
-                <div className="welcome-photo-preview">
-                  <img src={photoPreview} alt="" className="w-full h-full object-cover rounded-full" />
-                </div>
-              ) : (
-                <div className="welcome-photo-placeholder">
-                  <Camera className="w-8 h-8 text-amber-400/60" />
-                  <span className="welcome-photo-upload-hint">
-                    {uploading ? "Enviando..." : "Toque para escolher"}
-                  </span>
-                </div>
-              )}
-            </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-              aria-hidden="true"
-            />
-            <div className="welcome-photo-actions">
-              <button
-                type="button"
-                onClick={handleConfirmPhoto}
-                className="welcome-photo-btn welcome-photo-btn--primary"
-                disabled={uploading}
-              >
-                {photoPreview ? "Continuar" : "Continuar sem foto"}
-              </button>
-              <button
-                type="button"
-                onClick={handleSkipPhoto}
-                className="welcome-photo-btn welcome-photo-btn--skip"
-              >
-                Ignorar por enquanto
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Decorative line */}
         <div className="welcome-line" />
 
-        {/* ── Progress bar ── */}
-        {showProgress && (
+        {/* Progress bar */}
+        {phase === "enter" && (
           <div className="welcome-progress-wrap">
             <div className="welcome-progress-track">
               <div
@@ -320,4 +194,9 @@ export function WelcomeScreen() {
       <div className="welcome-ring welcome-ring--outer" />
     </div>
   );
+}
+
+/* ── Re-export getUsername for backward compat (Navbar) ── */
+export function getUsername(): string | null {
+  return null;
 }
