@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Search as SearchIcon, User, Settings, X, Heart } from "lucide-react";
 import { AuthButton } from "@/components/AuthButton";
-import { SignInModal, registerSignInOpener } from "@/components/SignInModal";
+import { openSignInModal } from "@/components/SignInModal";
 import { useSession } from "next-auth/react";
 import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
@@ -48,7 +48,6 @@ function MobileLoginButton({ onSignIn, setMobileOpen, delay }: { onSignIn: () =>
 
 export function Navbar({ allPosts }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [signInOpen, setSignInOpen] = useState(false);
   const [mobileSearchActive, setMobileSearchActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [categoriesInView, setCategoriesInView] = useState(false);
@@ -58,11 +57,6 @@ export function Navbar({ allPosts }: NavbarProps) {
   const [mobileResults, setMobileResults] = useState<PostSummary[]>([]);
   const pathname = usePathname();
   const mobileInputRef = useRef<HTMLInputElement>(null);
-
-  // Register signIn opener for MobileLoginButton
-  useEffect(() => {
-    registerSignInOpener(() => setSignInOpen(true));
-  }, []);
 
   // Load username from localStorage
   useEffect(() => {
@@ -479,7 +473,7 @@ export function Navbar({ allPosts }: NavbarProps) {
               </Link>
 
               {/* Mobile login button */}
-              <MobileLoginButton onSignIn={() => setSignInOpen(true)} setMobileOpen={setMobileOpen} delay={navLinks.length * 80 + 180} />
+              <MobileLoginButton onSignIn={() => openSignInModal()} setMobileOpen={setMobileOpen} delay={navLinks.length * 80 + 180} />
             </div>
 
             <div className="mobile-menu-cta" style={{ animationDelay: `${navLinks.length * 80 + 200}ms` }}>
@@ -496,8 +490,6 @@ export function Navbar({ allPosts }: NavbarProps) {
         </div>
       </div>
 
-      {/* ── Sign In Modal ── */}
-      <SignInModal open={signInOpen} onClose={() => setSignInOpen(false)} />
     </>
   );
 }

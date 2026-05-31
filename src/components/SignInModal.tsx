@@ -150,14 +150,10 @@ export function SignInModal({ open, onClose }: SignInModalProps) {
   );
 }
 
-/* ── Global singleton for opening the modal from anywhere ── */
-
-let _openModal: (() => void) | null = null;
-
-export function registerSignInOpener(opener: () => void) {
-  _openModal = opener;
-}
+/* ── Global: open the sign-in modal from anywhere via custom event ── */
 
 export function openSignInModal() {
-  _openModal?.();
+  window.dispatchEvent(new CustomEvent("techmate:signin-open"));
 }
+
+export const SIGNIN_OPEN_EVENT = "techmate:signin-open";
