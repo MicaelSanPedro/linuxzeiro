@@ -99,7 +99,7 @@ export default async function PostPage({ params }: PostPageProps) {
       <ImageZoomHandler />
       
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
-        <article className="max-w-3xl mx-auto lg:mx-0 flex-1">
+        <article className="max-w-3xl mx-auto lg:mx-0 flex-1 min-w-0 w-full break-words">
           {/* Back link */}
           <Link
             href="/blog"
