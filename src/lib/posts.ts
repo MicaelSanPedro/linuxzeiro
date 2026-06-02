@@ -183,38 +183,3 @@ export function getAllTags(): TagCount[] {
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 }
-
-export function getPostsByCategory(category: string): PostSummary[] {
-  return getAllPosts().filter(
-    (post) => post.frontmatter.category.toLowerCase() === category.toLowerCase()
-  );
-}
-
-export function getAllCategories(): CategoryCount[] {
-  const posts = getAllPosts();
-  const categoryMap = new Map<string, number>();
-
-  posts.forEach((post) => {
-    const cat = post.frontmatter.category;
-    categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
-  });
-
-  return Array.from(categoryMap.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count);
-}
-
-export function getAllTags(): TagCount[] {
-  const posts = getAllPosts();
-  const tagMap = new Map<string, number>();
-
-  posts.forEach((post) => {
-    post.frontmatter.tags.forEach((tag) => {
-      tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
-    });
-  });
-
-  return Array.from(tagMap.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count);
-}
