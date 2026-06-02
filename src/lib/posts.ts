@@ -124,7 +124,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   // Highlight code blocks with Shiki after basic HTML is generated
   const codeBlockRegex = /<pre><code class="language-([^"]+)">([\s\S]*?)<\/code><\/pre>/g;
-  const matches = Array.from(contentHtml.matchAll(codeBlockRegex));
+  const matches = Array.from(contentHtml.matchAll(codeBlockRegex)) as RegExpExecArray[];
 
   for (const match of matches) {
     const fullMatch = match[0];
