@@ -15,6 +15,10 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ProseEnhancer } from "@/components/ProseEnhancer";
 import { Comments } from "@/components/Comments";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
+import { TableOfContents } from "@/components/TableOfContents";
+import { ImageZoomHandler } from "@/components/ImageZoomHandler";
+import { Newsletter } from "@/components/Newsletter";
 import type { Metadata } from "next";
 
 interface PostPageProps {
@@ -91,145 +95,160 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="pt-24 sm:pt-28 pb-20 sm:pb-24 px-4">
-      <article className="max-w-3xl mx-auto">
-        {/* Back link */}
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-amber-300 transition-colors mb-6 sm:mb-10 group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-          Voltar ao Blog
-        </Link>
-
-        {/* Post header */}
-        <header className="mb-10 sm:mb-12 animate-fade-up">
-          <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6 flex-wrap">
-            <CategoryBadge category={frontmatter.category} />
-            <span className="text-xs text-white/20">·</span>
-            <span className="text-xs text-white/45 font-mono">
-              {getRelativeDate(frontmatter.date)}
-            </span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-extrabold text-white leading-[1.1] mb-5 sm:mb-7 tracking-tight text-balance">
-            {frontmatter.title}
-          </h1>
-
-          <p className="text-base sm:text-lg lg:text-xl text-white/55 leading-relaxed mb-7 sm:mb-9 text-pretty">
-            {frontmatter.excerpt}
-          </p>
-
-          {/* Meta bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 py-3 sm:py-4 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/[0.025] border border-white/[0.06]">
-            <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2.5">
-              <div className="flex items-center gap-2 sm:gap-2.5 text-sm">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-amber-400/40 to-amber-600/30 ring-1 ring-amber-400/30 flex items-center justify-center">
-                  <User className="w-3.5 h-3.5 text-amber-200" />
-                </div>
-                <span className="font-medium text-white/75 text-sm">TechMate</span>
-              </div>
-              <div className="w-px h-4 bg-white/10" />
-              <div className="flex items-center gap-1.5 text-xs text-white/40 font-mono">
-                <Calendar className="w-3.5 h-3.5" />
-                <time dateTime={frontmatter.date}>
-                  {formatDate(frontmatter.date)}
-                </time>
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-white/40 font-mono">
-                <Clock className="w-3.5 h-3.5" />
-                <span>{frontmatter.readTime}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <FavoriteButton slug={slug} size="md" />
-              <ShareButtons
-                url={`https://techmate.dev/blog/${slug}`}
-                title={frontmatter.title}
-              />
-            </div>
-          </div>
-
-          {/* Tags */}
-          {frontmatter.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
-              {frontmatter.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-md text-xs font-mono text-amber-300/70 bg-amber-500/[0.06] border border-amber-500/15 hover:bg-amber-500/10 hover:text-amber-200 transition-colors"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </header>
-
-        {/* Cover image */}
-        {hasCover && (
-          <div className="relative aspect-[16/9] rounded-xl sm:rounded-2xl overflow-hidden mb-10 sm:mb-12 border border-white/[0.06] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]" data-scroll-reveal>
-            <Image
-              src={frontmatter.coverImage}
-              alt={frontmatter.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 768px"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-          </div>
-        )}
-
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-amber-500/30 via-amber-500/10 to-transparent mb-10 sm:mb-12" />
-
-        {/* Post content */}
-        <ProseEnhancer />
-        <div
-          className="prose-custom"
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
-        />
-
-        {/* End-of-article callout */}
-        <div className="mt-12 sm:mt-16 p-5 sm:p-8 rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-500/[0.06] to-transparent" data-scroll-reveal>
-          <p className="text-xs sm:text-sm text-amber-200/80 font-semibold mb-1 tracking-wide uppercase">
-            Curtiu?
-          </p>
-          <p className="text-white/65 text-sm mb-4 sm:mb-5">
-            Compartilhe este artigo com outros devs ou explore mais sobre {frontmatter.category}.
-          </p>
-          <ShareButtons
-            url={`https://techmate.dev/blog/${slug}`}
-            title={frontmatter.title}
-            className="mb-4"
-          />
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href={`/blog?category=${encodeURIComponent(frontmatter.category)}`}
-              className="btn-primary justify-center"
-            >
-              Mais sobre {frontmatter.category}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link href="/blog" className="btn-secondary justify-center">
-              Todos os artigos
-            </Link>
-          </div>
-        </div>
-
-        {/* Comments */}
-        <Comments slug={slug} />
-
-        {/* Bottom nav */}
-        <div className="mt-12 sm:mt-14 pt-6 border-t border-white/[0.06] flex items-center justify-between">
+      <ReadingProgressBar />
+      <ImageZoomHandler />
+      
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+        <article className="max-w-3xl mx-auto lg:mx-0 flex-1">
+          {/* Back link */}
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-amber-300 hover:text-amber-200 transition-colors group text-sm sm:text-base"
+            className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-amber-300 transition-colors mb-6 sm:mb-10 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-            Ver todos os artigos
+            Voltar ao Blog
           </Link>
-        </div>
-      </article>
+
+          {/* Post header */}
+          <header className="mb-10 sm:mb-12 animate-fade-up">
+            <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6 flex-wrap">
+              <CategoryBadge category={frontmatter.category} />
+              <span className="text-xs text-white/20">·</span>
+              <span className="text-xs text-white/45 font-mono">
+                {getRelativeDate(frontmatter.date)}
+              </span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-extrabold text-white leading-[1.1] mb-5 sm:mb-7 tracking-tight text-balance">
+              {frontmatter.title}
+            </h1>
+
+            <p className="text-base sm:text-lg lg:text-xl text-white/55 leading-relaxed mb-7 sm:mb-9 text-pretty">
+              {frontmatter.excerpt}
+            </p>
+
+            {/* Meta bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 py-3 sm:py-4 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-white/[0.025] border border-white/[0.06]">
+              <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2.5">
+                <div className="flex items-center gap-2 sm:gap-2.5 text-sm">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-amber-400/40 to-amber-600/30 ring-1 ring-amber-400/30 flex items-center justify-center">
+                    <User className="w-3.5 h-3.5 text-amber-200" />
+                  </div>
+                  <span className="font-medium text-white/75 text-sm">TechMate</span>
+                </div>
+                <div className="w-px h-4 bg-white/10" />
+                <div className="flex items-center gap-1.5 text-xs text-white/40 font-mono">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <time dateTime={frontmatter.date}>
+                    {formatDate(frontmatter.date)}
+                  </time>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-white/40 font-mono">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{frontmatter.readTime}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <FavoriteButton slug={slug} size="md" />
+                <ShareButtons
+                  url={`https://techmate.dev/blog/${slug}`}
+                  title={frontmatter.title}
+                />
+              </div>
+            </div>
+
+            {/* Tags */}
+            {frontmatter.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
+                {frontmatter.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 rounded-md text-xs font-mono text-amber-300/70 bg-amber-500/[0.06] border border-amber-500/15 hover:bg-amber-500/10 hover:text-amber-200 transition-colors"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+
+          {/* Cover image */}
+          {hasCover && (
+            <div className="relative aspect-[16/9] rounded-xl sm:rounded-2xl overflow-hidden mb-10 sm:mb-12 border border-white/[0.06] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]" data-scroll-reveal>
+              <Image
+                src={frontmatter.coverImage}
+                alt={frontmatter.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 768px"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+            </div>
+          )}
+
+          {/* Divider */}
+          <div className="h-px bg-gradient-to-r from-amber-500/30 via-amber-500/10 to-transparent mb-10 sm:mb-12" />
+
+          {/* Post content */}
+          <ProseEnhancer />
+          <div
+            className="prose-custom"
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
+          />
+
+          {/* Newsletter */}
+          <div className="mt-16 sm:mt-24" data-scroll-reveal>
+            <Newsletter />
+          </div>
+
+          {/* End-of-article callout */}
+          <div className="mt-12 sm:mt-16 p-5 sm:p-8 rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-500/[0.06] to-transparent" data-scroll-reveal>
+            <p className="text-xs sm:text-sm text-amber-200/80 font-semibold mb-1 tracking-wide uppercase">
+              Curtiu?
+            </p>
+            <p className="text-white/65 text-sm mb-4 sm:mb-5">
+              Compartilhe este artigo com outros devs ou explore mais sobre {frontmatter.category}.
+            </p>
+            <ShareButtons
+              url={`https://techmate.dev/blog/${slug}`}
+              title={frontmatter.title}
+              className="mb-4"
+            />
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href={`/blog?category=${encodeURIComponent(frontmatter.category)}`}
+                className="btn-primary justify-center"
+              >
+                Mais sobre {frontmatter.category}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="/blog" className="btn-secondary justify-center">
+                Todos os artigos
+              </Link>
+            </div>
+          </div>
+
+          {/* Comments */}
+          <Comments slug={slug} />
+
+          {/* Bottom nav */}
+          <div className="mt-12 sm:mt-14 pt-6 border-t border-white/[0.06] flex items-center justify-between">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-amber-300 hover:text-amber-200 transition-colors group text-sm sm:text-base"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              Ver todos os artigos
+            </Link>
+          </div>
+        </article>
+
+        {/* Sidebar */}
+        <aside className="hidden lg:block w-64 shrink-0">
+          <TableOfContents />
+        </aside>
+      </div>
 
       {/* Related posts */}
       {related.length > 0 && (

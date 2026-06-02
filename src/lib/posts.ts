@@ -2,8 +2,12 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
-import html from "remark-html";
 import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { codeToHtml } from "shiki";
 
 export interface PostFrontmatter {
   title: string;
@@ -100,8 +104,38 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   const { slug: postSlug, frontmatter, content } = parsePostFile(fileName);
 
-  const processedContent = await remark().use(remarkGfm).use(html).process(content);
-  const contentHtml = processedContent.toString();
+  // Process markdown to HTML with rehype pipeline
+  const processedContent = await remark()
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, { behavior: "append" })
+    .use(rehypeStringify)
+    .process(content);
+  
+  let contentHtml = processedContent.toString();
+
+  // Highlight code blocks with Shiki after basic HTML is generated
+  // This is a simple regex-based replacement for demo purposes, 
+  // though a rehype-shiki plugin would be more robust.
+  const codeBlockRegex = /<pre><code class="language-([^"]+)">([\s\S]*?)<\/code><\/pre>/g;
+  const matches = Array.from(contentHtml.matchAll(codeBlockRegex));
+
+  for (const match of matches) {
+    const fullMatch = match[0];
+    const lang = match[1];
+    const code = match[2].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+    
+    try {
+      const highlighted = await codeToHtml(code, {
+        lang: lang,
+        theme: 'tokyo-night'
+      });
+      contentHtml = contentHtml.replace(fullMatch, highlighted);
+    } catch (e) {
+      console.error(`Failed to highlight ${lang}`, e);
+    }
+  }
 
   return {
     slug: postSlug,

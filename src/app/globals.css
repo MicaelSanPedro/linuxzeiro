@@ -1435,6 +1435,14 @@ html:not(.dark) .liquid-glass-mobile-menu a[class*="shadow-"] {
   line-height: 1.65;
   box-shadow: 0 8px 24px -12px rgba(0,0,0,0.8);
 }
+/* Shiki support */
+.prose-custom pre.shiki {
+  background-color: #1a1b26 !important; /* Tokyo Night background */
+  margin: 1.5em 0;
+}
+.prose-custom pre.shiki code {
+  color: inherit;
+}
 .prose-custom code { font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace; font-size: 0.875em; }
 .prose-custom :not(pre) > code {
   background: rgba(249, 189, 24, 0.1);
@@ -3128,7 +3136,16 @@ button, a, [role="button"] {
   }
 }
 
-/* ─── Giscus Comments ──────────────────────────── */
+/* ─── Medium Zoom ────────────────── */
+.medium-zoom-overlay {
+  z-index: 99;
+  backdrop-filter: blur(10px);
+}
+.medium-zoom-image--opened {
+  z-index: 100;
+  border: none !important;
+  box-shadow: 0 0 100px rgba(0,0,0,0.8) !important;
+}
 .giscus-frame {
   width: 100% !important;
   border: none !important;
